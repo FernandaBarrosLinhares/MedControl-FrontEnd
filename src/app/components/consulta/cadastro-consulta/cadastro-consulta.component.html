@@ -7,23 +7,23 @@
 					<label for="nome" class="form-label">Nome da Consulta</label>
 					<input type="text" name="nome" class="form-control" id="nome" formControlName="nome">
 					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('nome').touched">
-						<p class="mb-0" *ngIf="formExame.get('nome')?.errors?.['required']">Campo não pode ser vazio</p>
-						<p class="mb-0" *ngIf="formExame.get('nome')?.errors?.['minlength']">Mínimo 8 caracteres</p>
+						<p class="mb-0" *ngIf="formConsulta.get('nome')?.errors?.['required']">Campo não pode ser vazio</p>
+						<p class="mb-0" *ngIf="formConsulta.get('nome')?.errors?.['minlength']">Mínimo 8 caracteres</p>
 
 					</div>
 				</div>
 				<div class="col-sm-6 col-lg-3 col-md-4">
 					<label for="data" class="form-label">Data da consulta</label>
 					<input type="date" name="data" class="form-control" id="data" formControlName="data">
-					<div class="badge bg-danger text-wrap" *ngIf="formExame.get('data').touched">
-						<p class="mb-0" *ngIf="formExame.get('data')?.errors?.['required']">Campo não pode ser vazio ou inválido</p>
+					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('data').touched">
+						<p class="mb-0" *ngIf="formConsulta.get('data')?.errors?.['required']">Campo não pode ser vazio ou inválido</p>
 					</div>
 				</div>
 				<div class="col-sm-6 col-lg-3 col-md-4">
 					<label for="horario" class="form-label">Horário da consulta</label>
 					<input type="time" name="horario" class="form-control" id="horario" formControlName="horario" step="2">
-					<div class="badge bg-danger text-wrap" *ngIf="formExame.get('horario').touched">
-						<p class="mb-0" *ngIf="formExame.get('horario')?.errors?.['required']">Campo não pode ser vazio ou inválido
+					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('horario').touched">
+						<p class="mb-0" *ngIf="formConsulta.get('horario')?.errors?.['required']">Campo não pode ser vazio ou inválido
 						</p>
 					</div>
 				</div>
@@ -32,19 +32,19 @@
 				<!-- <div class="col-lg-4">
 					<label for="tipo">Tipo do exame</label>
 					<input type="text" name="tipo" class="form-control" id="tipo" formControlName="tipo">
-					<div class="badge bg-danger text-wrap" *ngIf="formExame.get('tipo').touched">
-						<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['required']">Campo não pode ser vázio</p>
-						<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['minLength']">Mínimo de 4 caracteres</p>
-						<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['maxLength']">Máximo de 32 caracteres</p>
+					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('tipo').touched">
+						<p class="mb-0" *ngIf="formConsulta.get('tipo')?.errors?.['required']">Campo não pode ser vázio</p>
+						<p class="mb-0" *ngIf="formConsulta.get('tipo')?.errors?.['minLength']">Mínimo de 4 caracteres</p>
+						<p class="mb-0" *ngIf="formConsulta.get('tipo')?.errors?.['maxLength']">Máximo de 32 caracteres</p>
 					</div>
 				</div> -->
 				<div class="col-lg-4">
 					<label for="descricao">Descrição do problema</label>
 					<input type="text" name="descricao" class="form-control" id="descricao" formControlName="descricao">
 					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('descricao').touched">
-						<p class="mb-0" *ngIf="formExame.get('descricao')?.errors?.['required']">Campo não pode ser vázio</p>
-						<p class="mb-0" *ngIf="formExame.get('descricao')?.errors?.['minLength']">Mínimo de 16 caracteres</p>
-						<p class="mb-0" *ngIf="formExame.get('descricao')?.errors?.['maxLength']">Máximo de 1024 caracteres</p>
+						<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['required']">Campo não pode ser vázio</p>
+						<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['minLength']">Mínimo de 16 caracteres</p>
+						<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['maxLength']">Máximo de 1024 caracteres</p>
 					</div>
 				</div>
 				<!-- <div class="col-lg-4">
@@ -63,8 +63,8 @@
 					<input type="text" name="dosagem" class="form-control" id="dosagem" formControlName="dosagem">
 					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('dosagem').touched">
 						<p class="mb-0" *ngIf="formConsulta.get('dosagem')?.errors?.['required']">Campo não pode ser vázio</p>
-						<p class="mb-0" *ngIf="formExame.get('dosagem')?.errors?.['minLength']">Mínimo de 16 caracteres</p>
-						<p class="mb-0" *ngIf="formExame.get('dosagem')?.errors?.['maxLength']">Máximo de 256 caracteres</p>
+						<p class="mb-0" *ngIf="formConsulta.get('dosagem')?.errors?.['minLength']">Mínimo de 16 caracteres</p>
+						<p class="mb-0" *ngIf="formConsulta.get('dosagem')?.errors?.['maxLength']">Máximo de 256 caracteres</p>
 					</div>
 				</div>
 			</div>
@@ -75,8 +75,8 @@
 						<option value="" selected disabled>Selecione</option>
 						<option *ngFor="let paciente of pacientes" [value]="paciente.id">{{paciente.nome}}</option>
 					</select>
-					<div class="badge bg-danger text-wrap" *ngIf="formExame.get('paciente').touched">
-						<p class="mb-0" *ngIf="formExame.get('paciente')?.errors?.['required']">Campo não pode ser vázio</p>
+					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('paciente').touched">
+						<p class="mb-0" *ngIf="formConsulta.get('paciente')?.errors?.['required']">Campo não pode ser vázio</p>
 					</div>
 				</div>
 				<div class="col-lg-2 d-flex align-items-center">

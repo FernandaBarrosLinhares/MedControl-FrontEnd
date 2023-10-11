@@ -7,21 +7,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { HttpClientModule } from '@angular/common/http';
+import { CadastroConsultaComponent } from './components/consulta/cadastro-consulta/cadastro-consulta.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RouterModule,
-    ReactiveFormsModule,
-    NgxMaskDirective,
-    NgxMaskPipe,
-    HttpClientModule,
-  ],
-  providers: [provideNgxMask()],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		CadastroConsultaComponent
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		RouterModule,
+		ReactiveFormsModule,
+		NgxMaskDirective,
+		NgxMaskPipe,
+		HttpClientModule,
+	],
+	providers: [provideNgxMask()],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }
