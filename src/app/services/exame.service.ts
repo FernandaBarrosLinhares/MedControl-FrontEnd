@@ -8,20 +8,26 @@ import IExame from '../interfaces/IExame';
 })
 export class ExameService {
 
-	urlBase = 'http://localhost:8080/exames'
+	urlBase = 'http://localhost:4200/api/exames'
+	exames : IExame[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
-	buscarTodos() {
-		return lastValueFrom(this.httpClient.get(this.urlBase));
+	async buscarTodos() {
+		this.exames = await lastValueFrom(this.httpClient.get<IExame[]>(this.urlBase));
+		return this.exames;
 	}
 
-	buscarPorId(id: number) {
-		return lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`));
+	async buscarPorId(id: number) {
+		return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`));
 	}
 
-	salvar(exame: IExame) {
-		this.httpClient.post(`${this.urlBase}`, exame);
+	async salvar(exame: IExame) {
+		try {
+      await lastValueFrom(this.httpClient.post(`${this.urlBase}`, exame));
+    } catch (e) {
+      console.error(e);
+    }
 	}
 
 	editar(exame: IExame) {

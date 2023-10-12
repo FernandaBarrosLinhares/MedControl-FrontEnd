@@ -6,7 +6,9 @@ export default interface IExame {
 	tipo: string,
 	laboratorio: string,
 	urlDocumento: string,
-	resultados: string,
+	resultado: string,
 	status: boolean,
-	idPaciente: number
+	paciente: {
+		id: number
+	}
 }
