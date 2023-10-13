@@ -49,7 +49,15 @@
 			<div class="row mt-3">
 				<div class="col-lg-4">
 					<label for="tipo">Tipo de dieta</label>
-					<input type="text" name="tipo" class="form-control" id="tipo" formControlName="tipo">
+          <select name="tipo" class="form-control" id="tipo" formControlName="tipo">
+            <option value="LOW CARB">Low Carb</option>
+            <option value="DASH">Dash</option>
+            <option value="PALEOLITICA">Paleolítica</option>
+            <option value="CETOGENICA">Cetogênica</option>
+            <option value="DUKAN">Dukan</option>
+            <option value="MEDITERRANEA">Mediterrânea</option>
+            <option value="OUTRA">Outra</option>
+          </select>
 					<div class="badge bg-danger text-wrap" *ngIf="formDieta.get('tipo').touched">
 						<p class="mb-0" *ngIf="formDieta.get('tipo')?.errors?.['required']">Campo não pode ser vázio</p>
 						<p class="mb-0" *ngIf="formDieta.get('tipo')?.errors?.['minLength']">Mínimo de 3 caracteres</p>
