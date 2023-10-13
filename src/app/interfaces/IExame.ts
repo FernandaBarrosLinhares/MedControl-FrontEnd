@@ -5,7 +5,7 @@ export default interface IExame {
 	horario: string,
 	tipo: string,
 	laboratorio: string,
-	urlDocumento: string,
+	url_documento: string,
 	resultado: string,
 	status: boolean,
 	paciente: {

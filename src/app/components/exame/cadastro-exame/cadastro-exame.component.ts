@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import IExame from 'src/app/interfaces/IExame';
 import { ExameService } from 'src/app/services/exame.service';
 
@@ -9,19 +10,17 @@ import { ExameService } from 'src/app/services/exame.service';
   templateUrl: './cadastro-exame.component.html',
   styleUrls: ['./cadastro-exame.component.css'],
 })
-export class CadastroExameComponent implements AfterViewInit, OnInit {
+export class CadastroExameComponent implements OnInit {
   formExame: any = FormGroup;
-  pacientes = [
-    { id: 1, nome: 'Ana' },
-    { id: 2, nome: 'Paula' },
-    { id: 3, nome: 'Daniela' },
-  ];
-  temId: boolean = false;
+  pacientes: any = [];
+	exameId: number  = 0;
+  exame: any;
 
   constructor(
     private fb: FormBuilder,
     private service: ExameService,
-    private rota: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.formExame = this.fb.group({
       nome: [
@@ -64,17 +63,37 @@ export class CadastroExameComponent implements AfterViewInit, OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+		this.pacientes = await this.service.buscarTodosPacientes();
+		const params = await firstValueFrom(this.route.queryParams);
 
-  async ngAfterViewInit() {
-    console.log(await this.service.buscarTodos());
+    if (params['id']) {
+      this.exameId = Number(params['id']);
 
-    const checkbox: HTMLElement | null = document.getElementById('status');
-    if (checkbox == null) return;
-    checkbox.setAttribute('disabled', 'true');
-  }
+      this.exame = await this.service.buscarPorId(this.exameId);
+      if (this.exame == null) {
+        this.exameId = 0;
+        this.router.navigate(['/cadastro-exame']);
+        return;
+      } 
+      
+      this.formExame.setValue({
+        nome: this.exame.nome,
+        data: this.convertBdDateToInputDate(this.exame.data),
+        horario: this.exame.horario,
+        tipo: this.exame.tipo,
+        laboratorio: this.exame.laboratorio,
+        urlDocumento: this.exame.url_documento,
+        resultado: this.exame.resultado,
+        status: this.exame.status,
+        paciente: this.exame.paciente.id
+      });
+    } else {
+      this.formExame.get('status').disable();
+    }
+	}
 
-  async cadastrar() {
+  async onSubmit() {
     let data = this.formExame.get('data').value;
 
     let exame: IExame = {
@@ -83,26 +102,25 @@ export class CadastroExameComponent implements AfterViewInit, OnInit {
       horario: this.formExame.get('horario')?.value,
       tipo: this.formExame.get('tipo')?.value,
       laboratorio: this.formExame.get('laboratorio')?.value,
-      urlDocumento: this.formExame.get('urlDocumento')?.value,
+      url_documento: this.formExame.get('urlDocumento')?.value,
       resultado: this.formExame.get('resultado')?.value,
       status: this.formExame.get('status')?.value,
       paciente: {
         id: this.formExame.get('paciente')?.value,
       },
     };
-    console.log(exame);
-    await this.service.salvar(exame);
+    if (this.exameId) {
+      exame.id = this.exameId;
+      await this.service.editar(exame);
+    } else {
+      await this.service.salvar(exame);
+    }
+
   }
 
   deletar() {
-    // this.storagePacientes.deletarPaciente('PACIENTES', this.form.value);
-    // this.formPaciente.resetForm();
-    // this.mensagem = 'Paciente excluido';
-    // this.formPaciente.disabled;
-    // this.limparMensagens();
-  }
-  editar() {
-    // this.form.enable();
+    this.service.excluir(this.exameId);
+    this.router.navigate(["/"]);
   }
 
   convertInputDateToBdDate(data: string): string {
