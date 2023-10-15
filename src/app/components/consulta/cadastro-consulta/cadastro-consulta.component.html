@@ -1,7 +1,7 @@
 <div class="container w-75 mt-3 mb-5">
-	<form (ngSubmit)="cadastrar()" [formGroup]="formConsulta">
+	<form (ngSubmit)="onSubmit()" [formGroup]="formConsulta">
 		<div>
-			<h3>Preencha os campos para cadastrar</h3>
+			<h3>{{ consultaId ? 'Edição' : 'Cadastro' }} de consulta</h3>
 			<div class="row">
 				<div class="col-sm-6 col-lg-6 col-md-4">
 					<label for="nome" class="form-label">Nome da Consulta</label>
@@ -29,16 +29,7 @@
 				</div>
 			</div>
 			<div class="row mt-3">
-				<!-- <div class="col-lg-4">
-					<label for="tipo">Tipo do exame</label>
-					<input type="text" name="tipo" class="form-control" id="tipo" formControlName="tipo">
-					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('tipo').touched">
-						<p class="mb-0" *ngIf="formConsulta.get('tipo')?.errors?.['required']">Campo não pode ser vázio</p>
-						<p class="mb-0" *ngIf="formConsulta.get('tipo')?.errors?.['minLength']">Mínimo de 4 caracteres</p>
-						<p class="mb-0" *ngIf="formConsulta.get('tipo')?.errors?.['maxLength']">Máximo de 32 caracteres</p>
-					</div>
-				</div> -->
-				<div class="col-lg-4">
+				<div class="col-lg-6">
 					<label for="descricao">Descrição do problema</label>
 					<input type="text" name="descricao" class="form-control" id="descricao" formControlName="descricao">
 					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('descricao').touched">
@@ -47,18 +38,9 @@
 						<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['maxLength']">Máximo de 1024 caracteres</p>
 					</div>
 				</div>
-				<!-- <div class="col-lg-4">
-					<label for="urlDocumento">URL do documento</label>
-					<input type="file" name="urlDocumento" class="form-control" id="urlDocumento" formControlName="urlDocumento">
-				</div> -->
-			</div>
-			<div class="row mt-3">
-				<div class="col-lg-12">
-					<label for="medicacao">Mediacação receitada</label>
-					<textarea name="medicacao" id="medicacao" class="form-control" id="medicacao"
-						formControlName="medicacao"></textarea>
-				</div>
-        <div class="col-lg-4">
+			  </div>
+
+        <div class="col-lg-6">
 					<label for="dosagem">Dosagem e Precauções</label>
 					<input type="text" name="dosagem" class="form-control" id="dosagem" formControlName="dosagem">
 					<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('dosagem').touched">
@@ -67,10 +49,18 @@
 						<p class="mb-0" *ngIf="formConsulta.get('dosagem')?.errors?.['maxLength']">Máximo de 256 caracteres</p>
 					</div>
 				</div>
+
+			  <div class="row mt-3">
+				  <div class="col-lg-12">
+				  	<label for="medicacao">Medicacação receitada</label>
+					  <textarea name="medicacao" id="medicacao" class="form-control" id="medicacao"
+						formControlName="medicacao"></textarea>
+			  	</div>
+
 			</div>
 			<div class="row mt-3">
 				<div class="col-lg-3">
-					<label for="paciente">Example select</label>
+					<label for="paciente">Paciente</label>
 					<select class="form-control" id="paciente" formControlName="paciente">
 						<option value="" selected disabled>Selecione</option>
 						<option *ngFor="let paciente of pacientes" [value]="paciente.id">{{paciente.nome}}</option>
@@ -81,7 +71,7 @@
 				</div>
 				<div class="col-lg-2 d-flex align-items-center">
 					<div class="form-check">
-						<input type="checkbox" class="form-check-input" id="status" formControlName="status" [disabled]="true">
+						<input type="checkbox" class="form-check-input" id="status" formControlName="status">
 						<label class="form-check-label" for="status">Ativo</label>
 					</div>
 				</div>
@@ -90,7 +80,8 @@
 		<div class="mt-4">
 			<div class="row mt-2">
 				<div class="col-sm-9 col-lg-6 col-md-6 m-auto text-center">
-					<button type="submit" class="btn btn-success me-3" [disabled]="formConsulta.invalid">Cadastrar</button>
+					<button type="submit" class="btn btn-success me-3"  [ngClass]="{'btn-success': consultaId == 0, 'btn-primary': consultaId > 0}" [disabled]="formConsulta.invalid">{{ consultaId ? 'Salvar' :
+            'Cadastrar'}}</button>
 				</div>
 			</div>
 		</div>

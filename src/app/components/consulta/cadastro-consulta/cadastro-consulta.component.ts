@@ -1,6 +1,8 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import IConsulta from 'src/app/interfaces/IConsulta';
 import { ConsultaService } from 'src/app/services/consulta/consulta.service';
 
 
@@ -9,18 +11,20 @@ import { ConsultaService } from 'src/app/services/consulta/consulta.service';
   templateUrl: './cadastro-consulta.component.html',
   styleUrls: ['./cadastro-consulta.component.css']
 })
-export class CadastroConsultaComponent implements AfterViewInit{
+export class CadastroConsultaComponent implements OnInit{
 
   formConsulta: any = FormGroup;
-	pacientes = [
-		{ id: 1, nome: "Ana" },
-		{ id: 2, nome: "Paula"},
-		{ id: 3, nome: "Daniela"}
-	];
-	temId: boolean = false;
+	pacientes: any = [];
+	consultaId: number  = 0;
+  consulta: any;
 
 
-	constructor(private fb: FormBuilder, private service: ConsultaService, private rota: ActivatedRoute) {
+	constructor(
+    private fb: FormBuilder,
+    private service: ConsultaService,
+    private route: ActivatedRoute,
+    private router: Router
+     ) {
 		this.formConsulta = this.fb.group({
 			nome: ['', [Validators.required, Validators.maxLength(64), Validators.minLength(8)]],
 			data: ['', [Validators.required]],
@@ -32,24 +36,80 @@ export class CadastroConsultaComponent implements AfterViewInit{
 			status: [true, [Validators.required]]
 		});
 	}
-	ngAfterViewInit(): void {
-		const checkbox: HTMLElement | null = document.getElementById('status');
-		if (checkbox == null) return;
-		checkbox.setAttribute('disabled', 'true');
+
+  async ngOnInit() {
+		this.pacientes = await this.service.buscarTodosPacientes();
+		const params = await firstValueFrom(this.route.queryParams);
+
+    if (params['id']) {
+      this.consultaId = Number(params['id']);
+
+      this.consulta = await this.service.buscarPorId(this.consultaId);
+      if (this.consulta == null) {
+        this.consultaId = 0;
+        this.router.navigate(['/cadastro-consulta']);
+        return;
+      }
+
+      this.formConsulta.setValue({
+        nome: this.consulta.nome,
+        data: this.convertBdDateToInputDate(this.consulta.data),
+        horario: this.consulta.horario,
+        descricao: this.consulta.descricao,
+        dosagem: this.consulta.dosagem,
+        status: this.consulta.status,
+        paciente: this.consulta.paciente.id
+      });
+    } else {
+      this.formConsulta.get('status').disable();
+    }
 	}
 
-	cadastrar() {
-		this.service.salvar(this.formConsulta.value);
+  async onSubmit() {
+    let data = this.formConsulta.get('data').value;
 
-		let consulta = this.formConsulta.value;
-		let data = this.formConsulta.get('data').value;
-		consulta.data = this.convertInputDateToBdDate(data);
+    let consulta: IConsulta = {
 
-		consulta.paciente = {id: this.formConsulta.get('paciente').value};
-		this.service.salvar(consulta);
-	}
+      nome: this.formConsulta.get('nome')?.value,
+      data: this.convertInputDateToBdDate(data),
+      horario: this.formConsulta.get('horario')?.value,
+      descricao: this.formConsulta.get('descricao')?.value,
+      dosagem: this.formConsulta.get('dosagem')?.value,
+      medicacao:this.formConsulta.get('medicacao')?.value,
+      status: this.formConsulta.get('status')?.value,
+      paciente: {
+        id: this.formConsulta.get('paciente')?.value,
+      },
+    };
+    if (this.consultaId) {
+      consulta.id = this.consultaId;
+      await this.service.editar(consulta);
+    } else {
+      await this.service.salvar(consulta);
+    }
+
+  }
+	// ngAfterViewInit(): void {
+	// 	const checkbox: HTMLElement | null = document.getElementById('status');
+	// 	if (checkbox == null) return;
+	// 	checkbox.setAttribute('disabled', 'true');
+	// }
+
+	// cadastrar() {
+	// 	this.service.salvar(this.formConsulta.value);
+
+	// 	let consulta = this.formConsulta.value;
+	// 	let data = this.formConsulta.get('data').value;
+	// 	consulta.data = this.convertInputDateToBdDate(data);
+
+	// 	consulta.paciente = {id: this.formConsulta.get('paciente').value};
+	// 	this.service.salvar(consulta);
+	// }
 
 	deletar() {
+
+    this.service.excluir(this.consultaId);
+    this.router.navigate(["/"]);
 		// this.storagePacientes.deletarPaciente('PACIENTES', this.form.value);
 		// this.formPaciente.resetForm();
 		// this.mensagem = 'Paciente excluido';
@@ -57,9 +117,9 @@ export class CadastroConsultaComponent implements AfterViewInit{
 		// this.limparMensagens();
 
 	}
-	editar() {
-		// this.form.enable();
-	}
+	// editar() {
+	// 	// this.form.enable();
+	// }
 
 	convertInputDateToBdDate(data: string): string {
 		let dataArray = data.split('-');
