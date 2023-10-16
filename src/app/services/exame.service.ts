@@ -27,11 +27,13 @@ export class ExameService {
   }
 
   async buscarPorId(id: number) {
-    try {
-      return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`));
-    } catch (error) {
+    return await lastValueFrom(
+      this.httpClient
+      .get(`${this.urlBase}/${id}`))
+      .catch(e => {
+      console.log(e.error);
       return null;
-    }
+    });
   }
 
   async salvar(exame: IExame) {
