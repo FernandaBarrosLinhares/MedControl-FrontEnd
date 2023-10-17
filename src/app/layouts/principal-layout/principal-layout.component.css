@@ -1,3 +1,12 @@
+.layout {
+	display: grid;
+	grid-template-rows: 56px 1fr;
+}
+/* 
+app-navbar {
+	grid-column: span 2;
+} */
+
 .container-fluid {
 	background-color: #eee;
 	margin: 4rem auto;
