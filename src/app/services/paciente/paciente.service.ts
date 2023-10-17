@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom, lastValueFrom, map } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { firstValueFrom, lastValueFrom} from 'rxjs';
 import IPaciente from 'src/app/interfaces/IPaciente';
 
 @Injectable({
@@ -8,11 +9,21 @@ import IPaciente from 'src/app/interfaces/IPaciente';
 })
 export class PacienteService {
   pacientes:IPaciente[]=[];
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,
+    private toastr: ToastrService) { }
   urlBase = 'http://localhost:4200/api/pacientes';
   urlBaseEndereco = 'http://localhost:4200/api/enderecos'
   async buscarPaciente(){
-    this.pacientes = await lastValueFrom(this.http.get<IPaciente[]>(`${this.urlBase}`));
+    try{
+      this.pacientes = await lastValueFrom(this.http.get<IPaciente[]>(`${this.urlBase}`));
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Buscar');
+      }
+      return null;
+    }
     return this.pacientes;
   }
 // TODO mudar a logica do usuario logado quando fizer o login
@@ -21,8 +32,15 @@ export class PacienteService {
     //console.log(usuarioLogado);
     let headers = new HttpHeaders().set('idUsuarioLogado','1');
     try{
-      return await firstValueFrom(this.http.post<any>(`${this.urlBase}`,paciente,{headers:headers}));
-    }catch(e){
+      const response = await firstValueFrom(this.http.post<any>(`${this.urlBase}`,paciente,{headers:headers}));
+      this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
+      return response;
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao cadastrar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao cadastrar');
+      }
       return e;
     }
   }
@@ -31,8 +49,15 @@ export class PacienteService {
     //console.log(usuarioLogado);
     let headers = new HttpHeaders().set('idUsuarioLogado','1');
     try{
-      return await firstValueFrom(this.http.put<any>(`${this.urlBase}/${pacienteId}`,paciente,{headers:headers}));
-    }catch(e){
+      let response = await firstValueFrom(this.http.put<any>(`${this.urlBase}/${pacienteId}`,paciente,{headers:headers}));
+      this.toastr.success('Atualizado com sucesso','Atualizado');
+      return response;
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Atualizar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Atualizar');
+      }
       return e;
     }
   }
@@ -40,7 +65,12 @@ export class PacienteService {
   async buscarPacientePorId(id:number){
     try{
       return await lastValueFrom(this.http.get<any>(`${this.urlBase}/${id}`));
-    }catch(e){
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Buscar');
+      }
       return null;
     }
   }
@@ -48,8 +78,15 @@ export class PacienteService {
   async deletarPaciente(id:number){
     let headers = new HttpHeaders().set('idUsuarioLogado','1');
     try{
-      return await lastValueFrom(this.http.delete<any>(`${this.urlBase}/${id}`,{headers:headers}));
-    }catch(e){
+      await firstValueFrom(this.http.delete<any>(`${this.urlBase}/${id}`,{headers:headers}));
+      this.toastr.success('Cadastro Deletado com sucesso','Deletado');
+      return true;
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Deltar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Deletar');
+      }
       return null;
     }
   }
@@ -57,7 +94,12 @@ export class PacienteService {
   async buscarPacienteComFiltro(fltro:string){
     try{
       return await lastValueFrom(this.http.get<any>(`${this.urlBase}/${fltro}`));
-    }catch(e){
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Buscar');
+      }
       return null;
     }
   }

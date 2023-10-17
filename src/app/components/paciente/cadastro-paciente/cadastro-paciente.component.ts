@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, OnInit,} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import IPaciente from 'src/app/interfaces/IPaciente';
@@ -20,7 +20,12 @@ export class CadastroPacienteComponent implements OnInit {
   endereco: any = {};
   pacienteId: number = 0;
 
-  constructor(private pacienteService: PacienteService, private fb: FormBuilder, private cepService: ViaCepServiceService, private rotaAtiva: ActivatedRoute, private router: Router, private servicePaciente: PacienteService) {
+  constructor(private pacienteService: PacienteService,
+    private fb: FormBuilder,
+    private cepService: ViaCepServiceService,
+    private rotaAtiva: ActivatedRoute,
+    private router: Router,
+    private servicePaciente: PacienteService) {
     this.formPaciente = this.fb.group({
       nomeCompleto: ['', { validators: [Validators.required, Validators.maxLength(64), Validators.minLength(8)] }],
       genero: ['', Validators.required],
@@ -146,22 +151,22 @@ export class CadastroPacienteComponent implements OnInit {
 
     if (this.pacienteId) {
       this.pacienteRetorno = await this.pacienteService.atualizarPaciente(paciente,this.pacienteId);
-      this.paciente = this.pacienteRetorno;
     }else{
       this.pacienteRetorno = await this.pacienteService.cadastrarPaciente(paciente);
       this.paciente = this.pacienteRetorno;
-      this.pacienteId = this.pacienteRetorno.id;
     }
     this.desabilitarCampos();
   }
 
-  deletar() {
-    this.servicePaciente.deletarPaciente(this.pacienteId);
+  async deletar() {
+    let deletado = await this.servicePaciente.deletarPaciente(this.pacienteId);
+    if(!deletado){
+      return;
+    }
     this.formPaciente.reset();
     this.habilitarCampos();
     this.habilitarCpf();
-    this.router.navigate(['/cadastro-paciente'])
-
+    this.router.navigate(['/cadastro-paciente']);
   }
   desablitarCpf(){
     this.formPaciente.get('cpf').disable();
@@ -246,6 +251,8 @@ export class CadastroPacienteComponent implements OnInit {
         return"";
     }
   }
+
+
 
 }
 
