@@ -1,0 +1,13 @@
+.offcanvas {
+	background-color: #00408a;
+	color: #FFFFFF;
+}
+
+.btn-close {
+	background-color: #fff;
+}
+
+.list-group-item {
+	font-weight: bold;
+	text-align: center;
+}	
