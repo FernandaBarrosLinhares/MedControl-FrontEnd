@@ -11,6 +11,7 @@ import { CadastroConsultaComponent } from './components/consulta/cadastro-consul
 import { CadastroExameComponent } from './components/exame/cadastro-exame/cadastro-exame.component';
 import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-layout.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 
 @NgModule({
 	declarations: [
@@ -18,7 +19,8 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 		CadastroConsultaComponent,
 		CadastroExameComponent,
 		PrincipalLayoutComponent,
-		NavbarComponent
+		NavbarComponent,
+  	SidebarComponent
 	],
 	imports: [
 		BrowserModule,
