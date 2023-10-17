@@ -16,7 +16,7 @@ import { CadastroMedicamentosComponent } from './components/cadastro-medicamento
 		AppComponent,
 		CadastroConsultaComponent,
 		CadastroExameComponent,
-  CadastroMedicamentosComponent,
+    CadastroMedicamentosComponent,
 	],
 	imports: [
 		BrowserModule,
