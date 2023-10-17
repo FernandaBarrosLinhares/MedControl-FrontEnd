@@ -15,6 +15,9 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
 
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -34,6 +37,12 @@ import { LoginLayoutComponent } from './layouts/login-layout/login-layout.compon
 		NgxMaskDirective,
 		NgxMaskPipe,
 		HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: false,
+    }),
 	],
 	providers: [provideNgxMask()],
 	bootstrap: [AppComponent]
