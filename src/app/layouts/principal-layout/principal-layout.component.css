@@ -1,0 +1,10 @@
+.container-fluid {
+	background-color: #eee;
+	margin: 4rem auto;
+	padding: 4rem 2rem;
+	max-width: 1100px;
+	min-height: calc(100vh - 8rem - 56px);
+	min-height: calc(100dvh - 8rem - 56px);
+	border-radius: 13px;
+	box-shadow: 0 3px 10px 5px rgba(0, 0, 0, 0.3);
+}
