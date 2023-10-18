@@ -13,7 +13,6 @@ import { MedicamentosService } from 'src/app/services/medicamento/medicamentos.s
 export class CadastroMedicamentosComponent implements OnInit {
 
   formMedicamento: any = FormGroup;
-	pacientes: any = [];
 	medicamentoId: number  = 0;
   medicamento: any;
 
@@ -28,17 +27,15 @@ export class CadastroMedicamentosComponent implements OnInit {
 			nome: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(5)]],
 			data: ['', [Validators.required]],
 			horario: ['', [Validators.required]],
-			tipo: ['', [Validators.required, Validators.maxLength(1024), Validators.minLength(16)]],
+			tipo: ['', [Validators.required]],
 		  quantidade: ['',[Validators.required] ],
       unidade: ['', [Validators.required]],
       observacoes: ['', [Validators.required, Validators.maxLength(1000), Validators.minLength(10)]],
-			paciente: ['', [Validators.required]],
 			status: [true, [Validators.required]]
 		});
 	}
 
   async ngOnInit() {
-		this.pacientes = await this.service.buscarTodosPacientes();
 		const params = await firstValueFrom(this.route.queryParams);
 
     if (params['id']) {
@@ -60,7 +57,6 @@ export class CadastroMedicamentosComponent implements OnInit {
         unidade: this.medicamento.unidade,
         observacoes: this.medicamento.observacoes,
         status: this.medicamento.status,
-        paciente: this.medicamento.paciente.id
       });
     } else {
       this.formMedicamento.get('status').disable();
@@ -80,10 +76,8 @@ export class CadastroMedicamentosComponent implements OnInit {
       unidade:this.formMedicamento.get('unidade')?.value,
       observacoes:this.formMedicamento.get('observacoes')?.value,
       status: this.formMedicamento.get('status')?.value,
-      paciente: {
-        id: this.formMedicamento.get('paciente')?.value,
-      },
     };
+    console.log(consulta)
     if (this.medicamentoId) {
       this.medicamento.id = this.medicamentoId;
       await this.service.editar(consulta);
@@ -107,6 +101,9 @@ convertInputDateToBdDate(data: string): string {
 convertBdDateToInputDate(data: string): string {
   let dataArray = data.split('-');
   return `${dataArray[2]}-${dataArray[1]}-${dataArray[0]}`;
+}
+mostrarFormulario(){
+  console.log(this.formMedicamento)
 }
 
 }

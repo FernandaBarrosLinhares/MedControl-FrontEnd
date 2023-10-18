@@ -8,7 +8,4 @@ export default interface IMedicamentos {
 	unidade: string,
   observacoes: string,
 	status: boolean,
-  paciente: {
-    id:number
-  }
 }

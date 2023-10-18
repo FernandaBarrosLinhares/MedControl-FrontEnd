@@ -8,18 +8,10 @@ import IMedicamentos from 'src/app/interfaces/IMedicamentos';
 })
 export class MedicamentosService {
 
-  urlBase = 'http://localhost:8080/api/medicamentos';
+  urlBase = 'http://localhost:4200/api/medicamentos';
   consultas:IMedicamentos[] =[]
 
   constructor(private httpClient: HttpClient) { }
-
-  // TODO apagar abaixo quando tiver o service de paciente
-  async buscarTodosPacientes() {
-    return lastValueFrom(
-      this.httpClient.get('http://localhost:4200/api/pacientes')
-      );
-  }
-
 
   async buscarTodos() {
 		return lastValueFrom(
