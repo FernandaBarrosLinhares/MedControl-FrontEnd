@@ -1,0 +1,35 @@
+<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop"
+  aria-labelledby="staticBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="staticBackdropLabel">Medication and Life</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="container">
+      <div class="row">
+        <div class="list-group">
+          <a [routerLink]="'/home'" type="button" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas">Início</a>
+          <a [routerLink]="'/login'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Sair</a>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <h6>Cadastro</h6>
+        <div class="list-group">
+          <a [routerLink]="'/cadastro-consulta'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Consulta</a>
+          <a [routerLink]="'/cadastro-dieta'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Dieta</a>
+          <a [routerLink]="'/cadastro-exame'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Exame</a>
+          <a [routerLink]="'/cadastro-exercicio'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Exercício</a>
+          <a [routerLink]="'/cadastro-medicamento'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Medicamento</a>
+          <a [routerLink]="'/cadastro-paciente'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Paciente</a>
+          <a [routerLink]="'/cadastro-usuario'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Usuário</a>
+      </div>
+    </div>
+      <div class="row mt-5">
+        <h6>Prontuário</h6>
+        <div class="list-group">
+          <a [routerLink]="'/prontuarios'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Listagem</a>
+      </div>
+    </div>
+
+  </div>
+</div>
