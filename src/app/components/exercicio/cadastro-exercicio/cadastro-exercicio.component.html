@@ -49,12 +49,12 @@
 				<div class="col-lg-3">
 					<label for="tipo">Tipo de exercício</label>
 					<select name="tipo" class="form-control" id="tipo" formControlName="tipo">
-						<option value="RESISTENCIA_AEROBICA">Resistência Aeróbica</option>
-						<option value="RESISTENCIA_MUSCULAR">Resistência Muscular</option>
-						<option value="FLEXIBILIDADE">Flexibilidade</option>
-						<option value="FORCA">Força</option>
-						<option value="AGILIDADE">Agilidade</option>
-						<option value="OUTRO">Outro</option>
+						<option value="0">Resistência Aeróbica</option>
+						<option value="1">Resistência Muscular</option>
+						<option value="2">Flexibilidade</option>
+						<option value="3">Força</option>
+						<option value="4">Agilidade</option>
+						<option value="5">Outro</option>
 					</select>
 					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('tipo').touched">
 						<p class="mb-0" *ngIf="formExercicio.get('tipo')?.errors?.['required']">Campo não pode ser vázio</p>

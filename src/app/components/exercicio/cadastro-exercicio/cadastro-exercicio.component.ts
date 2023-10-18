@@ -1,5 +1,5 @@
-import { ExercicioService } from './../../services/exercicio.service';
-import { IExercicio } from './../../interfaces/IExercicio';
+import { ExercicioService } from './../../../services/exercicio.service';
+import { IExercicio } from './../../../interfaces/IExercicio';
 import { OnInit, Component,  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

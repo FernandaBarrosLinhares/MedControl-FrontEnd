@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CadastroExercicioComponent } from './exercicio/cadastro-exercicio/cadastro-exercicio.component';
+import { CadastroExercicioComponent } from './components/exercicio/cadastro-exercicio/cadastro-exercicio.component';
 
 const routes: Routes = [
   {

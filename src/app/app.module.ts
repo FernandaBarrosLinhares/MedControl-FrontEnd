@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { HttpClientModule } from '@angular/common/http';
-import { CadastroExercicioComponent } from './exercicio/cadastro-exercicio/cadastro-exercicio.component';
+import { CadastroExercicioComponent } from './components/exercicio/cadastro-exercicio/cadastro-exercicio.component';
 
 @NgModule({
   declarations: [
