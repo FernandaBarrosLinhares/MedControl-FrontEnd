@@ -19,6 +19,7 @@ import { LoginLayoutComponent } from './layouts/login-layout/login-layout.compon
 
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginComponent } from './components/login/login/login.component';
 
 @NgModule({
 	declarations: [
@@ -30,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		PrincipalLayoutComponent,
 		NavbarComponent,
   	SidebarComponent,
-  	LoginLayoutComponent
+  	LoginLayoutComponent,
+    LoginComponent
 	],
 	imports: [
 		BrowserModule,
