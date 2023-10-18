@@ -29,7 +29,7 @@ import { LoginComponent } from './components/login/login/login.component';
 		NavbarComponent,
   	SidebarComponent,
   	LoginLayoutComponent,
-   LoginComponent
+    LoginComponent
 	],
 	imports: [
 		BrowserModule,
