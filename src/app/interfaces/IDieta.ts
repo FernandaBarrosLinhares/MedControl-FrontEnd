@@ -6,5 +6,5 @@ export interface IDieta {
   tipo: string,
   descricao: string,
   status: boolean,
-  idPaciente: number
+  paciente: number
 }
