@@ -8,7 +8,7 @@ import { IDieta } from '../interfaces/IDieta';
 })
 export class DietaService {
 
-  private readonly API_DIETA = 'http://localhost:3000/dietas'
+  private readonly API_DIETA = 'http://localhost:4200/api/dietas'
 
   constructor(private httpClient: HttpClient) { }
 
