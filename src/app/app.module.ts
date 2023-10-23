@@ -16,11 +16,11 @@ import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-l
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
+import { LoginComponent } from './components/login/login/login.component';
+import { ProntuariosComponent } from './components/prontuairo/prontuarios/prontuarios.component';
 
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './components/login/login/login.component';
-import { ProntuariosComponent } from './components/prontuairo/prontuarios/prontuarios.component';
 
 @NgModule({
 	declarations: [
