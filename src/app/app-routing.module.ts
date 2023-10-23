@@ -7,16 +7,18 @@ import { CadastroExercicioComponent } from './components/exercicio/cadastro-exer
 import { CadastroPacienteComponent } from './components/paciente/cadastro-paciente/cadastro-paciente.component';
 import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-layout.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
+import { LoginComponent } from './components/login/login/login.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'labmedication/cadastro-exame',
-  //   pathMatch: 'full',
-  // },
-  { path: '',
+  {
+    path: '',
     component: LoginLayoutComponent,
-    children: []
+    children: [
+      {
+        path: '',
+        component: LoginComponent
+      }
+    ]
   },
   {
     path: 'labmedication',
@@ -31,7 +33,7 @@ const routes: Routes = [
         component: CadastroExameComponent,
       },
       {
-        path: "cadastro-exercicio",
+        path: 'cadastro-exercicio',
         component: CadastroExercicioComponent
       },
       {
