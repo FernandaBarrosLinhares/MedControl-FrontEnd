@@ -32,6 +32,14 @@ export class LoginService {
     return nome?.substring(0, nome?.indexOf(' '));
   }
 
+  idUsuarioLogado() {
+    const usuarioString = localStorage.getItem("usuario");
+    if (usuarioString === null) return;
+    const usuarioLogado = <IUsuario>JSON.parse(usuarioString);
+    const id = usuarioLogado.id;
+    return id;
+  }
+
   logado() {
     const usuario = localStorage.getItem("usuario");
     return usuario !== null;
