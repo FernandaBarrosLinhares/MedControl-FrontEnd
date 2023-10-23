@@ -8,7 +8,9 @@ import IPaciente from 'src/app/interfaces/IPaciente';
   providedIn: 'root'
 })
 export class PacienteService {
+
   pacientes:IPaciente[]=[];
+  
   constructor(private http:HttpClient,
     private toastr: ToastrService) { }
   urlBase = 'http://localhost:4200/api/pacientes';
@@ -104,5 +106,24 @@ export class PacienteService {
     }
   }
 
+  calcularIdadePaciente(paciente: IPaciente) {
+    const dataNascimento = this.converterDataBdToDate(paciente.dataNascimento);
+    const anoAtual = new Date();
+    let idade = anoAtual.getFullYear() - dataNascimento.getFullYear();
+    if (anoAtual.getMonth() < dataNascimento.getMonth()) {
+      idade--;
+    } else if (anoAtual.getMonth() == dataNascimento.getMonth() && anoAtual.getDay() < dataNascimento.getDay()) {
+      idade--;
+    }
+    return idade;
+  }
 
+  converterDataBdToDate(data: string) {
+    let dataSub = data.split('/');
+    return new Date(`${dataSub[1]}/${dataSub[0]}/${dataSub[2]}`);
+  }
+
+  converterTelefoneToView(telefone: string) {
+    return `(${telefone.substring(0, 2)}) ${telefone.substring(2, 7)} - ${telefone.substring(7)}`
+  }
 }

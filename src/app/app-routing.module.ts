@@ -7,6 +7,8 @@ import { CadastroExercicioComponent } from './components/exercicio/cadastro-exer
 import { CadastroPacienteComponent } from './components/paciente/cadastro-paciente/cadastro-paciente.component';
 import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-layout.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
+import { ProntuariosComponent } from './components/prontuairo/prontuarios/prontuarios.component';
+import { logadoGuard } from './guards/logado.guard';
 import { LoginComponent } from './components/login/login/login.component';
 
 const routes: Routes = [
@@ -23,6 +25,7 @@ const routes: Routes = [
   {
     path: 'labmedication',
     component: PrincipalLayoutComponent,
+    canActivateChild: [logadoGuard],
     children: [
       {
         path: 'cadastro-consulta',
@@ -38,8 +41,12 @@ const routes: Routes = [
       },
       {
         path:'cadastro-paciente',
-        component:CadastroPacienteComponent
+        component: CadastroPacienteComponent
       },
+      {
+        path: 'prontuarios',
+        component: ProntuariosComponent
+      }
     ]
   }
 ];
