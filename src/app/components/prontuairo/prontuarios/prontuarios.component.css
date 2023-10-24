@@ -1,0 +1,34 @@
+input {
+	height: 38px;
+	width: 100%;
+}
+
+form button {
+	width: 100%;
+}
+
+.card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, min(300px, 100%));
+	place-content: center;
+	gap: 1rem;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	place-content: center;
+}
+
+@media screen and (max-width: 300px) {
+	.grid {
+		display: block;
+	}
+}
+
+.bi-person {
+	display: block;
+	margin: auto;
+	text-align: center;
+	font-size: 3.5rem;
+}

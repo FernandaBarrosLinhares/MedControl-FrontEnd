@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { UsuariosService } from './usuarios.service';
 import { IUsuario } from '../interfaces/IUsuario';
 
@@ -6,6 +6,7 @@ import { IUsuario } from '../interfaces/IUsuario';
   providedIn: 'root'
 })
 export class LoginService {
+  urlEventEmitter = new EventEmitter();
 
   constructor(private usuarioService: UsuariosService) { }
 
@@ -31,6 +32,14 @@ export class LoginService {
     return nome?.substring(0, nome?.indexOf(' '));
   }
 
+  idUsuarioLogado() {
+    const usuarioString = localStorage.getItem("usuario");
+    if (usuarioString === null) return;
+    const usuarioLogado = <IUsuario>JSON.parse(usuarioString);
+    const id = usuarioLogado.id;
+    return id;
+  }
+
   logado() {
     const usuario = localStorage.getItem("usuario");
     return usuario !== null;
@@ -40,4 +49,8 @@ export class LoginService {
     localStorage.removeItem("usuario");
   }
 
+  mudouURL(url: string) {
+    const urlAtual = url.split('/')[2];
+    this.urlEventEmitter.emit(urlAtual);
+  }
 }
