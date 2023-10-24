@@ -13,6 +13,7 @@ import { CadastroExameComponent } from './components/exame/cadastro-exame/cadast
 import { CadastroExercicioComponent } from './components/exercicio/cadastro-exercicio/cadastro-exercicio.component';
 import { CadastroMedicamentosComponent } from './components/cadastro-medicamentos/cadastro-medicamentos.component';
 import { CadastroPacienteComponent } from './components/paciente/cadastro-paciente/cadastro-paciente.component';
+import { EstatisticasComponent } from './components/estatisticas/estatisticas/estatisticas.component';
 import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-layout.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
@@ -35,11 +36,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		NavbarComponent,
   	SidebarComponent,
   	LoginLayoutComponent,
+	  EstatisticasComponent,
     LoginComponent,
     ProntuariosComponent
 	],
 	imports: [
 		BrowserModule,
+		FormsModule,
 		AppRoutingModule,
 		RouterModule,
 		ReactiveFormsModule,

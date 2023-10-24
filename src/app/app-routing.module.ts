@@ -6,6 +6,7 @@ import { CadastroExameComponent } from './components/exame/cadastro-exame/cadast
 import { CadastroExercicioComponent } from './components/exercicio/cadastro-exercicio/cadastro-exercicio.component';
 import { CadastroMedicamentosComponent } from './components/cadastro-medicamentos/cadastro-medicamentos.component';
 import { CadastroPacienteComponent } from './components/paciente/cadastro-paciente/cadastro-paciente.component';
+import { EstatisticasComponent } from './components/estatisticas/estatisticas/estatisticas.component';
 import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-layout.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
 import { ProntuariosComponent } from './components/prontuairo/prontuarios/prontuarios.component';
@@ -28,6 +29,10 @@ const routes: Routes = [
     component: PrincipalLayoutComponent,
     canActivateChild: [logadoGuard],
     children: [
+      {
+        path:'',
+        component: EstatisticasComponent
+      },
       {
         path: 'cadastro-consulta',
         component: CadastroConsultaComponent

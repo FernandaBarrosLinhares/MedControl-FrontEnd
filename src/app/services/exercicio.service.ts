@@ -2,6 +2,7 @@ import { IExercicio } from './../interfaces/IExercicio';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import IPaciente from '../interfaces/IPaciente';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class ExercicioService {
 	// TODO apagar abaixo quando tiver o service de paciente
 	async buscarTodosPacientes() {
 		return await lastValueFrom(
-		  	this.httpClient.get('http://localhost:4200/api/pacientes')
+		  	this.httpClient.get<IPaciente[]>('http://localhost:4200/api/pacientes')
 		);
 	}
 

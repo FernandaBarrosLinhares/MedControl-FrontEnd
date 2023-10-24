@@ -1,0 +1,25 @@
+.estatistica {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    color: #00408A;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+.estatistica > p {
+    font-size: 28px;
+}
+
+.linha {
+    background-color: #00408A;
+    height: 6px;
+    margin-top: 5px;
+    width: 100%; 
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+img {
+    width: 88px;
+}
