@@ -1,0 +1,23 @@
+.layout {
+	display: grid;
+	grid-template-rows: 56px 1fr;
+}
+/* 
+app-navbar {
+	grid-column: span 2;
+} */
+
+.container-fluid {
+	background-color: #eee;
+	margin: 4rem auto;
+	padding: 4rem 2rem;
+	max-width: 1300px;
+	min-height: calc(100vh - 8rem - 56px);
+	min-height: calc(100dvh - 8rem - 56px);
+	border-radius: 13px;
+	box-shadow: 0 3px 10px 5px rgba(0, 0, 0, 0.3);
+}
+
+.fundo-maior { 
+	max-width: 90%;
+}
