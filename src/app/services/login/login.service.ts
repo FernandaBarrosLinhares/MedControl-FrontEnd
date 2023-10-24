@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { UsuariosService } from './usuarios.service';
-import { IUsuario } from '../interfaces/IUsuario';
+import { UsuariosService } from '../usuario/usuario.service';
+import { IUsuario } from 'src/app/interfaces/IUsuario';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,9 @@ export class LoginService {
       const emailCorreto = email === usuario.email;
       const senhaCorreta = senha === usuario.senha;
       if (emailCorreto && senhaCorreta){
-      localStorage.setItem("usuario", JSON.stringify(usuario));
-      return;
-    }
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+        return;
+      }
     }
 
     throw new Error ("Invalidas!")
