@@ -7,6 +7,7 @@ import { CadastroExercicioComponent } from './components/exercicio/cadastro-exer
 import { CadastroPacienteComponent } from './components/paciente/cadastro-paciente/cadastro-paciente.component';
 import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-layout.component';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
+import { EstatisticasComponent } from './components/estatisticas/estatisticas/estatisticas.component';
 
 const routes: Routes = [
   // {
@@ -22,6 +23,10 @@ const routes: Routes = [
     path: 'labmedication',
     component: PrincipalLayoutComponent,
     children: [
+      {
+        path:'',
+        component: EstatisticasComponent
+      },
       {
         path: 'cadastro-consulta',
         component: CadastroConsultaComponent

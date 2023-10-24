@@ -93,7 +93,7 @@ export class PacienteService {
 
   async buscarPacienteComFiltro(fltro:string){
     try{
-      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/${fltro}`));
+      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/listagem/${fltro}`));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');

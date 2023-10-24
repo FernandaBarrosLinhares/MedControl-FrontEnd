@@ -1,0 +1,106 @@
+<div>
+    <div>
+        <div class="row">
+            <div class="col">
+                <div class="estatistica">
+                    <h4>Pacientes:</h4>
+                    <p>{{ pacientesCadastrados }}</p>
+                    <div class="linha"></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="estatistica">
+                    <h4>Consultas:</h4>
+                    <p>{{ consultasRealizadas }}</p>
+                    <div class="linha"></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="estatistica">
+                    <h4>Exames:</h4>
+                    <p>{{ exames }}</p>
+                    <div class="linha"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="estatistica">
+                    <h4>Medicações:</h4>
+                    <p>{{ medicacoes }}</p>
+                    <div class="linha"></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="estatistica">
+                    <h4>Dietas:</h4>
+                    <p>{{ dietas }}</p>
+                    <div class="linha"></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="estatistica">
+                    <h4>Exercícios:</h4>
+                    <p>{{ exercicios }}</p>
+                    <div class="linha"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <div class="row">
+            <div class="col-10">
+                <input type="text" class="form-control" name="filtro" [(ngModel)]="filtro" placeholder="Buscar por paciente">
+            </div>
+            <div class="col">
+                <button class="btn" style="background-color: #00408A; color: white;" type="button" (click)="buscarPacientes()">Pacientes</button>
+            </div>
+        </div>
+        <div style="margin-top: 20px; max-height: 372px; overflow-y: auto; display: flex; justify-content: flex-start; flex-wrap: wrap;">
+            <div class="card" style="width: 21rem; margin-bottom: 20px;" *ngFor="let paciente of pacientes">
+                <div class="card-header d-flex justify-content-between" style="background-color: #00408A; color: white;">
+                    <h6>{{ paciente.nomeCompleto }}</h6>
+                    <a [routerLink]="'/labmedication/cadastro-paciente'" data-bs-dismiss="offcanvas" style="margin-bottom: 0px;" >ver mais</a>
+                </div>
+                <div class="card-body d-flex">
+                    <img src="./assets/UserIcon.png" alt="Texto alternativo da imagem">
+                    <ul>
+                        <li> {{ paciente.dataNascimento }} </li>
+                        <li> {{ paciente.convenio }} </li>
+                        <li> {{ paciente.telefone }} </li>  
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isAdmin">
+        <hr>
+        <div class="row">
+            <div class="col-10">
+              <input type="text" class="form-control" placeholder="Buscar por usuários">
+            </div>
+            <div class="col">
+                <button class="btn" style="background-color: #00408A; color: white;" type="button" (click)="buscarUsuarios()">Usuários</button>
+            </div>
+        </div>
+        <div style="margin-top: 20px; max-height: 372px; overflow-y: auto; display: flex; justify-content: flex-start; flex-wrap: wrap;">
+            <div class="card" style="width: 20rem; margin-bottom: 20px;" *ngFor="let user of usuarios">
+                <div class="card-header d-flex justify-content-between" style="background-color: #00408A; color: white;">
+                    <h6>{{ user.nome }}</h6>
+                    <a [routerLink]="'/labmedication/'" data-bs-dismiss="offcanvas" style="margin-bottom: 0px;" >ver mais</a>
+                </div>
+                <div class="card-body d-flex">
+                    <img src="./assets/UserIcon.png" alt="Texto alternativo da imagem">
+                    <ul>
+                        <li> {{ user.idade }} </li>
+                        <li> {{ user.convenio }} </li>
+                        <li> {{ user.telefone }} </li>  
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -20,6 +20,7 @@ import { LoginLayoutComponent } from './layouts/login-layout/login-layout.compon
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login/login.component';
+import { EstatisticasComponent } from './components/estatisticas/estatisticas/estatisticas.component';
 
 @NgModule({
 	declarations: [
@@ -32,10 +33,12 @@ import { LoginComponent } from './components/login/login/login.component';
 		NavbarComponent,
   	SidebarComponent,
   	LoginLayoutComponent,
+	  EstatisticasComponent,
     LoginComponent
 	],
 	imports: [
 		BrowserModule,
+		FormsModule,
 		AppRoutingModule,
 		RouterModule,
 		ReactiveFormsModule,
