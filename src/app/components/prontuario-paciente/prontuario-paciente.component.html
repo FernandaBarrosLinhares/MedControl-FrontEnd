@@ -1,0 +1,181 @@
+<section class="container">
+  <h3>Prontuário:</h3>
+  <h5> {{ paciente }} </h5>
+  <hr class="mb-1">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nome do Paciente</th>
+          <th scope="col">Convênio</th>
+          <th scope="col">Contato de Emergência</th>
+          <th scope="col">Alergias</th>
+          <th scope="col">Cuidados específiocos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ paciente.nomecompleto }} </td>
+          <td>{{ paciente.convenio }} </td>
+          <td>{{ paciente.contatoEmergencia }} </td>
+          <td>{{ paciente.alergia }} Lactose</td>
+          <td>{{ paciente.cuidadosEspecificos }}</td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="consultas">
+          <h4> Consultas</h4>
+          <hr class="mb-1">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Notivo da consulta</th>
+          <th scope="col">Data</th>
+          <th scope="col">Horário</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Medicação</th>
+          <th scope="col">Dosagem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let consulta of consultas">
+          <td><strong>{{ consulta.nome }} </strong></td>
+          <td><strong>{{ consulta.data }} </strong></td>
+          <td><strong>{{ consulta.horario }} </strong></td>
+          <td>{{ consulta.descricao }} </td>
+          <td>{{ consulta.medicacao }} </td>
+          <td>{{ consulta.dosagem }} </td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+          <div class="w-25 p-3">
+            <button class="btn btn-primary col-lg-12" routerLink="/labmedication/cadastro-consulta"><i class="bi bi-search"></i>Editar Consultas</button>
+          </div>
+        </div>
+        </div>
+        <div class="Exames">
+          <h4>Exames</h4>
+          <hr class="mb-1">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nome do exame</th>
+          <th scope="col">Data</th>
+          <th scope="col">Horário</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Laboratório</th>
+          <th scope="col">Resultado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let exame of exames">
+          <td><strong>{{ exame.nome }} </strong></td>
+          <td><strong>{{ exame.data }} </strong></td>
+          <td><strong>{{ exame.horario }} </strong></td>
+          <td>{{ exame.tipo }} </td>
+          <td>{{ exame.laboratorio }} </td>
+          <td>{{ exame.resultato }} </td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+          <div class="w-25 p-3">
+            <button class="btn btn-primary col-lg-12" routerLink="/labmedication/cadastro-exame"><i class="bi bi-search"></i>Editar Exames</button>
+          </div>
+        </div>
+        </div>
+        <div class="Medicamentos">
+          <h4>Medicamentos</h4>
+          <hr class="mb-1">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nome do medicamento</th>
+          <th scope="col">Data</th>
+          <th scope="col">Horário</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Quantidade</th>
+          <th scope="col">Unidade</th>
+          <th scope="col">Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let medicamento of medicamentos">
+          <td><strong>{{ medicamento.nome }} </strong></td>
+          <td><strong>{{ medicamento.data }} </strong></td>
+          <td><strong>{{ medicamento.horario }} </strong></td>
+          <td>{{ medicamento.tipo }} </td>
+          <td>{{ medicamento.quantidade }} </td>
+          <td>{{ medicamento.unidade }} </td>
+          <td>{{ medicamento.observacoes }} </td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+          <div class="w-25 p-3">
+            <button class="btn btn-primary col-lg-12" routerLink="/labmedication/cadastro-medicamento"><i class="bi bi-search"></i>Editar Medicamentos</button>
+          </div>
+        </div>
+        </div>
+        <div class="dietas">
+          <h4>Dietas</h4>
+          <hr class="mb-1">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nome da dieta</th>
+          <th scope="col">Data</th>
+          <th scope="col">Horário</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dieta of dietas">
+          <td><strong>{{ dieta.nome }} </strong></td>
+          <td><strong>{{ dieta.data }} </strong></td>
+          <td><strong>{{ dieta.horario }} </strong></td>
+          <td>{{ dieta.tipo }} </td>
+          <td>{{ dieta.descricao }} </td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+          <div class="w-25 p-3">
+            <button class="btn btn-primary col-lg-12" routerLink="/labmedication/cadastro-dieta"><i class="bi bi-search"></i>Editar Dietas</button>
+          </div>
+        </div>
+        </div>
+        <div class="exercicios">
+          <h4>Exercícios</h4>
+          <hr class="mb-1">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nome do Exercício</th>
+          <th scope="col">Data</th>
+          <th scope="col">Horário</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Quantidade por semana</th>
+          <th scope="col">Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let exercicio of exercicios">
+          <td><strong>{{ exercicio.nome }} </strong></td>
+          <td><strong>{{ exercicio.data }} </strong></td>
+          <td><strong>{{ exercicio.horario }} </strong></td>
+          <td>{{ exercicio.tipo }} </td>
+          <td>{{ exercicio.quantidadePorSemana }} </td>
+          <td>{{ exercicio.descricao }} </td>
+        </tr>
+        </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+          <div class="w-25 p-3">
+            <button class="btn btn-primary col-lg-12" routerLink="/labmedication/cadastro-exercicio"><i class="bi bi-search"></i>Editar Exercícios</button>
+          </div>
+        </div>
+        </div>
+</section>
+
