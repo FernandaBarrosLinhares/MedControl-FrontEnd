@@ -4,21 +4,23 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { IDieta } from 'src/app/interfaces/IDieta';
 import { DietaService } from 'src/app/services/dieta/dieta.service';
+import { PacienteService } from 'src/app/services/paciente/paciente.service';
 
 @Component({
-  selector: 'app-cadastro-dietas',
-  templateUrl: './cadastro-dietas.component.html',
-  styleUrls: ['./cadastro-dietas.component.css'],
+  selector: 'app-cadastro-dieta',
+  templateUrl: './cadastro-dieta.component.html',
+  styleUrls: ['./cadastro-dieta.component.css'],
 })
 export class CadastroDietaComponent implements OnInit {
   formDieta: any = FormGroup;
   dieta: any;
   dietaId: number = 0;
-  pacientes: any = [{ id: 2, nome: 'Ana Paula' }];
+  pacientes: any = [];
   dietaRetorno: any = {};
 
   constructor(
     private service: DietaService,
+    private pacienteService: PacienteService,
     private router: Router,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute
@@ -57,7 +59,7 @@ export class CadastroDietaComponent implements OnInit {
   async ngOnInit() {
     this.dietaRetorno = await this.service.buscarDieta();
     console.log(this.dietaRetorno);
-    //this.pacientes = await this.service.buscarTodosPacientes();
+    this.pacientes = await this.pacienteService.buscarPaciente();
     const params = await firstValueFrom(this.route.queryParams);
 
     if (params['id']) {
@@ -103,7 +105,7 @@ export class CadastroDietaComponent implements OnInit {
       this.dietaRetorno = await this.service.editarDieta(dieta, this.dietaId);
       this.router.navigate(['/']);
     } else {
-      this. dietaRetorno = await this.service.cadastrarDieta(dieta);
+      this.dietaRetorno = await this.service.cadastrarDieta(dieta);
       this.dieta = this.dietaRetorno;
       this.router.navigate(['/']);
     }
