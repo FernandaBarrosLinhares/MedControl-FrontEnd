@@ -9,12 +9,15 @@ import IPaciente from 'src/app/interfaces/IPaciente';
 })
 export class PacienteService {
 
-  pacientes:IPaciente[]=[];
-  
-  constructor(private http:HttpClient,
-    private toastr: ToastrService) { }
   urlBase = 'http://localhost:4200/api/pacientes';
   urlBaseEndereco = 'http://localhost:4200/api/enderecos'
+  pacientes:IPaciente[]=[];
+  
+  constructor(
+    private http:HttpClient,
+    private toastr: ToastrService
+  ) { }
+
   async buscarPaciente(){
     try{
       this.pacientes = await lastValueFrom(this.http.get<IPaciente[]>(`${this.urlBase}`));
@@ -28,11 +31,10 @@ export class PacienteService {
     }
     return this.pacientes;
   }
-// TODO mudar a logica do usuario logado quando fizer o login
+
   async cadastrarPaciente(paciente:IPaciente){
-    //let usuarioLogado = localStorage.getItem("USUARIOLOGADO");
-    //console.log(usuarioLogado);
-    let headers = new HttpHeaders().set('idUsuarioLogado','1');
+    let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado") || '');
+    let headers = new HttpHeaders().set('idUsuarioLogado', usuarioLogado?.id);
     try{
       const response = await firstValueFrom(this.http.post<any>(`${this.urlBase}`,paciente,{headers:headers}));
       this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
@@ -47,9 +49,8 @@ export class PacienteService {
     }
   }
   async atualizarPaciente(paciente:IPaciente,pacienteId:number){
-    //let usuarioLogado = localStorage.getItem("USUARIOLOGADO");
-    //console.log(usuarioLogado);
-    let headers = new HttpHeaders().set('idUsuarioLogado','1');
+    let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado") || '');
+    let headers = new HttpHeaders().set('idUsuarioLogado', usuarioLogado?.id);
     try{
       let response = await firstValueFrom(this.http.put<any>(`${this.urlBase}/${pacienteId}`,paciente,{headers:headers}));
       this.toastr.success('Atualizado com sucesso','Atualizado');
