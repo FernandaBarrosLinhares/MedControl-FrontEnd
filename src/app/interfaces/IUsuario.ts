@@ -1,10 +1,10 @@
 export interface IUsuario{
   id?: number,
-  nome: string,
+  nomeCompleto: string,
   genero: string,
   cpf: string,
   telefone: string,
   email: string,
   senha: string,
-  tipo: string
+  tipoUsuario: string
 }
