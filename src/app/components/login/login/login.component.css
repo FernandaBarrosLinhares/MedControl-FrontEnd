@@ -1,0 +1,18 @@
+.container {
+	padding-top: 10rem;
+}
+
+.flex-buttons {
+	display: flex;
+	gap: 1rem;
+	align-items: end;
+}
+
+dialog[type="modal"] {
+	border: 0;
+	border-radius: 5px;
+}
+
+dialog::backdrop {
+	background-color: rgba(0 0 0 / 50%);
+}
