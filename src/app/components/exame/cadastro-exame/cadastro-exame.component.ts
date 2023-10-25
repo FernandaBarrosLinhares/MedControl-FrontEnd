@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import IExame from 'src/app/interfaces/IExame';
-import { ExameService } from 'src/app/services/exame.service';
+import { ExameService } from 'src/app/services/exame/exame.service';
 
 @Component({
   selector: 'app-cadastro-exame',
@@ -13,7 +13,7 @@ import { ExameService } from 'src/app/services/exame.service';
 export class CadastroExameComponent implements OnInit {
   formExame: any = FormGroup;
   pacientes: any = [];
-	exameId: number  = 0;
+  exameId: number = 0;
   exame: any;
 
   constructor(
@@ -64,8 +64,8 @@ export class CadastroExameComponent implements OnInit {
   }
 
   async ngOnInit() {
-		this.pacientes = await this.service.buscarTodosPacientes();
-		const params = await firstValueFrom(this.route.queryParams);
+    this.pacientes = await this.service.buscarTodosPacientes();
+    const params = await firstValueFrom(this.route.queryParams);
 
     if (params['id']) {
       this.exameId = Number(params['id']);
@@ -75,8 +75,8 @@ export class CadastroExameComponent implements OnInit {
         this.exameId = 0;
         this.router.navigate(['/cadastro-exame']);
         return;
-      } 
-      
+      }
+
       this.formExame.setValue({
         nome: this.exame.nome,
         data: this.convertBdDateToInputDate(this.exame.data),
@@ -86,12 +86,12 @@ export class CadastroExameComponent implements OnInit {
         urlDocumento: this.exame.url_documento,
         resultado: this.exame.resultado,
         status: this.exame.status,
-        paciente: this.exame.paciente.id
+        paciente: this.exame.paciente.id,
       });
     } else {
       this.formExame.get('status').disable();
     }
-	}
+  }
 
   async onSubmit() {
     let data = this.formExame.get('data').value;
@@ -115,12 +115,11 @@ export class CadastroExameComponent implements OnInit {
     } else {
       await this.service.salvar(exame);
     }
-
   }
 
   deletar() {
     this.service.excluir(this.exameId);
-    this.router.navigate(["/"]);
+    this.router.navigate(['/labmedication/']);
   }
 
   convertInputDateToBdDate(data: string): string {
