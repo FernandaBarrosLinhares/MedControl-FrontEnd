@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import IExame from '../interfaces/IExame';
+import IExame from '../../interfaces/IExame';
 
 @Injectable({
   providedIn: 'root',
@@ -28,9 +28,8 @@ export class ExameService {
 
   async buscarPorId(id: number) {
     return await lastValueFrom(
-      this.httpClient
-      .get(`${this.urlBase}/${id}`))
-      .catch(e => {
+      this.httpClient.get(`${this.urlBase}/${id}`)
+    ).catch((e) => {
       console.log(e.error);
       return null;
     });
