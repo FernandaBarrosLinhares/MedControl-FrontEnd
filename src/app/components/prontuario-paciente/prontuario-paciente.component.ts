@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PacienteService } from './../../services/paciente/paciente.service';
+import { Component, OnInit } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import IConsulta from 'src/app/interfaces/IConsulta';
 import { IDieta } from 'src/app/interfaces/IDieta';
 import IExame from 'src/app/interfaces/IExame';
@@ -10,30 +13,46 @@ import { ExameService } from 'src/app/services/exame.service';
 import { ExercicioService } from 'src/app/services/exercicio.service';
 import { MedicamentosService } from 'src/app/services/medicamento/medicamentos.service';
 
-
-
 @Component({
   selector: 'app-prontuario-paciente',
   templateUrl: './prontuario-paciente.component.html',
-  styleUrls: ['./prontuario-paciente.component.css']
+  styleUrls: ['./prontuario-paciente.component.css'],
 })
 export class ProntuarioPacienteComponent implements OnInit {
   paciente: any = {};
-  consultas: IConsulta[] = [];
-  exames: IExame[] = [];
-  medicamentos: IMedicamentos[] = [];
-  dietas: IDieta[] = [];
-  exercicios: IExercicio[] = [];
+  consultas: any = [];
+  exames: any = [];
+  medicamentos: any = [];
+  dietas: any = [];
+  exercicios: any = [];
   pacienteId = 0;
 
-  constructor(private consultaService: ConsultaService, private exameService: ExameService, private medicamentoService: MedicamentosService, private dietaservice: DietaService, private exercicioService: ExercicioService) {
-
-  }
-
+  constructor(
+    private pacienteService: PacienteService,
+    private consultaService: ConsultaService,
+    private exameService: ExameService,
+    private medicamentoService: MedicamentosService,
+    private dietaservice: DietaService,
+    private exercicioService: ExercicioService,
+    private rotaAtiva: ActivatedRoute,
+    private router: Router
+  ) {}
 
   async ngOnInit() {
-    this.consultas = await this.consultaService.buscarPorId(this.pacienteId);
-    this.exames = await this.exameService.buscarPorId(this.pacienteId);
-    this.medicamentos = await this.medicamentoService.buscarPorId(this.pacienteId);
-    this.dietas = await this.dietaservice.buscarDietaId(this.pacienteId);
-    this.exercicios = await this.exercicioService.buscarPorId(this.pacienteId);
+    const params = await firstValueFrom(this.rotaAtiva.queryParams);
+      this.pacienteId = Number(params['id']);
+      this.paciente = await this.pacienteService.buscarPacientePorId(
+        this.pacienteId
+      );
+      this.consultas = await this.consultaService.buscarPorId(this.pacienteId);
+      this.exames = await this.exameService.buscarPorId(this.pacienteId);
+      this.medicamentos = await this.medicamentoService.buscarPorId(
+        this.pacienteId
+      );
+      this.dietas = await this.dietaservice.buscarDietaId(this.pacienteId);
+      this.exercicios = await this.exercicioService.buscarPorId(
+        this.pacienteId
+      );
+    }
+  }
+
