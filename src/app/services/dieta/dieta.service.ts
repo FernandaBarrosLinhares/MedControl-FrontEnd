@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { IDieta } from '../interfaces/IDieta';
+import { IDieta } from 'src/app/interfaces/IDieta';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +45,5 @@ export class DietaService {
     } catch (e){
       throw new Error("Erro ao deletar Dieta!")
     }
-}
+  }
 }
