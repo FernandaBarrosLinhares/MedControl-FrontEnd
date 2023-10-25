@@ -1,4 +1,4 @@
-import { ExercicioService } from './../../../services/exercicio.service';
+import { ExercicioService } from '../../../services/exercicio/exercicio.service';
 import { Component } from '@angular/core';
 import IPaciente from 'src/app/interfaces/IPaciente';
 import { PacienteService } from 'src/app/services/paciente/paciente.service';
@@ -6,14 +6,12 @@ import { PacienteService } from 'src/app/services/paciente/paciente.service';
 @Component({
   selector: 'app-estatisticas',
   templateUrl: './estatisticas.component.html',
-  styleUrls: ['./estatisticas.component.css']
+  styleUrls: ['./estatisticas.component.css'],
 })
 export class EstatisticasComponent {
-
-  isAdmin: boolean = true
+  isAdmin: boolean = true;
   filtro: string = '';
-  pacientes: IPaciente[] = [] 
-
+  pacientes: IPaciente[] = [];
 
   //TODO arrumar quando o endpoint de estatistica estiver pronto
 
@@ -24,34 +22,97 @@ export class EstatisticasComponent {
   dietas: number = 3432;
   exercicios: number = 40234;
 
-
-  constructor(private pacienteService: PacienteService, private exercicioService: ExercicioService) {}
-
+  constructor(
+    private pacienteService: PacienteService,
+    private exercicioService: ExercicioService
+  ) {}
 
   //TODO arrumar os campos que aparecerão na tela
   usuarios = [
-    { nome: 'Isaque', telefone: '99123140', idade: '14 anos', convenio: 'Unimed' },
-    { nome: 'Fernanda', telefone: '999337232', idade: '30 anos', convenio: 'Unimed' },
-    { nome: 'Eduardo', telefone: '999927431', idade: '25 anos', convenio: 'Unimed' },
-    { nome: 'Geovani', telefone: '987462936', idade: '27 anos', convenio: 'Unimed' },
-    { nome: 'Isaque', telefone: '99123140', idade: '14 anos', convenio: 'Unimed' },
-    { nome: 'Fernanda', telefone: '999337232', idade: '30 anos', convenio: 'Unimed' },
-    { nome: 'Eduardo', telefone: '999927431', idade: '25 anos', convenio: 'Unimed' },
-    { nome: 'Geovani', telefone: '987462936', idade: '27 anos', convenio: 'Unimed' },
-    { nome: 'Isaque', telefone: '99123140', idade: '14 anos', convenio: 'Unimed' },
-    { nome: 'Fernanda', telefone: '999337232', idade: '30 anos', convenio: 'Unimed' },
-    { nome: 'Eduardo', telefone: '999927431', idade: '25 anos', convenio: 'Unimed' },
-    { nome: 'Geovani', telefone: '987462936', idade: '27 anos', convenio: 'Unimed' },
-  ]
-  
+    {
+      nome: 'Isaque',
+      telefone: '99123140',
+      idade: '14 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Fernanda',
+      telefone: '999337232',
+      idade: '30 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Eduardo',
+      telefone: '999927431',
+      idade: '25 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Geovani',
+      telefone: '987462936',
+      idade: '27 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Isaque',
+      telefone: '99123140',
+      idade: '14 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Fernanda',
+      telefone: '999337232',
+      idade: '30 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Eduardo',
+      telefone: '999927431',
+      idade: '25 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Geovani',
+      telefone: '987462936',
+      idade: '27 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Isaque',
+      telefone: '99123140',
+      idade: '14 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Fernanda',
+      telefone: '999337232',
+      idade: '30 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Eduardo',
+      telefone: '999927431',
+      idade: '25 anos',
+      convenio: 'Unimed',
+    },
+    {
+      nome: 'Geovani',
+      telefone: '987462936',
+      idade: '27 anos',
+      convenio: 'Unimed',
+    },
+  ];
+
   ngOnInit() {
-    this.buscarTodosPacientes()
+    this.buscarTodosPacientes();
   }
 
   async buscarPacientes() {
-    if(this.filtro != '') {
+    if (this.filtro != '') {
       try {
-        this.pacientes = await this.pacienteService.buscarPacienteComFiltro(this.filtro);
+        this.pacientes = await this.pacienteService.buscarPacienteComFiltro(
+          this.filtro
+        );
       } catch (error) {
         console.error(error);
       }
