@@ -1,39 +1,47 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { UsuariosService } from '../usuario/usuario.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { lastValueFrom } from 'rxjs';
 import { IUsuario } from 'src/app/interfaces/IUsuario';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  urlEventEmitter = new EventEmitter();
 
-  constructor(private usuarioService: UsuariosService) { }
+
+  constructor(
+    private httpClient: HttpClient, 
+    private router: Router, 
+    private toastr: ToastrService
+  ) { }
 
   async login(email: string, senha: string) {
-    const usuarios = await this.usuarioService.buscarUsuarios();
-    for(const usuario of usuarios){
-      const emailCorreto = email === usuario.email;
-      const senhaCorreta = senha === usuario.senha;
-      if (emailCorreto && senhaCorreta){
-        localStorage.setItem("usuario", JSON.stringify(usuario));
-        return;
+    try{
+      const usuarioLogado = await lastValueFrom(this.httpClient.post('http://localhost:4200/api/usuarios/login', {email, senha}));
+      console.log(usuarioLogado);
+      this.router.navigate(['labmedication']);
+      localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao logar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao logar');
       }
     }
-
-    throw new Error ("Invalidas!")
   }
 
   obterNomeUsuarioLogado() {
-    const usuarioString = localStorage.getItem("usuario");
+    const usuarioString = localStorage.getItem("usuarioLogado");
     if (usuarioString === null) return;
     const usuarioLogado = <IUsuario>JSON.parse(usuarioString);
-    const nome = usuarioLogado.nome;
+    const nome = usuarioLogado.nomeCompleto;
     return nome?.substring(0, nome?.indexOf(' '));
   }
 
   idUsuarioLogado() {
-    const usuarioString = localStorage.getItem("usuario");
+    const usuarioString = localStorage.getItem("usuarioLogado");
     if (usuarioString === null) return;
     const usuarioLogado = <IUsuario>JSON.parse(usuarioString);
     const id = usuarioLogado.id;
@@ -41,16 +49,11 @@ export class LoginService {
   }
 
   logado() {
-    const usuario = localStorage.getItem("usuario");
+    const usuario = localStorage.getItem("usuarioLogado");
     return usuario !== null;
   }
 
   logout() {
-    localStorage.removeItem("usuario");
-  }
-
-  mudouURL(url: string) {
-    const urlAtual = url.split('/')[2];
-    this.urlEventEmitter.emit(urlAtual);
+    localStorage.removeItem("usuarioLogado");
   }
 }

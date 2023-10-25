@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/services/login/login.service';
+import { UrlService } from 'src/app/services/url/url.service';
 
 @Component({
   selector: 'app-principal-layout',
@@ -11,13 +11,16 @@ export class PrincipalLayoutComponent implements OnInit{
   isProntuario: boolean = false;
 
   constructor(private router: Router) {
-    inject(LoginService).urlEventEmitter.subscribe(url => {
-      this.isProntuario = url.includes('prontuarios');
-    })
+    inject(UrlService).urlEventEmitter.subscribe(url => {
+      this.setIsProntuario(url);
+    });
   }
   
   ngOnInit(): void {
-    const url = this.router.url.split('/')[2];
+    this.setIsProntuario(this.router.url);
+  }
+
+  setIsProntuario(url: string) {
     this.isProntuario = url.includes('prontuarios');
   }
 }
