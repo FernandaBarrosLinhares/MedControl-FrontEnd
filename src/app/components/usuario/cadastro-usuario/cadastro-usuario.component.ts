@@ -11,7 +11,7 @@ import { UsuariosService } from 'src/app/services/usuario/usuario.service';
   styleUrls: ['./cadastro-usuario.component.css'],
 })
 export class CadastroUsuarioComponent implements OnInit {
-  formulariocadastro: any = FormGroup;
+  formularioCadastro: any = FormGroup;
   usuario: any;
   usuarioId: number = 0;
   mensagemCadastro: string = '';
@@ -22,8 +22,8 @@ export class CadastroUsuarioComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute
   ) {
-    this.formulariocadastro = this.fb.group({
-      nome: [
+    this.formularioCadastro = this.fb.group({
+      nomeCompleto: [
         '',
         [
           Validators.required,
@@ -36,7 +36,8 @@ export class CadastroUsuarioComponent implements OnInit {
       telefone: ['', [Validators.required, Validators.minLength(11)]],
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required, Validators.minLength(8)]],
-      tipo: ['', Validators.required],
+      tipoUsuario: ['', [Validators.required]],
+      status: [true, [Validators.required]],
     });
   }
   async ngOnInit() {
@@ -50,43 +51,46 @@ export class CadastroUsuarioComponent implements OnInit {
         this.router.navigate(['/cadastro-usuario']);
         return;
       }
-      this.formulariocadastro.setValue({
-        nome: this.usuario.nome,
+      this.formularioCadastro.setValue({
+        nomeCompleto: this.usuario.nomeCompleto,
         genero: this.usuario.genero,
         cpf: this.usuario.cpf,
         telefone: this.usuario.telefone,
         email: this.usuario.email,
-        senha: this.usuario.senha,
-        tipo: this.usuario.tipo,
+        senha: 'SOU_UMA_SENHA_DE_EXEMPLO_SÓ_PRA_NÂO_DEIXAR_O_INPUT_VAZIO',
+        tipoUsuario: this.usuario.tipoUsuario,
+        status: this.usuario.status
       });
+      this.formularioCadastro.get('senha').disable();
     } else {
-      this.formulariocadastro.get('status').disable();
+      this.formularioCadastro.get('status').disable();
     }
   }
 
   async cadastroUsuario() {
     const usuario: IUsuario = {
-      nomeCompleto: this.formulariocadastro.get('nome')?.value,
-      genero: this.formulariocadastro.get('genero')?.value,
-      cpf: this.formulariocadastro.get('cpf')?.value,
-      telefone: this.formulariocadastro.get('telefone')?.value,
-      email: this.formulariocadastro.get('email')?.value,
-      senha: this.formulariocadastro.get('senha')?.value,
-      tipoUsuario: this.formulariocadastro.get('tipo')?.value,
+      nomeCompleto: this.formularioCadastro.get('nomeCompleto')?.value,
+      genero: this.formularioCadastro.get('genero')?.value,
+      cpf: this.formularioCadastro.get('cpf')?.value,
+      telefone: this.formularioCadastro.get('telefone')?.value,
+      email: this.formularioCadastro.get('email')?.value,
+      senha: this.formularioCadastro.get('senha')?.value,
+      tipoUsuario: this.formularioCadastro.get('tipoUsuario')?.value,
+      status: this.formularioCadastro.get('status')?.value,
     };
 
     if (this.usuarioId) {
       usuario.id = this.usuarioId;
       await this.usuarioService.editarUsuario(usuario);
-      this.router.navigate(['/']);
+      this.router.navigate(['/labmedication']);
     } else {
       await this.usuarioService.cadastrarUsuario(usuario);
-      this.router.navigate(['/']);
+      this.router.navigate(['/labmedication']);
     }
   }
 
   deletarUsuario() {
     this.usuarioService.deletarUsuario(this.usuarioId);
-    this.router.navigate(['/']);
+    this.router.navigate(['/labmedication']);
   }
 }

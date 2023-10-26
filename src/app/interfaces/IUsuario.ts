@@ -6,5 +6,6 @@ export interface IUsuario{
   telefone: string,
   email: string,
   senha: string,
-  tipoUsuario: string
+  tipoUsuario: string,
+  status: boolean
 }

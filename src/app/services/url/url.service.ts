@@ -14,36 +14,17 @@ export class UrlService {
   }
 
   definirTituloPagina(url: string) {
-    console.log(url);
-    let titulo = '';
-    switch(url) {
-      case '/labmedication':
-        titulo = 'Início';
-        break;
-      case '/labmedication/cadastro-consulta':
-        titulo = 'Cadastro de consulta';
-        break;
-      case '/labmedication/cadastro-dieta':
-        titulo = 'Cadastro de dieta';
-        break;
-      case '/labmedication/cadastro-exame':
-        titulo = 'Cadastro de exame';
-        break;
-      case '/labmedication/cadastro-exercicio':
-        titulo = 'Cadastro de exercício';
-        break;
-      case '/labmedication/cadastro-medicamento':
-        titulo = 'Cadastro de medicamento';
-        break;
-      case '/labmedication/cadastro-paciente':
-        titulo = 'Cadastro de paciente';
-        break;
-      case '/labmedication/cadastro-usuario':
-        titulo = 'Cadastro de usuário';
-        break;
-      default:
-        titulo = 'Página não encontrada';
-    }
-    return titulo;
+    let str = url.includes('?id=') ? 'Edição de' : 'Cadastro de';
+
+    if (url == '/labmedication') return 'Início';
+    if (url.includes('/labmedication/cadastro-consulta')) return `${str} consulta`;
+    if (url.includes('/labmedication/cadastro-dieta')) return `${str} dieta`;
+    if (url.includes('/labmedication/cadastro-exame')) return `${str} exame`;
+    if (url.includes('/labmedication/cadastro-exercicio')) return `${str} exercício`;
+    if (url.includes('/labmedication/cadastro-medicamento')) return `${str} medicamento`;
+    if (url.includes('/labmedication/cadastro-paciente')) return `${str} paciente`;
+    if (url.includes('/labmedication/cadastro-usuario')) return `${str} usuário`;
+    if (url.includes('/labmedication/cadastro-usuario')) return `${str} usuário`;
+    return 'Página não encontrada';
   }
 }

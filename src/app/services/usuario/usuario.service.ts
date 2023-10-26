@@ -21,23 +21,33 @@ export class UsuariosService {
   ) { }
 
   async cadastrarUsuario(usuario: IUsuario){
-    const id  = this.loginService.idUsuarioLogado();
-    if (id === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${id}`);
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
     try{
-      return await lastValueFrom (this.httpClient.post(this.API_USUARIOS, usuario, {headers}));
+      const response = await lastValueFrom (this.httpClient.post(this.API_USUARIOS, usuario, {headers}));
+      this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
+      return response;
     } catch (e){
       throw new Error("Erro ao cadastrar Usuário!")
     }
   }
 
   buscarUsuarios() {
-    return lastValueFrom (this.httpClient.get<IUsuario[]>(this.API_USUARIOS))
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
+    return lastValueFrom (this.httpClient.get<IUsuario[]>(this.API_USUARIOS, {headers}))
   }
 
   async buscarUsuarioId(id: number) {
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
     try{
-      return await lastValueFrom (this.httpClient.get(this.API_USUARIOS + '/' + id));
+      return await lastValueFrom (this.httpClient.get(this.API_USUARIOS + '/' + id, {headers}));
     } catch (e: any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -49,9 +59,13 @@ export class UsuariosService {
   }
 
   async buscarUsuarioPorEmail(email: string) {
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
     try {
       console.log(this.API_USUARIOS + '/buscarPorEmail?email=' + email);
-      return await lastValueFrom(this.httpClient.get<IUsuario>(this.API_USUARIOS + '/buscarPorEmail?email=' + email))
+      return await lastValueFrom(this.httpClient.get<IUsuario>(this.API_USUARIOS + '/buscarPorEmail?email=' + email, {headers}))
     } catch (e: any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -63,8 +77,12 @@ export class UsuariosService {
   }
 
   async buscarUsuarioComFiltro(fltro:string){
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
     try{
-      return await lastValueFrom(this.httpClient.get<any>(`${this.API_USUARIOS}/listagem/${fltro}`));
+      return await lastValueFrom(this.httpClient.get<any>(`${this.API_USUARIOS}/listagem/${fltro}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -76,8 +94,12 @@ export class UsuariosService {
   }
 
   async resetarSenha(id: number, email: string, senha: string) {
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
     try {
-      await lastValueFrom(this.httpClient.patch(this.API_USUARIOS + '/resetarsenha', {id, email, senha}))
+      await lastValueFrom(this.httpClient.patch(this.API_USUARIOS + '/resetarsenha', {id, email, senha}, {headers}))
       this.toastr.success('Senha alterada com sucesso','Alterado');
     } catch (e: any){
       if(e.error[0].mensagem){
@@ -89,8 +111,14 @@ export class UsuariosService {
   }
 
   async editarUsuario(usuario: IUsuario){
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
     try{
-      return await lastValueFrom (this.httpClient.put(`${this.API_USUARIOS}/${usuario.id}`, usuario));
+      const response = await lastValueFrom (this.httpClient.put(`${this.API_USUARIOS}/${usuario.id}`, usuario, {headers}));
+      this.toastr.success('Atualizado com sucesso','Atualizado');
+      return response;
     } catch (e: any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao editar Usuário! ao Buscar');
@@ -102,8 +130,13 @@ export class UsuariosService {
   }
   
   async deletarUsuario(id: number){
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
     try{
-      return await lastValueFrom (this.httpClient.delete(this.API_USUARIOS + '/' + id));
+      const response = await lastValueFrom (this.httpClient.delete(this.API_USUARIOS + '/' + id, {headers}));
+      this.toastr.success('Cadastro Deletado com sucesso','Deletado');
+      return response;
     } catch (e: any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao deletar Usuário!');
