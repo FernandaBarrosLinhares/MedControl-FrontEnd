@@ -1,7 +1,12 @@
-import { ExercicioService } from '../../../services/exercicio/exercicio.service';
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import IEstatistica from 'src/app/interfaces/IEstatistica';
 import IPaciente from 'src/app/interfaces/IPaciente';
+import { IUsuario } from 'src/app/interfaces/IUsuario';
+import { EstatisticaService } from 'src/app/services/estatisticas/estatistica.service';
+import { LoginService } from 'src/app/services/login/login.service';
 import { PacienteService } from 'src/app/services/paciente/paciente.service';
+import { UsuariosService } from 'src/app/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-estatisticas',
@@ -9,126 +14,82 @@ import { PacienteService } from 'src/app/services/paciente/paciente.service';
   styleUrls: ['./estatisticas.component.css'],
 })
 export class EstatisticasComponent {
-  isAdmin: boolean = true;
-  filtro: string = '';
+  isAdmin: boolean = false;
   pacientes: IPaciente[] = [];
-
-  //TODO arrumar quando o endpoint de estatistica estiver pronto
-
-  pacientesCadastrados: number = 45123;
-  consultasRealizadas: number = 54423;
-  exames: number = 54333;
-  medicacoes: number = 3324;
-  dietas: number = 3432;
-  exercicios: number = 40234;
+  usuarios: IUsuario[] = [];
+  formUsuario: FormGroup;
+  formPaciente: FormGroup;
+  estatisticas: IEstatistica = {
+    numPacientes: 0,
+    numExames: 0,
+    numExercicios: 0,
+    numConsultas: 0,
+    numMedicamentos: 0,
+    numDietas: 0,
+  };
 
   constructor(
     private pacienteService: PacienteService,
-    private exercicioService: ExercicioService
-  ) {}
-
-  //TODO arrumar os campos que aparecerão na tela
-  usuarios = [
-    {
-      nome: 'Isaque',
-      telefone: '99123140',
-      idade: '14 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Fernanda',
-      telefone: '999337232',
-      idade: '30 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Eduardo',
-      telefone: '999927431',
-      idade: '25 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Geovani',
-      telefone: '987462936',
-      idade: '27 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Isaque',
-      telefone: '99123140',
-      idade: '14 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Fernanda',
-      telefone: '999337232',
-      idade: '30 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Eduardo',
-      telefone: '999927431',
-      idade: '25 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Geovani',
-      telefone: '987462936',
-      idade: '27 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Isaque',
-      telefone: '99123140',
-      idade: '14 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Fernanda',
-      telefone: '999337232',
-      idade: '30 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Eduardo',
-      telefone: '999927431',
-      idade: '25 anos',
-      convenio: 'Unimed',
-    },
-    {
-      nome: 'Geovani',
-      telefone: '987462936',
-      idade: '27 anos',
-      convenio: 'Unimed',
-    },
-  ];
-
-  ngOnInit() {
-    this.buscarTodosPacientes();
+    private usuarioService: UsuariosService,
+    private loginService: LoginService,
+    private estatisticaService: EstatisticaService,
+    private fb: FormBuilder
+  ) {
+    this.formUsuario = this.fb.group({
+      filtro: ['', []],
+    });
+    this.formPaciente = this.fb.group({
+      filtro: ['', []],
+    });
+    this.isAdmin =
+      this.loginService.obterTipoUsuarioLogado() == 'ADMINISTRADOR';
   }
 
-  async buscarPacientes() {
-    if (this.filtro != '') {
-      try {
-        this.pacientes = await this.pacienteService.buscarPacienteComFiltro(
-          this.filtro
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    }
+  async ngOnInit() {
+    await this.buscarTodosPacientes();
+    await this.buscarTodosUsuarios();
+    this.estatisticas = await this.estatisticaService.buscarEstatisticas();
   }
 
-  //TODO buscar do service de paciente quando corrigido
+  async buscarTodosUsuarios() {
+    const usuarios = await this.usuarioService.buscarUsuarios();
+    if (usuarios == null) return;
+    this.usuarios = usuarios;
+  }
+
   async buscarTodosPacientes() {
-    try {
-      this.pacientes = await this.exercicioService.buscarTodosPacientes();
-    } catch (error) {
-      console.error(error);
-    }
+    const pacientes = await this.pacienteService.buscarPaciente();
+    if (pacientes == null) return;
+    this.pacientes = pacientes;
   }
 
-  //TODO terminar quando tiver o service de Usuário
-  buscarTodosUsuarios() {}
-  buscarUsuarios() {}
+  async onInputUsuario() {
+    await this.filtrarUsuarios();
+  }
+
+  async onInputPaciente() {
+    await this.filtrarPacientes();
+  }
+
+  async filtrarUsuarios() {
+    if (this.formUsuario.get('filtro')?.value == '') return;
+    this.usuarios = await this.usuarioService.buscarUsuarioComFiltro(
+      this.formUsuario.get('filtro')?.value
+    );
+  }
+
+  async filtrarPacientes() {
+    if (this.formPaciente.get('filtro')?.value == '') return;
+    this.pacientes = await this.pacienteService.buscarPacienteComFiltro(
+      this.formPaciente.get('filtro')?.value
+    );
+  }
+
+  exibirTelefone(telefone: string) {
+    return this.pacienteService.converterTelefoneToView(telefone);
+  }
+
+  obterIdadePaciente(paciente: IPaciente) {
+    return this.pacienteService.calcularIdadePaciente(paciente);
+  }
 }

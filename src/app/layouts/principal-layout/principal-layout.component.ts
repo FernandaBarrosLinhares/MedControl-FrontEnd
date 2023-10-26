@@ -8,7 +8,7 @@ import { UrlService } from 'src/app/services/url/url.service';
   styleUrls: ['./principal-layout.component.css']
 })
 export class PrincipalLayoutComponent implements OnInit{
-  isProntuario: boolean = false;
+  formatoMaior: boolean = false;
 
   constructor(private router: Router) {
     inject(UrlService).urlEventEmitter.subscribe(url => {
@@ -21,6 +21,6 @@ export class PrincipalLayoutComponent implements OnInit{
   }
 
   setIsProntuario(url: string) {
-    this.isProntuario = url.includes('prontuarios');
+    this.formatoMaior = url.includes('prontuarios') || url == "/labmedication";
   }
 }
