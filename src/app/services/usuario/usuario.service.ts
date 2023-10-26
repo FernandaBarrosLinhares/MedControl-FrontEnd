@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
 import { IUsuario } from 'src/app/interfaces/IUsuario';
+import { LoginService } from '../login/login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,18 @@ export class UsuariosService {
 
   private readonly API_USUARIOS =  'http://localhost:4200/api/usuarios'
 
-  constructor(private httpClient: HttpClient, private toastr: ToastrService) { }
+  constructor(
+    private httpClient: HttpClient, 
+    private toastr: ToastrService, 
+    private loginService: LoginService
+  ) { }
 
   async cadastrarUsuario(usuario: IUsuario){
+    const id  = this.loginService.idUsuarioLogado();
+    if (id === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${id}`);
     try{
-      return await lastValueFrom (this.httpClient.post(this.API_USUARIOS, usuario));
+      return await lastValueFrom (this.httpClient.post(this.API_USUARIOS, usuario, {headers}));
     } catch (e){
       throw new Error("Erro ao cadastrar Usuário!")
     }
@@ -45,6 +53,19 @@ export class UsuariosService {
       console.log(this.API_USUARIOS + '/buscarPorEmail?email=' + email);
       return await lastValueFrom(this.httpClient.get<IUsuario>(this.API_USUARIOS + '/buscarPorEmail?email=' + email))
     } catch (e: any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Buscar');
+      }
+      return null;
+    }
+  }
+
+  async buscarUsuarioComFiltro(fltro:string){
+    try{
+      return await lastValueFrom(this.httpClient.get<any>(`${this.API_USUARIOS}/listagem/${fltro}`));
+    }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
       }else if(e.error){
@@ -91,5 +112,9 @@ export class UsuariosService {
       }
       return null;
     }
+  }
+
+  converterTelefoneToView(telefone: string) {
+    return `(${telefone.substring(0, 2)}) ${telefone.substring(2, 7)} - ${telefone.substring(7)}`
   }
 }

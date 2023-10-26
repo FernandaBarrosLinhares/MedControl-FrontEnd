@@ -119,12 +119,13 @@ export class PacienteService {
     return idade;
   }
 
+  
+  converterTelefoneToView(telefone: string) {
+    return `(${telefone.substring(0, 2)}) ${telefone.substring(2, 7)} - ${telefone.substring(7)}`
+  }
+  
   converterDataBdToDate(data: string) {
     let dataSub = data.split('/');
     return new Date(`${dataSub[1]}/${dataSub[0]}/${dataSub[2]}`);
-  }
-
-  converterTelefoneToView(telefone: string) {
-    return `(${telefone.substring(0, 2)}) ${telefone.substring(2, 7)} - ${telefone.substring(7)}`
   }
 }
