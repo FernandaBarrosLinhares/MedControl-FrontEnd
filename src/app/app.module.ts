@@ -23,6 +23,7 @@ import { ProntuariosComponent } from './components/prontuairo/prontuarios/prontu
 
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProntuarioPacienteComponent } from './components/prontuario-paciente/prontuario-paciente.component';
 
 @NgModule({
 	declarations: [
@@ -38,7 +39,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   	LoginLayoutComponent,
 	  EstatisticasComponent,
     LoginComponent,
-    ProntuariosComponent
+    ProntuariosComponent,
+    ProntuarioPacienteComponent
 	],
 	imports: [
 		BrowserModule,
