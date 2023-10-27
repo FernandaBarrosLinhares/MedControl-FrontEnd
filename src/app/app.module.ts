@@ -19,6 +19,7 @@ import { EstatisticasComponent } from './components/estatisticas/estatisticas/es
 import { LoginComponent } from './components/login/login/login.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { ProntuariosComponent } from './components/prontuairo/prontuarios/prontuarios.component';
+import { ProntuarioPacienteComponent } from './components/prontuairo/prontuario-paciente/prontuario-paciente.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
@@ -44,6 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EstatisticasComponent,
     LoginComponent,
     ProntuariosComponent,
+    ProntuarioPacienteComponent,
   ],
   imports: [
     BrowserModule,
