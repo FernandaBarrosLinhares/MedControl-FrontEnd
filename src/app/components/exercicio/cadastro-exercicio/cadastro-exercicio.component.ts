@@ -44,7 +44,7 @@ export class CadastroExercicioComponent implements OnInit {
         ],
       ],
       paciente: ['', [Validators.required]],
-      tipo: ['', [Validators.required]],
+      tipoExercicioEnum: ['', [Validators.required]],
       status: [true, [Validators.required]],
       quantidadePorSemana: ['', [Validators.required]],
     });
@@ -52,7 +52,7 @@ export class CadastroExercicioComponent implements OnInit {
 
   deletar() {
     this.service.excluir(this.exercicioId);
-    this.router.navigate(['/']);
+    this.router.navigate(['/labmedication']);
   }
 
   convertInputDateToBdDate(data: string): string {
@@ -71,7 +71,7 @@ export class CadastroExercicioComponent implements OnInit {
     let exercicio: IExercicio = {
       nome: this.formExercicio.get('nome')?.value,
       data: this.convertInputDateToBdDate(data),
-      tipoExercicioEnum: this.formExercicio.get('tipo')?.value,
+      tipoExercicioEnum: this.formExercicio.get('tipoExercicioEnum')?.value,
       quantidadePorSemana: this.formExercicio.get('quantidadePorSemana').value,
       horario: this.formExercicio.get('horario')?.value,
       descricao: this.formExercicio.get('descricao')?.value,
@@ -92,13 +92,13 @@ export class CadastroExercicioComponent implements OnInit {
     this.pacientes = await this.pacienteService.buscarPacientes();
     const params = await firstValueFrom(this.route.queryParams);
 
-    if (params['id']) {
+    if (params['id'] !== undefined) {
       this.exercicioId = Number(params['id']);
 
       this.exercicio = await this.service.buscarPorId(this.exercicioId);
       if (this.exercicio == null) {
         this.exercicioId = 0;
-        this.router.navigate(['/cadastro-exericicio']);
+        this.router.navigate(['/labmedication']);
         return;
       }
 
@@ -106,7 +106,7 @@ export class CadastroExercicioComponent implements OnInit {
         nome: this.exercicio.nome,
         data: this.convertBdDateToInputDate(this.exercicio.data),
         horario: this.exercicio.horario,
-        tipo: this.exercicio.tipo,
+        tipoExercicioEnum: this.exercicio.tipoExercicioEnum,
         descricao: this.exercicio.descricao,
         quantidadePorSemana: this.exercicio.quantidadePorSemana,
         status: this.exercicio.status,

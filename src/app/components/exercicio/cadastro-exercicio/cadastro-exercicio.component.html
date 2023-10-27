@@ -48,7 +48,8 @@
 				</div>
 				<div class="col-lg-3">
 					<label for="tipo">Tipo de exercício</label>
-					<select name="tipo" class="form-control" id="tipo" formControlName="tipo">
+					<select name="tipo" class="form-control" id="tipo" formControlName="tipoExercicioEnum">
+            <option value="" selected disabled>Selecione</option>
 						<option value="RESISTENCIA_AEROBICA">Resistência Aeróbica</option>
 						<option value="RESISTENCIA_MUSCULAR">Resistência Muscular</option>
 						<option value="FLEXIBILIDADE">Flexibilidade</option>
@@ -56,8 +57,8 @@
 						<option value="AGILIDADE">Agilidade</option>
 						<option value="OUTRO">Outro</option>
 					</select>
-					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('tipo').touched">
-						<p class="mb-0" *ngIf="formExercicio.get('tipo')?.errors?.['required']">Campo não pode ser vázio</p>
+					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('tipoExercicioEnum').touched">
+						<p class="mb-0" *ngIf="formExercicio.get('tipoExercicioEnum')?.errors?.['required']">Campo não pode ser vázio</p>
 					</div>
 				</div>
 				<div class="col-lg-3">
@@ -82,7 +83,7 @@
 			<div class="col-lg-6m-auto text-center">
 				<div class="col-sm-9 col-lg-6 col-md-6 m-auto text-center">
 					<button type="submit" class="btn me-3" [ngClass]="{'btn-success': exercicioId == 0, 'btn-primary': exercicioId > 0}" [disabled]="formExercicio.invalid">{{ exercicioId ? 'Salvar' :'Cadastrar'}}</button>
-					<button type="button" class="btn btn-danger me-3" (click)="deletar()" *ngIf="exercicioId">Excluir exame</button>
+					<button type="button" class="btn btn-danger me-3" (click)="deletar()" *ngIf="exercicioId">Excluir exercício</button>
 				</div>
 			</div>
 		</div>
