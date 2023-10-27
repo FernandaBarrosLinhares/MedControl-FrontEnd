@@ -21,9 +21,8 @@ export class UsuariosService {
   ) { }
 
   async cadastrarUsuario(usuario: IUsuario){
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
       const response = await lastValueFrom (this.httpClient.post(this.API_USUARIOS, usuario, {headers}));
       this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
@@ -34,17 +33,13 @@ export class UsuariosService {
   }
 
   buscarUsuarios() {
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     return lastValueFrom (this.httpClient.get<IUsuario[]>(this.API_USUARIOS, {headers}))
   }
 
   async buscarUsuarioId(id: number) {
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
       return await lastValueFrom (this.httpClient.get(this.API_USUARIOS + '/' + id, {headers}));
@@ -59,9 +54,10 @@ export class UsuariosService {
   }
 
   async buscarUsuarioPorEmail(email: string) {
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try {
-      console.log(this.API_USUARIOS + '/buscarPorEmail?email=' + email);
-      return await lastValueFrom(this.httpClient.get<IUsuario>(this.API_USUARIOS + '/buscarPorEmail?email=' + email))
+      return await lastValueFrom(this.httpClient.get<IUsuario>(this.API_USUARIOS + '/buscarPorEmail?email=' + email, {headers}))
     } catch (e: any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -73,9 +69,7 @@ export class UsuariosService {
   }
 
   async buscarUsuariosComFiltro(fltro:string){
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
       return await lastValueFrom(this.httpClient.get<any>(`${this.API_USUARIOS}/listagem/${fltro}`, {headers}));
@@ -90,9 +84,7 @@ export class UsuariosService {
   }
 
   async resetarSenha(id: number, email: string, senha: string) {
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try {
       await lastValueFrom(this.httpClient.patch(this.API_USUARIOS + '/resetarSenha', {id, email, senha}, {headers}))
@@ -107,9 +99,7 @@ export class UsuariosService {
   }
 
   async editarUsuario(usuario: IUsuario){
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
       const response = await lastValueFrom (this.httpClient.put(`${this.API_USUARIOS}/${usuario.id}`, usuario, {headers}));
@@ -126,9 +116,8 @@ export class UsuariosService {
   }
   
   async deletarUsuario(id: number){
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
       const response = await lastValueFrom (this.httpClient.delete(this.API_USUARIOS + '/' + id, {headers}));
       this.toastr.success('Cadastro Deletado com sucesso','Deletado');

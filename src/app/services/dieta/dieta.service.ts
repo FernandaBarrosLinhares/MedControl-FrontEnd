@@ -20,7 +20,7 @@ export class DietaService {
   ) { }
 
   async cadastrarDieta(dieta: IDieta){
-    const headers = this.getHeaders()
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
       const response =  await lastValueFrom (this.httpClient.post(this.API_DIETA, dieta, {headers}));
@@ -37,8 +37,10 @@ export class DietaService {
   }
 
   async buscarDietas() {
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      this.dietas = await lastValueFrom(this.httpClient.get<IDieta[]>(`${this.API_DIETA}`));
+      this.dietas = await lastValueFrom(this.httpClient.get<IDieta[]>(`${this.API_DIETA}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -51,8 +53,10 @@ export class DietaService {
   }
 
   async buscarDietaId(id: number) {
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try {
-      return await lastValueFrom(this.httpClient.get(`${this.API_DIETA}/${id}`));
+      return await lastValueFrom(this.httpClient.get(`${this.API_DIETA}/${id}`, {headers}));
     } catch (e: any) {
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -64,7 +68,7 @@ export class DietaService {
   }
 
   async editarDieta(dieta: IDieta, dietaId: number){
-    const headers = this.getHeaders();
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
       let response = await firstValueFrom(this.httpClient.put<any>(`${this.API_DIETA}/${dietaId}`,dieta,{headers}));
@@ -80,7 +84,7 @@ export class DietaService {
     }
   }
   async deletarDieta(id: number){
-    const headers = this.getHeaders();
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try {   
       const response = await lastValueFrom(
@@ -95,11 +99,5 @@ export class DietaService {
       }
       return null;
     }
-  }
-
-  getHeaders() {
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    return new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
   }
 }

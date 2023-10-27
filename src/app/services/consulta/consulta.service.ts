@@ -19,8 +19,10 @@ export class ConsultaService {
   ) {}
 
   async buscarTodos() {
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      this.consultas = await lastValueFrom(this.httpClient.get<IConsulta[]>(`${this.urlBase}`));
+      this.consultas = await lastValueFrom(this.httpClient.get<IConsulta[]>(`${this.urlBase}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -33,8 +35,10 @@ export class ConsultaService {
   }
 
   async buscarPorId(id: number) {
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try {
-      return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`));
+      return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`, {headers}));
     } catch (e: any) {
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -46,9 +50,7 @@ export class ConsultaService {
   }
 
   async salvar(consulta: IConsulta) {
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try {
       const response =  await lastValueFrom(
@@ -67,9 +69,7 @@ export class ConsultaService {
   }
 
   async editar(consulta: IConsulta, consultaId: number) {
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
       let response = await firstValueFrom(this.httpClient.put<any>(`${this.urlBase}/${consultaId}`,consulta,{headers:headers}));
@@ -86,9 +86,7 @@ export class ConsultaService {
   }
 
   async excluir(id: number) {
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try {   
       const response = await lastValueFrom(

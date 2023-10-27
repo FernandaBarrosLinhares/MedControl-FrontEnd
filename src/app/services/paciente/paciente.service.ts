@@ -21,8 +21,10 @@ export class PacienteService {
   ) { }
 
   async buscarPacientes(){
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      this.pacientes = await lastValueFrom(this.http.get<IPaciente[]>(`${this.urlBase}`));
+      this.pacientes = await lastValueFrom(this.http.get<IPaciente[]>(`${this.urlBase}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -35,12 +37,10 @@ export class PacienteService {
   }
 
   async cadastrarPaciente(paciente:IPaciente){
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
-      const response = await firstValueFrom(this.http.post<any>(`${this.urlBase}`,paciente,{headers:headers}));
+      const response = await firstValueFrom(this.http.post<any>(`${this.urlBase}`, paciente, {headers}));
       this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
       return response;
     }catch(e:any){
@@ -53,12 +53,10 @@ export class PacienteService {
     }
   }
   async atualizarPaciente(paciente:IPaciente,pacienteId:number){
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
-      let response = await firstValueFrom(this.http.put<any>(`${this.urlBase}/${pacienteId}`,paciente,{headers:headers}));
+      let response = await firstValueFrom(this.http.put<any>(`${this.urlBase}/${pacienteId}`,paciente,{headers}));
       this.toastr.success('Atualizado com sucesso','Atualizado');
       return response;
     }catch(e:any){
@@ -72,8 +70,10 @@ export class PacienteService {
   }
 
   async buscarPacientePorId(id:number){
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/${id}`));
+      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/${id}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -85,12 +85,10 @@ export class PacienteService {
   }
 
   async deletarPaciente(id:number){
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
     
     try{
-      await firstValueFrom(this.http.delete<any>(`${this.urlBase}/${id}`,{headers:headers}));
+      await firstValueFrom(this.http.delete<any>(`${this.urlBase}/${id}`,{headers}));
       this.toastr.success('Cadastro Deletado com sucesso','Deletado');
       return true;
     }catch(e:any){
@@ -104,8 +102,10 @@ export class PacienteService {
   }
 
   async buscarPacientesComFiltro(fltro:string){
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/listagem/${fltro}`));
+      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/listagem/${fltro}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');

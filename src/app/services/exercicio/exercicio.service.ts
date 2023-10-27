@@ -18,8 +18,10 @@ export class ExercicioService {
     ) {}
 
   async buscarTodos() {
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      this.exercicios = await lastValueFrom(this.httpClient.get<IExercicio[]>(`${this.urlBase}`));
+      this.exercicios = await lastValueFrom(this.httpClient.get<IExercicio[]>(`${this.urlBase}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -32,8 +34,10 @@ export class ExercicioService {
   }
 
   async buscarPorId(id: number) {
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try {
-      return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`));
+      return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`, {headers}));
     } catch (e: any) {
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -45,9 +49,7 @@ export class ExercicioService {
   }
 
   async salvar(exercicio: IExercicio) {
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try {
       const response =  await lastValueFrom(
@@ -66,12 +68,10 @@ export class ExercicioService {
   }
 
   async editar(exercicio: IExercicio,exercicioId: number) {
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
-      let response = await firstValueFrom(this.httpClient.put<any>(`${this.urlBase}/${exercicioId}`,exercicio,{headers:headers}));
+      let response = await firstValueFrom(this.httpClient.put<any>(`${this.urlBase}/${exercicioId}`,exercicio,{headers}));
       this.toastr.success('Atualizado com sucesso','Atualizado');
       return response;
     }catch(e:any){
@@ -85,9 +85,7 @@ export class ExercicioService {
   }
 
   async excluir(id: number) {
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try {
       const response = await lastValueFrom(

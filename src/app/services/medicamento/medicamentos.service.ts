@@ -19,8 +19,10 @@ export class MedicamentosService {
   ) { }
 
   async buscarTodos() {
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try {
-      this.medicamentos = await lastValueFrom(this.httpClient.get<IMedicamentos[]>(`${this.urlBase}`));
+      this.medicamentos = await lastValueFrom(this.httpClient.get<IMedicamentos[]>(`${this.urlBase}`, {headers}));
     } catch (e: any) {
       if (e.error[0].mensagem) {
         this.toastr.error(e.error[0].mensagem, 'Erro ao Buscar');
@@ -33,8 +35,10 @@ export class MedicamentosService {
   }
 
   async buscarPorId(id: number) {
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try {
-      return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`));
+      return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`, {headers}));
     } catch (e: any) {
       if (e.error[0].mensagem) {
         this.toastr.error(e.error[0].mensagem, 'Erro ao Buscar');
@@ -47,17 +51,7 @@ export class MedicamentosService {
   }
 
   async salvar(consulta: IMedicamentos) {
-    // try {
-    //   return await lastValueFrom(
-    //     this.httpClient.post(`${this.urlBase}`, consulta)
-    //   );
-    // } catch (e) {
-    //   return e;
-    // }
-
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try {
       const response =  await lastValueFrom(
@@ -76,9 +70,7 @@ export class MedicamentosService {
   }
 
   async editar(medicamento: IMedicamentos,exercicioId:number) {
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try{
       let response = await firstValueFrom(this.httpClient.put<any>(`${this.urlBase}/${exercicioId}`,medicamento,{headers:headers}));
@@ -95,10 +87,7 @@ export class MedicamentosService {
   }
 
   async excluir(id: number) {
-    await this.httpClient.delete(`${this.urlBase}/${id}`);
-    const idUsuarioLogado = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    const headers = this.loginService.obterHeadersUsuarioLogado();
 
     try {
       const response = await lastValueFrom(

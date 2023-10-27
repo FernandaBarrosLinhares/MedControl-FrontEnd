@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -44,6 +44,12 @@ export class LoginService {
     if (usuarioString === null) return;
     const usuarioLogado = <IUsuario>JSON.parse(usuarioString);
     return usuarioLogado.tipoUsuario;
+  }
+
+  obterHeadersUsuarioLogado() {
+    const idUsuarioLogado  = this.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    return new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
   }
 
   idUsuarioLogado() {
