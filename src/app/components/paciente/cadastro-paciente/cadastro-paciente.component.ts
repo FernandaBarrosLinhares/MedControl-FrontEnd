@@ -69,11 +69,9 @@ export class CadastroPacienteComponent implements OnInit {
       this.paciente.validadeConvenio = this.convertBdDateToInputDateConvenio(this.paciente.validadeConvenio);
       this.formPaciente.patchValue(this.paciente);
       this.formPaciente.patchValue(this.paciente.endereco);
-      this.formPaciente.get('estadoCivil').setValue(this.selectEstadoCivil(this.paciente.estadoCivil));
-      this.formPaciente.get('genero').setValue(this.selectGenero(this.paciente.genero));
+      this.formPaciente.get('estadoCivil').setValue(this.paciente.estadoCivil);
+      this.formPaciente.get('genero').setValue(this.paciente.genero);
       this.formPaciente.get('status').enable();
-      this.desablitarCpf();
-      this.desabilitarCampos();
     }else{
       this.formPaciente.get('status').disable();
     }
@@ -155,7 +153,7 @@ export class CadastroPacienteComponent implements OnInit {
       this.pacienteRetorno = await this.pacienteService.cadastrarPaciente(paciente);
       this.paciente = this.pacienteRetorno;
     }
-    this.desabilitarCampos();
+    this.router.navigate(['/labmedication']);
   }
 
   async deletar() {
@@ -163,10 +161,7 @@ export class CadastroPacienteComponent implements OnInit {
     if(!deletado){
       return;
     }
-    this.formPaciente.reset();
-    this.habilitarCampos();
-    this.habilitarCpf();
-    this.router.navigate(['/cadastro-paciente']);
+    this.router.navigate(['/labmedication']);
   }
   desablitarCpf(){
     this.formPaciente.get('cpf').disable();
@@ -220,39 +215,5 @@ export class CadastroPacienteComponent implements OnInit {
     let cepInput = cep.slice(0,5)+"-"+cep.slice(5,8)
     return cepInput;
   }
-
-  selectEstadoCivil(estadoCivil: string) {
-    switch (estadoCivil) {
-      case "SOLTEIRO":
-        return 0;
-      case "CASADO":
-        return 1;
-      case "SEPARADO":
-        return 2;
-      case "DIVORCIADO":
-        return 3;
-      case "VIUVO":
-        return 4;
-      case "UNIAO_ESTAVEL":
-        return 5;
-      default:
-        return "";
-    }
-  }
-  selectGenero(genero:string){
-    switch (genero) {
-      case "MASCULINO":
-        return 0;
-      case "FEMININO":
-        return 1;
-      case "OUTROS":
-      return 2;
-      default:
-        return"";
-    }
-  }
-
-
-
 }
 

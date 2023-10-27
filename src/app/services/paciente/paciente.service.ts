@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom, lastValueFrom} from 'rxjs';
 import IPaciente from 'src/app/interfaces/IPaciente';
+import { LoginService } from '../login/login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class PacienteService {
   
   constructor(
     private http:HttpClient,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loginService: LoginService
   ) { }
 
   async buscarPaciente(){
@@ -33,8 +35,10 @@ export class PacienteService {
   }
 
   async cadastrarPaciente(paciente:IPaciente){
-    let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado") || '');
-    let headers = new HttpHeaders().set('idUsuarioLogado', usuarioLogado?.id);
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
     try{
       const response = await firstValueFrom(this.http.post<any>(`${this.urlBase}`,paciente,{headers:headers}));
       this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
@@ -49,8 +53,10 @@ export class PacienteService {
     }
   }
   async atualizarPaciente(paciente:IPaciente,pacienteId:number){
-    let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado") || '');
-    let headers = new HttpHeaders().set('idUsuarioLogado', usuarioLogado?.id);
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
     try{
       let response = await firstValueFrom(this.http.put<any>(`${this.urlBase}/${pacienteId}`,paciente,{headers:headers}));
       this.toastr.success('Atualizado com sucesso','Atualizado');
@@ -79,7 +85,10 @@ export class PacienteService {
   }
 
   async deletarPaciente(id:number){
-    let headers = new HttpHeaders().set('idUsuarioLogado','1');
+    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+    
     try{
       await firstValueFrom(this.http.delete<any>(`${this.urlBase}/${id}`,{headers:headers}));
       this.toastr.success('Cadastro Deletado com sucesso','Deletado');
