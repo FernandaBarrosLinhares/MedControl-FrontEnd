@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import IExame from 'src/app/interfaces/IExame';
 import { ExameService } from 'src/app/services/exame/exame.service';
+import { PacienteService } from 'src/app/services/paciente/paciente.service';
 
 @Component({
   selector: 'app-cadastro-exame',
@@ -19,6 +20,7 @@ export class CadastroExameComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private service: ExameService,
+    private pacienteService: PacienteService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -64,16 +66,16 @@ export class CadastroExameComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.pacientes = await this.service.buscarTodosPacientes();
+    this.pacientes = await this.pacienteService.buscarPacientes();
     const params = await firstValueFrom(this.route.queryParams);
 
-    if (params['id']) {
+    if (params['id'] !== undefined) {
       this.exameId = Number(params['id']);
 
       this.exame = await this.service.buscarPorId(this.exameId);
       if (this.exame == null) {
         this.exameId = 0;
-        this.router.navigate(['/cadastro-exame']);
+        this.router.navigate(['/labmedication']);
         return;
       }
 
@@ -119,7 +121,7 @@ export class CadastroExameComponent implements OnInit {
 
   deletar() {
     this.service.excluir(this.exameId);
-    this.router.navigate(['/labmedication/']);
+    this.router.navigate(['/labmedication']);
   }
 
   convertInputDateToBdDate(data: string): string {
