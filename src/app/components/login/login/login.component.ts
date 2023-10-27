@@ -24,13 +24,13 @@ export class LoginComponent {
   ) {
     this.formLogin = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(8)]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
     });
 
     this.formResetSenha = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(8)]],
-      repetirSenha: ['', [Validators.required, Validators.minLength(8), ]]
+      senha: ['', [Validators.required, Validators.minLength(6)]],
+      repetirSenha: ['', [Validators.required, Validators.minLength(6), ]]
     },{ 
       validators: [ConfirmarSenha.confirmarSenhaValidations] 
     });
