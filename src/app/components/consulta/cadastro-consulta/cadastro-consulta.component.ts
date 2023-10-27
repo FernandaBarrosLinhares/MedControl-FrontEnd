@@ -3,132 +3,143 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import IConsulta from 'src/app/interfaces/IConsulta';
+import IMedicamentos from 'src/app/interfaces/IMedicamentos';
+import IPaciente from 'src/app/interfaces/IPaciente';
+import { IUsuario } from 'src/app/interfaces/IUsuario';
 import { ConsultaService } from 'src/app/services/consulta/consulta.service';
-
+import { MedicamentosService } from 'src/app/services/medicamento/medicamentos.service';
+import { PacienteService } from 'src/app/services/paciente/paciente.service';
+import { UsuariosService } from 'src/app/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-cadastro-consulta',
   templateUrl: './cadastro-consulta.component.html',
-  styleUrls: ['./cadastro-consulta.component.css']
+  styleUrls: ['./cadastro-consulta.component.css'],
 })
-export class CadastroConsultaComponent implements OnInit{
-
+export class CadastroConsultaComponent implements OnInit {
   formConsulta: any = FormGroup;
-	pacientes: any = [];
-	consultaId: number  = 0;
+  pacientes: IPaciente[] = [];
+  usuarios: IUsuario[] = [];
+  medicamentos: IMedicamentos[] = [];
+  consultaId: number = 0;
   consulta: any;
 
-
-	constructor(
+  constructor(
     private fb: FormBuilder,
+    private pacienteService: PacienteService,
+    private usuarioService: UsuariosService,
+    private medicamentoService: MedicamentosService,
     private service: ConsultaService,
     private route: ActivatedRoute,
     private router: Router
-     ) {
-		this.formConsulta = this.fb.group({
-			nome: ['', [Validators.required, Validators.maxLength(64), Validators.minLength(8)]],
-			data: ['', [Validators.required]],
-			horario: ['', [Validators.required]],
-			descricao: ['', [Validators.required, Validators.maxLength(1024), Validators.minLength(16)]],
-			medicacao: ['' ],
-      dosagem: ['', [Validators.required, Validators.maxLength(256), Validators.minLength(16)]],
-			paciente: ['', [Validators.required]],
-			status: [true, [Validators.required]]
-		});
-	}
+  ) {
+    this.formConsulta = this.fb.group({
+      motivo: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(64),
+          Validators.minLength(8),
+        ],
+      ],
+      data: ['', [Validators.required]],
+      horario: ['', [Validators.required]],
+      descricao: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(1024),
+          Validators.minLength(16),
+        ],
+      ],
+      dosagensPrecaucoes: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(256),
+          Validators.minLength(16),
+        ],
+      ],
+      paciente: ['', [Validators.required]],
+      usuario: ['', [Validators.required]],
+      medicamento: ['', []],
+      status: [true, [Validators.required]],
+    });
+  }
 
   async ngOnInit() {
-		this.pacientes = await this.service.buscarTodosPacientes();
-		const params = await firstValueFrom(this.route.queryParams);
+    this.pacientes = (await this.pacienteService.buscarPacientes()) || [];
+    this.usuarios = (await this.usuarioService.buscarUsuarios()) || [];
+    this.medicamentos = (await this.medicamentoService.buscarTodos()) || [];
 
-    if (params['id']) {
+    const params = await firstValueFrom(this.route.queryParams);
+
+    if (params['id'] !== undefined) {
       this.consultaId = Number(params['id']);
 
       this.consulta = await this.service.buscarPorId(this.consultaId);
       if (this.consulta == null) {
         this.consultaId = 0;
-        this.router.navigate(['/cadastro-consulta']);
+        this.router.navigate(['/labmedication']);
         return;
       }
 
       this.formConsulta.setValue({
-        nome: this.consulta.nome,
+        motivo: this.consulta.motivo,
         data: this.convertBdDateToInputDate(this.consulta.data),
         horario: this.consulta.horario,
         descricao: this.consulta.descricao,
-        dosagem: this.consulta.dosagem,
+        dosagensPrecaucoes: this.consulta.dosagensPrecaucoes,
         status: this.consulta.status,
-        paciente: this.consulta.paciente.id
+        paciente: this.consulta.paciente.id,
+        usuario: this.consulta.usuario.id,
+        medicamento: this.consulta.medicamento.id,
       });
     } else {
       this.formConsulta.get('status').disable();
     }
-	}
+  }
 
   async onSubmit() {
     let data = this.formConsulta.get('data').value;
 
     let consulta: IConsulta = {
-
-      nome: this.formConsulta.get('nome')?.value,
+      motivo: this.formConsulta.get('motivo')?.value,
       data: this.convertInputDateToBdDate(data),
       horario: this.formConsulta.get('horario')?.value,
       descricao: this.formConsulta.get('descricao')?.value,
-      dosagem: this.formConsulta.get('dosagem')?.value,
-      medicacao:this.formConsulta.get('medicacao')?.value,
+      dosagensPrecaucoes: this.formConsulta.get('dosagensPrecaucoes')?.value,
       status: this.formConsulta.get('status')?.value,
       paciente: {
         id: this.formConsulta.get('paciente')?.value,
       },
+      usuario: {
+        id: this.formConsulta.get('usuario')?.value,
+      },
+      medicamento: {
+        id: this.formConsulta.get('medicamento')?.value,
+      },
     };
     if (this.consultaId) {
-      consulta.id = this.consultaId;
-      await this.service.editar(consulta);
+      await this.service.editar(consulta, this.consultaId);
     } else {
       await this.service.salvar(consulta);
     }
-
+    this.router.navigate(['/labmedication']);
   }
-	// ngAfterViewInit(): void {
-	// 	const checkbox: HTMLElement | null = document.getElementById('status');
-	// 	if (checkbox == null) return;
-	// 	checkbox.setAttribute('disabled', 'true');
-	// }
 
-	// cadastrar() {
-	// 	this.service.salvar(this.formConsulta.value);
+  async deletar() {
+    await this.service.excluir(this.consultaId);
+    this.router.navigate(['/labmedication']);
+  }
 
-	// 	let consulta = this.formConsulta.value;
-	// 	let data = this.formConsulta.get('data').value;
-	// 	consulta.data = this.convertInputDateToBdDate(data);
+  convertInputDateToBdDate(data: string): string {
+    let dataArray = data.split('-');
+    return `${dataArray[2]}/${dataArray[1]}/${dataArray[0]}`;
+  }
 
-	// 	consulta.paciente = {id: this.formConsulta.get('paciente').value};
-	// 	this.service.salvar(consulta);
-	// }
-
-	deletar() {
-
-    this.service.excluir(this.consultaId);
-    this.router.navigate(["/"]);
-		// this.storagePacientes.deletarPaciente('PACIENTES', this.form.value);
-		// this.formPaciente.resetForm();
-		// this.mensagem = 'Paciente excluido';
-		// this.formPaciente.disabled;
-		// this.limparMensagens();
-
-	}
-	// editar() {
-	// 	// this.form.enable();
-	// }
-
-	convertInputDateToBdDate(data: string): string {
-		let dataArray = data.split('-');
-		return `${dataArray[2]}/${dataArray[1]}/${dataArray[0]}`;
-	}
-
-	convertBdDateToInputDate(data: string): string {
-		let dataArray = data.split('-');
-		return `${dataArray[2]}-${dataArray[1]}-${dataArray[0]}`;
-	}
-
+  convertBdDateToInputDate(data: string): string {
+    let dataArray = data.split('/');
+    return `${dataArray[2]}-${dataArray[1]}-${dataArray[0]}`;
+  }
 }

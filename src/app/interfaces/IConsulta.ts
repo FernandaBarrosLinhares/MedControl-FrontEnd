@@ -1,13 +1,18 @@
 export default interface IConsulta {
 	id?: number,
-	nome: string,
+	motivo: string,
 	data: string,
 	horario: string,
 	descricao: string,
-	medicacao:string,
-	dosagem: string,
+	dosagensPrecaucoes: string,
 	status: boolean,
   paciente: {
-    id:number
-  }
+    id: number
+  },
+	usuario: {
+		id: number
+	},
+	medicamento: {
+		id: number
+	}
 }

@@ -15,7 +15,7 @@ export class MedicamentosService {
 
   async buscarTodos() {
 		return lastValueFrom(
-      this.httpClient.get('http://localhost:4200/api/medicamentos')
+      this.httpClient.get<IMedicamentos[]>('http://localhost:4200/api/medicamentos')
       );
 	}
 

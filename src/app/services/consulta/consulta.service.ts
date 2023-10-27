@@ -1,56 +1,107 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 import IConsulta from 'src/app/interfaces/IConsulta';
+import { LoginService } from '../login/login.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConsultaService {
+  urlBase = 'http://localhost:4200/api/consultas';
+  consultas: IConsulta[] = [];
 
-  urlBase = 'http://localhost:8080/api/consultas';
-  consultas:IConsulta[] =[]
-
-  constructor(private httpClient: HttpClient) { }
-
-  // TODO apagar abaixo quando tiver o service de paciente
-  async buscarTodosPacientes() {
-    return lastValueFrom(
-      this.httpClient.get('http://localhost:4200/api/pacientes')
-      );
-  }
-
+  constructor(
+    private httpClient: HttpClient,
+    private loginService: LoginService,
+    private toastr: ToastrService
+  ) {}
 
   async buscarTodos() {
-		return lastValueFrom(
-      this.httpClient.get('http://localhost:4200/api/consultas')
-      );
-	}
-
-	async buscarPorId(id: number) {
     try{
-		return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`));
-	}    catch (error) {
-        return null;
+      this.consultas = await lastValueFrom(this.httpClient.get<IConsulta[]>(`${this.urlBase}`));
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Buscar');
+      }
+      return null;
+    }
+    return this.consultas;
   }
 
-  }
-
-	async salvar(consulta: IConsulta) {
+  async buscarPorId(id: number) {
     try {
-      return await lastValueFrom(
-        this.httpClient.post(`${this.urlBase}`, consulta)
-	    );
-   } catch (e) {
-    return e;
-   }
+      return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`));
+    } catch (e: any) {
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Buscar');
+      }
+      return null;
+    }
   }
 
-	async editar(consulta: IConsulta) {
-		return await this.httpClient.put(`${this.urlBase}/${consulta.id}`, consulta);
-	}
+  async salvar(consulta: IConsulta) {
+    const idUsuarioLogado = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
 
-	async excluir(id: number) {
-		await this.httpClient.delete(`${this.urlBase}/${id}`);
-	}
+    try {
+      const response =  await lastValueFrom(
+        this.httpClient.post(`${this.urlBase}`, consulta, { headers })
+      );
+      this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
+      return response;
+    } catch (e: any) {
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao cadastrar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao cadastrar');
+      }
+      return e;
+    }
+  }
+
+  async editar(consulta: IConsulta, consultaId: number) {
+    const idUsuarioLogado = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
+    try{
+      let response = await firstValueFrom(this.httpClient.put<any>(`${this.urlBase}/${consultaId}`,consulta,{headers:headers}));
+      this.toastr.success('Atualizado com sucesso','Atualizado');
+      return response;
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Atualizar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Atualizar');
+      }
+      return e;
+    }
+  }
+
+  async excluir(id: number) {
+    const idUsuarioLogado = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
+
+    try {   
+      const response = await lastValueFrom(
+        this.httpClient.delete(`${this.urlBase}/${id}`, { headers }));
+        this.toastr.success('Cadastro Deletado com sucesso','Deletado');
+      return response;
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Deltar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Deletar');
+      }
+      return null;
+    }
+  }
 }
