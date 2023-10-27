@@ -59,13 +59,9 @@ export class UsuariosService {
   }
 
   async buscarUsuarioPorEmail(email: string) {
-    const idUsuarioLogado  = this.loginService.idUsuarioLogado();
-    if (idUsuarioLogado === undefined) return;
-    let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
-
     try {
       console.log(this.API_USUARIOS + '/buscarPorEmail?email=' + email);
-      return await lastValueFrom(this.httpClient.get<IUsuario>(this.API_USUARIOS + '/buscarPorEmail?email=' + email, {headers}))
+      return await lastValueFrom(this.httpClient.get<IUsuario>(this.API_USUARIOS + '/buscarPorEmail?email=' + email))
     } catch (e: any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -99,7 +95,7 @@ export class UsuariosService {
     let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
 
     try {
-      await lastValueFrom(this.httpClient.patch(this.API_USUARIOS + '/resetarsenha', {id, email, senha}, {headers}))
+      await lastValueFrom(this.httpClient.patch(this.API_USUARIOS + '/resetarSenha', {id, email, senha}, {headers}))
       this.toastr.success('Senha alterada com sucesso','Alterado');
     } catch (e: any){
       if(e.error[0].mensagem){
