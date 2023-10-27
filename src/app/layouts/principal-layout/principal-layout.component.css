@@ -2,10 +2,12 @@
 	display: grid;
 	grid-template-rows: 56px 1fr;
 }
-/* 
+
 app-navbar {
-	grid-column: span 2;
-} */
+	position: fixed;
+	inset: 0 0 auto 0;
+	z-index: 10;
+}
 
 .container-fluid {
 	background-color: #eee;
