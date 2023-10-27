@@ -1,6 +1,6 @@
 <section class="container">
   <h3>Prontuário:</h3>
-  <h5> {{ paciente }} </h5>
+  <h5> {{ paciente.nomeCompleto }} </h5>
   <hr class="mb-1">
   <table class="table">
       <thead>
@@ -14,10 +14,10 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ paciente.nomecompleto }} </td>
+          <td>{{ paciente.nomeCompleto }} </td>
           <td>{{ paciente.convenio }} </td>
           <td>{{ paciente.contatoEmergencia }} </td>
-          <td>{{ paciente.alergia }} </td>
+          <td>{{ paciente.alergias }} </td>
           <td>{{ paciente.cuidadosEspecificos }}</td>
         </tr>
         </tbody>
