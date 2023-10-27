@@ -2,7 +2,6 @@ import { IExercicio } from '../../interfaces/IExercicio';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
-import IPaciente from '../../interfaces/IPaciente';
 import { LoginService } from '../login/login.service';
 import { ToastrService } from 'ngx-toastr';
 
