@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 import IExame from '../../interfaces/IExame';
+import { ToastrService } from 'ngx-toastr';
+import { LoginService } from '../login/login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,46 +12,96 @@ export class ExameService {
   urlBase = 'http://localhost:4200/api/exames';
   exames: IExame[] = [];
 
-  constructor(private httpClient: HttpClient) {}
-
-  // TODO apagar abaixo quando tiver o service de paciente
-  async buscarTodosPacientes() {
-    return await lastValueFrom(
-      this.httpClient.get('http://localhost:4200/api/pacientes')
-    );
-  }
+  constructor(
+    private loginService: LoginService,
+    private toastr: ToastrService, 
+    private httpClient: HttpClient
+  ) {}
 
   async buscarTodos() {
-    this.exames = await lastValueFrom(
-      this.httpClient.get<IExame[]>(this.urlBase)
-    );
+    try{
+      this.exames = await lastValueFrom(this.httpClient.get<IExame[]>(`${this.urlBase}`));
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Buscar');
+      }
+      return null;
+    }
     return this.exames;
   }
 
   async buscarPorId(id: number) {
-    return await lastValueFrom(
-      this.httpClient.get(`${this.urlBase}/${id}`)
-    ).catch((e) => {
-      console.log(e.error);
+    try {
+      return await lastValueFrom(this.httpClient.get(`${this.urlBase}/${id}`));
+    } catch (e: any) {
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Buscar');
+      }
       return null;
-    });
+    }
   }
 
   async salvar(exame: IExame) {
+    const headers = this.getHeaders();
+
     try {
-      return await lastValueFrom(
-        this.httpClient.post(`${this.urlBase}`, exame)
+      const response =  await lastValueFrom(
+        this.httpClient.post(`${this.urlBase}`, exame, { headers })
       );
-    } catch (e) {
+      this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
+      return response;
+    } catch (e: any) {
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao cadastrar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao cadastrar');
+      }
       return e;
     }
   }
 
   async editar(exame: IExame) {
-    return await this.httpClient.put(`${this.urlBase}/${exame.id}`, exame);
+    const headers = this.getHeaders();
+    
+    try{
+      let response = await firstValueFrom(this.httpClient.put<any>(`${this.urlBase}/${exame.id}`,exame,{headers:headers}));
+      this.toastr.success('Atualizado com sucesso','Atualizado');
+      return response;
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Atualizar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Atualizar');
+      }
+      return e;
+    }
   }
 
   async excluir(id: number) {
-    await this.httpClient.delete(`${this.urlBase}/${id}`);
+    const headers = this.getHeaders();
+
+    try {   
+      const response = await lastValueFrom(
+        this.httpClient.delete(`${this.urlBase}/${id}`, { headers }));
+        this.toastr.success('Cadastro Deletado com sucesso','Deletado');
+      return response;
+    }catch(e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Deltar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Deletar');
+      }
+      return null;
+    }
+  }
+
+  getHeaders() {
+    const idUsuarioLogado = this.loginService.idUsuarioLogado();
+    if (idUsuarioLogado === undefined) return;
+    return new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);
   }
 }
