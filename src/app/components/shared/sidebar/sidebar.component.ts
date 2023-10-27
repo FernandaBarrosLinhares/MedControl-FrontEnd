@@ -12,4 +12,8 @@ export class SidebarComponent {
   deslogar() {
     this.loginService.logout();
   }
+
+  getTipoUsuarioLogado() {
+    return this.loginService.obterTipoUsuarioLogado();
+  }
 }
