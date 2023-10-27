@@ -3,7 +3,7 @@ import { PacienteService } from '../../../services/paciente/paciente.service';
 import { Component, OnInit } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import IConsulta from 'src/app/interfaces/IConsulta';
-import { IDieta } from 'src/app/interfaces/IDieta';
+import IDieta from 'src/app/interfaces/IDieta';
 import IExame from 'src/app/interfaces/IExame';
 import { IExercicio } from 'src/app/interfaces/IExercicio';
 import IMedicamentos from 'src/app/interfaces/IMedicamentos';
