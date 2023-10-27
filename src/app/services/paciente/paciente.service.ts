@@ -20,7 +20,7 @@ export class PacienteService {
     private loginService: LoginService
   ) { }
 
-  async buscarPaciente(){
+  async buscarPacientes(){
     try{
       this.pacientes = await lastValueFrom(this.http.get<IPaciente[]>(`${this.urlBase}`));
     }catch(e:any){
@@ -103,7 +103,7 @@ export class PacienteService {
     }
   }
 
-  async buscarPacienteComFiltro(fltro:string){
+  async buscarPacientesComFiltro(fltro:string){
     try{
       return await lastValueFrom(this.http.get<any>(`${this.urlBase}/listagem/${fltro}`));
     }catch(e:any){

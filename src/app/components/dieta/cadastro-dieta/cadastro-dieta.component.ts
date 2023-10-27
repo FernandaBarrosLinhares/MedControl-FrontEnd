@@ -59,7 +59,7 @@ export class CadastroDietaComponent implements OnInit {
   async ngOnInit() {
     this.dietaRetorno = await this.service.buscarDieta();
     console.log(this.dietaRetorno);
-    this.pacientes = await this.pacienteService.buscarPaciente();
+    this.pacientes = await this.pacienteService.buscarPacientes();
     const params = await firstValueFrom(this.route.queryParams);
 
     if (params['id']) {

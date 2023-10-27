@@ -76,7 +76,7 @@ export class UsuariosService {
     }
   }
 
-  async buscarUsuarioComFiltro(fltro:string){
+  async buscarUsuariosComFiltro(fltro:string){
     const idUsuarioLogado  = this.loginService.idUsuarioLogado();
     if (idUsuarioLogado === undefined) return;
     let headers = new HttpHeaders().set('idUsuarioLogado', `${idUsuarioLogado}`);

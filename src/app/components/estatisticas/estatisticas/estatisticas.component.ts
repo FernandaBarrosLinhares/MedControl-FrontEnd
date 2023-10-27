@@ -58,7 +58,7 @@ export class EstatisticasComponent {
   }
 
   async buscarTodosPacientes() {
-    const pacientes = await this.pacienteService.buscarPaciente();
+    const pacientes = await this.pacienteService.buscarPacientes();
     if (pacientes == null) return;
     this.pacientes = pacientes;
   }
@@ -73,14 +73,14 @@ export class EstatisticasComponent {
 
   async filtrarUsuarios() {
     if (this.formUsuario.get('filtro')?.value == '') return;
-    this.usuarios = await this.usuarioService.buscarUsuarioComFiltro(
+    this.usuarios = await this.usuarioService.buscarUsuariosComFiltro(
       this.formUsuario.get('filtro')?.value
     );
   }
 
   async filtrarPacientes() {
     if (this.formPaciente.get('filtro')?.value == '') return;
-    this.pacientes = await this.pacienteService.buscarPacienteComFiltro(
+    this.pacientes = await this.pacienteService.buscarPacientesComFiltro(
       this.formPaciente.get('filtro')?.value
     );
   }
