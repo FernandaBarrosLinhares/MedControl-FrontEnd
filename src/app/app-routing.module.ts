@@ -11,6 +11,7 @@ import { CadastroUsuarioComponent } from './components/usuario/cadastro-usuario/
 import { EstatisticasComponent } from './components/estatisticas/estatisticas/estatisticas.component';
 import { LoginComponent } from './components/login/login/login.component';
 import { ProntuariosComponent } from './components/prontuairo/prontuarios/prontuarios.component';
+import { ProntuarioPacienteComponent } from './components/prontuairo/prontuario-paciente/prontuario-paciente.component';
 
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
 import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-layout.component';
@@ -69,6 +70,10 @@ const routes: Routes = [
         path: 'prontuarios',
         component: ProntuariosComponent,
       },
+      {
+        path: 'prontuarios/paciente',
+        component: ProntuarioPacienteComponent
+      }
     ],
   },
 ];

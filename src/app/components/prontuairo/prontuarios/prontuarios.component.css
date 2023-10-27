@@ -1,34 +1,71 @@
 input {
-	height: 38px;
-	width: 100%;
+  padding-left: 1rem;
+  height: 38px;
+  width: 100%;
+  border: 0;
 }
 
-form button {
-	width: 100%;
+h2,
+h3 {
+  color: var(--cor-primaria);
+}
+
+.grid-container {
+  max-height: 310px;
+  overflow-y: auto;
 }
 
 .card-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, min(300px, 100%));
-	place-content: center;
-	gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, min(300px, 100%));
+  place-content: center;
+  gap: 1rem;
+  padding-block: 1rem;
+  background-color: rgba(0 0 0 / 10%);
 }
 
 .grid {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	place-content: center;
-}
-
-@media screen and (max-width: 300px) {
-	.grid {
-		display: block;
-	}
+  display: grid;
+  grid-template-columns: auto 1fr;
+  place-content: center;
 }
 
 .bi-person {
-	display: block;
-	margin: auto;
-	text-align: center;
-	font-size: 3.5rem;
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 3.5rem;
+}
+
+@media (max-width: 300px) {
+  .grid {
+    display: block;
+  }
+
+  .card-header {
+    flex-direction: column;
+  }
+
+  .card-body {
+    flex-direction: column;
+  }
+
+  .card-body img {
+    align-self: center;
+  }
+
+  ul {
+    padding-left: 0;
+  }
+
+  li {
+    list-style-type: none;
+  }
+}
+
+@media (max-width: 575px) {
+  .ps-0,
+  .pe-0 {
+    padding: 0;
+  }
 }
