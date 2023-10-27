@@ -4,6 +4,7 @@ import { OnInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { PacienteService } from 'src/app/services/paciente/paciente.service';
 
 @Component({
   selector: 'app-cadastro-exercicio',
@@ -12,13 +13,14 @@ import { firstValueFrom } from 'rxjs';
 })
 export class CadastroExercicioComponent implements OnInit {
   formExercicio: any = FormGroup;
-  pacientes: any = [{ id: 1, nomeCompleto: 'Ana' }];
+  pacientes: any = [];
   exercicioId: number = 0;
   exercicio: any;
 
   constructor(
     private fb: FormBuilder,
     private service: ExercicioService,
+    private pacienteService:PacienteService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -80,14 +82,14 @@ export class CadastroExercicioComponent implements OnInit {
     };
     if (this.exercicioId) {
       exercicio.id = this.exercicioId;
-      await this.service.editar(exercicio);
+      await this.service.editar(exercicio,exercicio.id);
     } else {
       await this.service.salvar(exercicio);
     }
   }
 
   async ngOnInit() {
-    this.pacientes = await this.service.buscarTodosPacientes();
+    this.pacientes = await this.pacienteService.buscarPacientes();
     const params = await firstValueFrom(this.route.queryParams);
 
     if (params['id']) {
