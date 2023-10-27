@@ -38,13 +38,13 @@ export class CadastroMedicamentosComponent implements OnInit {
   async ngOnInit() {
 		const params = await firstValueFrom(this.route.queryParams);
 
-    if (params['id']) {
+    if (params['id']!== undefined) {
       this.medicamentoId = Number(params['id']);
 
       this.medicamento = await this.service.buscarPorId(this.medicamentoId);
       if (this.medicamento == null) {
         this.medicamentoId = 0;
-        this.router.navigate(['/cadastro-medicamentos']);
+        this.router.navigate(['/labmedication']);
         return;
       }
 
