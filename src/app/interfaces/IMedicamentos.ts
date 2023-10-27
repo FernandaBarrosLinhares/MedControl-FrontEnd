@@ -6,6 +6,6 @@ export default interface IMedicamentos {
   tipo: string,
 	quantidade:string,
 	unidade: string,
-  observacoes: string,
+  observacao: string,
 	status: boolean,
 }

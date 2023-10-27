@@ -32,6 +32,7 @@
 				<div class="col-lg-4">
 					<label for="tipo">Tipo de medicação</label>
           <select name="tipo" class="form-control" id="tipo" formControlName="tipo">
+            <option value="" selected disabled>Selecione</option>
             <option value="CAPSULA">Cápsula</option>
             <option value="COMPRIMIDO">Comprimido</option>
             <option value="LIQUIDO">Liquido</option>
@@ -56,6 +57,7 @@
           <div class="col-lg-4">
             <label for="unidade">Unidade medicação</label>
             <select name="unidade" class="form-control" id="unidade" formControlName="unidade">
+              <option value="" selected disabled>Selecione</option>
               <option value="MG">mg</option>
               <option value="MCG">mcg</option>
               <option value="G">g</option>
@@ -67,8 +69,8 @@
         <div class="row">
             <div class="col-sm-6 col-lg-6 col-md-4">
               <label for="observacoes" class="form-label">Observações</label>
-              <input type="text" name="observacoes" class="form-control" id="observacoes" formControlName="observacoes">
-              <div class="badge bg-danger text-wrap" *ngIf="formMedicamento.get('observacoes').touched">
+              <input type="text" name="observacoes" class="form-control" id="observacoes" formControlName="observacao">
+              <div class="badge bg-danger text-wrap" *ngIf="formMedicamento.get('observacao').touched">
                 <p class="mb-0" *ngIf="formMedicamento.get('observacoes')?.errors?.['required']">Campo não pode ser vazio</p>
                 <p class="mb-0" *ngIf="formMedicamento.get('observacoes')?.errors?.['minlength']">Mínimo 10 caracteres</p>
                 <p class="mb-0" *ngIf="formMedicamento.get('observacoes')?.errors?.['maxLength']">Máximo de 1000 caracteres</p>
@@ -94,4 +96,3 @@
 		</div>
 	</form>
 </div>
-<button type="button" (click)="mostrarFormulario()">Formulário</button>
