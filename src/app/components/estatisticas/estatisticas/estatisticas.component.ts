@@ -85,6 +85,12 @@ export class EstatisticasComponent {
     );
   }
 
+  exibirCargo(tipoUsuario: string) {
+    if (tipoUsuario === 'ADMINISTRADOR') return 'Administrador(a)';
+    if (tipoUsuario === 'MEDICO') return 'Médico(a)';
+    return 'Enfermeiro(a)';
+  }
+
   exibirTelefone(telefone: string) {
     return this.pacienteService.converterTelefoneToView(telefone);
   }

@@ -68,7 +68,7 @@
                             <div class="column"><i class="bi bi-person"></i></div>
                             <div class="column">
                                 <ul>
-                                    <li class="lowercase">{{ usuario.tipoUsuario }}</li>
+                                    <li>{{ exibirCargo(usuario.tipoUsuario) }}</li>
                                     <li>{{ usuario.email }}</li>
                                     <li>{{ exibirTelefone(usuario.telefone) }}</li>
                                 </ul>
@@ -104,7 +104,7 @@
                             <div class="column"><i class="bi bi-person"></i></div>
                             <div class="column">
                                 <ul>
-                                    <li class="lowercase">{{ obterIdadePaciente(paciente) }} anos</li>
+                                    <li>{{ obterIdadePaciente(paciente) }} anos</li>
                                     <li>{{ paciente.convenio || 'sem convênio' }}</li>
                                     <li>{{ exibirTelefone(paciente.telefone) }}</li>
                                 </ul>
