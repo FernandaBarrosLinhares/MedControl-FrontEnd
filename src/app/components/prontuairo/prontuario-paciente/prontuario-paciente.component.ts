@@ -40,13 +40,79 @@ export class ProntuarioPacienteComponent implements OnInit {
     this.paciente = await this.pacienteService.buscarPacientePorId(
       this.pacienteId
     );
-    [ this.prontuario ] = await this.prontuarioService.buscarProntuario(this.paciente.id, this.paciente.nomeCompleto);
-    console.log(this.prontuario);
+    [this.prontuario] = await this.prontuarioService.buscarProntuario(
+      this.paciente.id,
+      this.paciente.nomeCompleto
+    );
   }
 
-  editarConsulta(id: number) {}
-  editarDieta(id: number) {}
-  editarExame(id: number) {}
-  editarExercicio(id: number) {}
-  editarMedicamento(id: number) {}
+  editarConsulta(id: number) {
+    this.editarRegistro('cadastro-consulta', id);
+  }
+
+  editarDieta(id: number) {
+    this.editarRegistro('cadastro-dieta', id);
+  }
+
+  editarExame(id: number) {
+    this.editarRegistro('cadastro-exame', id);
+  }
+
+  editarExercicio(id: number) {
+    this.editarRegistro('cadastro-exercicio', id);
+  }
+
+  editarMedicamento(id: number) {
+    this.editarRegistro('cadastro-medicamento', id);
+  }
+
+  editarRegistro(url: string, id: number) {
+    console.log('/labmedication/' + url + '?id=' + id);
+
+    this.router.navigate([`/labmedication/${url}`], {
+      queryParams: { id: id },
+    });
+  }
+
+  exibirTelefone(telefone: string) {
+    return this.pacienteService.converterTelefoneToView(telefone);
+  }
+
+  exibirTipoDieta(tipo: string) {
+    if (tipo === 'LOW') return 'Low carb';
+    if (tipo === 'DASH') return 'Dash';
+    if (tipo === 'PALEO') return 'Paleolítica';
+    if (tipo === 'CETO') return 'Cetogênica';
+    if (tipo === 'DUKAN') return 'Dukan';
+    if (tipo === 'MEDITERRANEA') return 'Mediterrânea';
+    return 'Outra';
+  }
+
+  exibirTipoExercicio(tipo: string) {
+    if (tipo === 'RESISTENCIA_AEROBICA') return 'Resistência aeróbica';
+    if (tipo === 'RESISTENCIA_MUSCULAR') return 'Resistência muscular';
+    if (tipo === 'FLEXIBILIDADE') return 'Flexibilidade';
+    if (tipo === 'FORCA') return 'Força';
+    if (tipo === 'AGILIDADE') return 'Agilidade';
+    return 'Outro';
+  }
+
+  exibirTipoMedicamento(tipo: string) {
+    if (tipo === 'CAPSULA') return 'Cápsula';
+    if (tipo === 'COMPRIMIDO') return 'Comprimido';
+    if (tipo === 'LIQUIDO') return 'Líquido';
+    if (tipo === 'CREME') return 'Creme';
+    if (tipo === 'GEL') return 'Gel';
+    if (tipo === 'INALACAO') return 'Inalação';
+    if (tipo === 'INJECAO') return 'Injeção';
+    return 'Spray';
+  }
+
+  exibirUnidadeMedicamento(unidade: string) {
+    if (unidade === 'MG') return 'mg';
+    if (unidade === 'MGC') return 'mgc';
+    if (unidade === 'G') return 'g';
+    if (unidade === 'ML') return 'ml';
+    return '%';
+  }
 }

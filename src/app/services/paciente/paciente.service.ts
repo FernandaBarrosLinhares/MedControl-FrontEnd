@@ -130,6 +130,7 @@ export class PacienteService {
 
   
   converterTelefoneToView(telefone: string) {
+    if (telefone === undefined || telefone === null) return telefone;
     return `(${telefone.substring(0, 2)}) ${telefone.substring(2, 7)} - ${telefone.substring(7)}`
   }
   

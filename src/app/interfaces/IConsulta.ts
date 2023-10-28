@@ -13,6 +13,7 @@ export default interface IConsulta {
 		id: number
 	},
 	medicamento: {
-		id: number
+		id: number,
+		nome?: string
 	}
 }
