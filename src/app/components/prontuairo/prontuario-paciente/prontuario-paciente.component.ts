@@ -12,6 +12,8 @@ import { DietaService } from 'src/app/services/dieta/dieta.service';
 import { MedicamentosService } from 'src/app/services/medicamento/medicamentos.service';
 import { ExameService } from 'src/app/services/exame/exame.service';
 import { ExercicioService } from 'src/app/services/exercicio/exercicio.service';
+import { ProntuarioService } from 'src/app/services/prontuario/prontuario.service';
+import IProntuario from 'src/app/interfaces/IProntuario';
 
 @Component({
   selector: 'app-prontuario-paciente',
@@ -20,23 +22,17 @@ import { ExercicioService } from 'src/app/services/exercicio/exercicio.service';
 })
 export class ProntuarioPacienteComponent implements OnInit {
   paciente: any = {};
-  consultas: any = [];
-  exames: any = [];
-  medicamentos: any = [];
-  dietas: any = [];
-  exercicios: any = [];
+  prontuario: IProntuario;
   pacienteId = 0;
 
   constructor(
     private pacienteService: PacienteService,
-    private consultaService: ConsultaService,
-    private exameService: ExameService,
-    private medicamentoService: MedicamentosService,
-    private dietaservice: DietaService,
-    private exercicioService: ExercicioService,
+    private prontuarioService: ProntuarioService,
     private rotaAtiva: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.prontuario = {};
+  }
 
   async ngOnInit() {
     const params = await firstValueFrom(this.rotaAtiva.queryParams);
@@ -44,12 +40,13 @@ export class ProntuarioPacienteComponent implements OnInit {
     this.paciente = await this.pacienteService.buscarPacientePorId(
       this.pacienteId
     );
-    this.consultas = await this.consultaService.buscarPorId(this.pacienteId);
-    this.exames = await this.exameService.buscarPorId(this.pacienteId);
-    this.medicamentos = await this.medicamentoService.buscarPorId(
-      this.pacienteId
-    );
-    this.dietas = await this.dietaservice.buscarDietaId(this.pacienteId);
-    this.exercicios = await this.exercicioService.buscarPorId(this.pacienteId);
+    [ this.prontuario ] = await this.prontuarioService.buscarProntuario(this.paciente.id, this.paciente.nomeCompleto);
+    console.log(this.prontuario);
   }
+
+  editarConsulta(id: number) {}
+  editarDieta(id: number) {}
+  editarExame(id: number) {}
+  editarExercicio(id: number) {}
+  editarMedicamento(id: number) {}
 }
