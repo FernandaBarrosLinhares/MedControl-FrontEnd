@@ -42,7 +42,7 @@ export class CadastroConsultaComponent implements OnInit {
           Validators.minLength(8),
         ],
       ],
-      data: ['', [Validators.required]],
+      data: ['', [Validators.required, Validators.maxLength(10)]],
       horario: ['', [Validators.required]],
       descricao: [
         '',

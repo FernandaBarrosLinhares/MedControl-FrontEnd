@@ -33,7 +33,7 @@ export class CadastroExercicioComponent implements OnInit {
           Validators.minLength(5),
         ],
       ],
-      data: ['', [Validators.required]],
+      data: ['', [Validators.required, Validators.maxLength(10)]],
       horario: ['', [Validators.required]],
       descricao: [
         '',

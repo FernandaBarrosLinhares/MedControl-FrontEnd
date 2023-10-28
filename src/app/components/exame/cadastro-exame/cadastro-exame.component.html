@@ -17,6 +17,7 @@
 				<input type="date" name="data" class="form-control" id="data" formControlName="data" maxlength="10">
 				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('data').touched">
 					<p class="mb-0" *ngIf="formExame.get('data')?.errors?.['required']">Campo não pode ser vazio ou inválido</p>
+					<p class="mb-0" *ngIf="formExame.get('data').getError('maxlength')">Data inválida</p>
 				</div>
 			</div>
 			<div class="col-sm-6 col-lg-3 col-md-4 mt-3">

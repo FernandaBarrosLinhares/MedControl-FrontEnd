@@ -17,6 +17,7 @@
 				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('data').touched">
 					<p class="mb-0" *ngIf="formConsulta.get('data')?.errors?.['required']">Campo não pode ser vazio ou inválido
 					</p>
+					<p class="mb-0" *ngIf="formConsulta.get('data').getError('maxlength')">Data inválida</p>
 				</div>
 			</div>
 			<div class="col-sm-6 col-lg-3 col-md-4 mt-3">

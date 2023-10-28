@@ -34,7 +34,7 @@ export class CadastroDietaComponent implements OnInit {
           Validators.maxLength(100),
         ]),
       ],
-      data: ['', Validators.required],
+      data: ['', Validators.required, Validators.maxLength(10)],
       horario: ['', Validators.required],
       tipoDieta: [
         '',

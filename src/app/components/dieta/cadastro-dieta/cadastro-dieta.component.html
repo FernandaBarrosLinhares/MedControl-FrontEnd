@@ -17,6 +17,7 @@
         <input type="date" name="data" class="form-control" id="data" formControlName="data">
         <div class="badge bg-danger text-wrap" *ngIf="formDieta.get('data').touched">
           <p class="mb-0" *ngIf="formDieta.get('data')?.errors?.['required']">Campo não pode ser vazio</p>
+          <p class="mb-0" *ngIf="formDieta.get('data').getError('maxlength')">Data inválida</p>
         </div>
       </div>
       <div class="col-sm-12 col-md-6 mt-3">

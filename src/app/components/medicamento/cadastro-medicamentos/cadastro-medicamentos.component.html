@@ -18,6 +18,7 @@
 					<div class="badge bg-danger text-wrap" *ngIf="formMedicamento.get('data').touched">
 						<p class="mb-0" *ngIf="formMedicamento.get('data')?.errors?.['required']">Campo não pode ser vazio ou
 							inválido</p>
+							<p class="mb-0" *ngIf="formMedicamento.get('data').getError('maxlength')">Data inválida</p>
 					</div>
 				</div>
 				<div class="col-sm-12 col-md-4 mt-3">
