@@ -47,7 +47,9 @@ export class EstatisticasComponent {
 
   async ngOnInit() {
     await this.buscarTodosPacientes();
-    await this.buscarTodosUsuarios();
+    if(this.loginService.obterTipoUsuarioLogado() != "ENFERMEIRO" ){
+      await this.buscarTodosUsuarios();
+    }
     this.estatisticas = await this.estatisticaService.buscarEstatisticas();
   }
 
