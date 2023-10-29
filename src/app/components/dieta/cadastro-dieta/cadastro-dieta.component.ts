@@ -34,7 +34,7 @@ export class CadastroDietaComponent implements OnInit {
           Validators.maxLength(100),
         ]),
       ],
-      data: ['', Validators.required, Validators.maxLength(10)],
+      data: ['', [Validators.required, Validators.maxLength(10)]],
       horario: ['', Validators.required],
       tipoDieta: [
         '',
@@ -101,7 +101,9 @@ export class CadastroDietaComponent implements OnInit {
     if (this.dietaId) {
       dieta.id = this.dietaId;
       this.dietaRetorno = await this.service.editarDieta(dieta, this.dietaId);
-      this.router.navigate(['/labmedication']);
+      this.router.navigate(['labmedication', 'prontuarios', 'paciente'], {
+        queryParams: { id: dieta.paciente.id },
+      });
     } else {
       this.dietaRetorno = await this.service.cadastrarDieta(dieta);
       this.dieta = this.dietaRetorno;

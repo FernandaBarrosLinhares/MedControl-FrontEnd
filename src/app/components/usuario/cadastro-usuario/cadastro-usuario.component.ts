@@ -82,11 +82,10 @@ export class CadastroUsuarioComponent implements OnInit {
     if (this.usuarioId) {
       usuario.id = this.usuarioId;
       await this.usuarioService.editarUsuario(usuario);
-      this.router.navigate(['/labmedication']);
     } else {
       await this.usuarioService.cadastrarUsuario(usuario);
-      this.router.navigate(['/labmedication']);
     }
+    this.router.navigate(['/labmedication']);
   }
 
   deletarUsuario() {

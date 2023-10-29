@@ -67,8 +67,6 @@ export class ProntuarioPacienteComponent implements OnInit {
   }
 
   editarRegistro(url: string, id: number) {
-    console.log('/labmedication/' + url + '?id=' + id);
-
     this.router.navigate([`/labmedication/${url}`], {
       queryParams: { id: id },
     });

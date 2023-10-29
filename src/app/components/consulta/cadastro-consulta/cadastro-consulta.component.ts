@@ -122,10 +122,13 @@ export class CadastroConsultaComponent implements OnInit {
     };
     if (this.consultaId) {
       await this.service.editar(consulta, this.consultaId);
+      this.router.navigate(['labmedication', 'prontuarios', 'paciente'], {
+        queryParams: { id: consulta.paciente.id },
+      });
     } else {
       await this.service.salvar(consulta);
+      this.router.navigate(['/labmedication']);
     }
-    this.router.navigate(['/labmedication']);
   }
 
   async deletar() {

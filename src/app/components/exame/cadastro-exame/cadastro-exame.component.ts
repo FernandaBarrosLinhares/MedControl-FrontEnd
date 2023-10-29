@@ -114,8 +114,12 @@ export class CadastroExameComponent implements OnInit {
     if (this.exameId) {
       exame.id = this.exameId;
       await this.service.editar(exame);
+      this.router.navigate(['labmedication', 'prontuarios', 'paciente'], {
+        queryParams: { id: exame.paciente.id },
+      });
     } else {
       await this.service.salvar(exame);
+      this.router.navigate(['labmedication']);
     }
   }
 

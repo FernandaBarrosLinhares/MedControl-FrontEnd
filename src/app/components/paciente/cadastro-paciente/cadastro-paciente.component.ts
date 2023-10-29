@@ -149,11 +149,14 @@ export class CadastroPacienteComponent implements OnInit {
 
     if (this.pacienteId) {
       this.pacienteRetorno = await this.pacienteService.atualizarPaciente(paciente,this.pacienteId);
+      this.router.navigate(['labmedication', 'prontuarios', 'paciente'], {
+        queryParams: { id: this.pacienteId },
+      });
     }else{
       this.pacienteRetorno = await this.pacienteService.cadastrarPaciente(paciente);
       this.paciente = this.pacienteRetorno;
+      this.router.navigate(['/labmedication']);
     }
-    this.router.navigate(['/labmedication']);
   }
 
   async deletar() {

@@ -83,8 +83,12 @@ export class CadastroExercicioComponent implements OnInit {
     if (this.exercicioId) {
       exercicio.id = this.exercicioId;
       await this.service.editar(exercicio,exercicio.id);
+      this.router.navigate(['labmedication', 'prontuarios', 'paciente'], {
+        queryParams: { id: exercicio.paciente.id },
+      });
     } else {
       await this.service.salvar(exercicio);
+      this.router.navigate(['labmedication']);
     }
   }
 
