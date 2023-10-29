@@ -71,7 +71,8 @@ export class CadastroPacienteComponent implements OnInit {
       this.formPaciente.patchValue(this.paciente.endereco);
       this.formPaciente.get('estadoCivil').setValue(this.paciente.estadoCivil);
       this.formPaciente.get('genero').setValue(this.paciente.genero);
-      this.formPaciente.get('status').enable();
+      this.formPaciente.get('cpf').disable();
+      this.formPaciente.get('rg').disable();
     }else{
       this.formPaciente.get('status').disable();
     }

@@ -116,6 +116,7 @@ export class CadastroExercicioComponent implements OnInit {
         status: this.exercicio.status,
         paciente: this.exercicio.paciente.id,
       });
+      this.formExercicio.get('paciente').disable();
     } else {
       this.formExercicio.get('status').disable();
     }
