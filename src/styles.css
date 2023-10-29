@@ -22,3 +22,12 @@ html {
 .toast-message {
   color: var(--cor-fundo);
 }
+
+.bg-danger > p {
+	color: #FFFFFF;
+}
+
+i.bi {
+	mix-blend-mode: difference;
+	color:white;
+}

@@ -60,6 +60,10 @@
   padding: 1rem 0.5rem 0.5rem;
 }
 
+.editar button {
+  border: 0;
+}
+
 @media (min-width: 750px) {
   .registros {
     padding: 1rem;

@@ -7,14 +7,18 @@
   background-color: var(--cor-fundo);
 }
 
+.list-group {
+	padding-right: 0;
+}
+
 .list-group-item {
   font-weight: bold;
   text-align: center;
 }
 
 .logo {
-  height: 100px;
-  width: 100px;
+  height: auto;
+  width: 100%;
   object-fit: cover;
 }
 
