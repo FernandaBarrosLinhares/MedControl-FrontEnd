@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login/login.service';
@@ -10,7 +10,7 @@ import { ConfirmarSenha } from 'src/app/validators/confirmar-senha.validators';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   usuarios: any = [];
   usuarioLogado: any = {};
   formLogin: any = FormGroup;
@@ -31,9 +31,12 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required, Validators.minLength(6)]],
       repetirSenha: ['', [Validators.required, Validators.minLength(6), ]]
-    },{ 
-      validators: [ConfirmarSenha.confirmarSenhaValidations] 
+    },{
+      validators: [ConfirmarSenha.confirmarSenhaValidations]
     });
+  }
+  ngOnInit(){
+    if(this.loginService.logado())this.router.navigate(['labmedication']);
   }
 
   async login() {
