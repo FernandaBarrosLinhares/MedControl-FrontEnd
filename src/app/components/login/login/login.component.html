@@ -5,7 +5,7 @@
       <div class="col-lg-12">
         <label for="email">Email</label>
         <input type="email" name="email" class="form-control" id="email" placeholder="Email" formControlName="email">
-        <div *ngIf="formLogin.get('email')?.touched" class="text-danger">
+        <div class="badge bg-danger text-wrap" *ngIf="formLogin.get('email')?.touched">
           <p *ngIf="formLogin.get('email')?.errors?.['required']" class="mb-0">Campo não pode ser vazio</p>
           <p *ngIf="formLogin.get('email')?.errors?.['email']" class="mb-0">Email inválido</p>
         </div>
@@ -15,7 +15,7 @@
       <div class="col-lg-12">
         <label for="senha">Senha</label>
         <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha" formControlName="senha">
-        <div *ngIf="formLogin.get('senha')?.touched" class="text-danger">
+        <div class="badge bg-danger text-wrap" *ngIf="formLogin.get('senha')?.touched">
           <p *ngIf="formLogin.get('senha')?.errors?.['required']" class="mb-0">Campo não pode ser vazio</p>
           <p *ngIf="formLogin.get('senha')?.errors?.['minlength']" class="mb-0">Senha deve conter 8 caracteres</p>
         </div>
