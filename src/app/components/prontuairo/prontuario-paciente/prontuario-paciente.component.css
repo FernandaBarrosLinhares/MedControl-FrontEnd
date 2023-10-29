@@ -13,9 +13,16 @@
 
 .info {
 	display: flex;
+	justify-content: space-between;
 	flex-wrap: wrap;
 	gap: 1rem;
 	padding: .5rem;
+}
+
+.info > div {
+	max-width: 15ch;
+	overflow-wrap: break-word; 
+	white-space: break-word;
 }
 
 .registros {
@@ -65,6 +72,10 @@
 	.registro .info {
 		grid-column: 1;
 		padding: 1rem;
+	}
+
+	.info > div {
+		max-width: 30ch;
 	}
 
 	.registro .editar {

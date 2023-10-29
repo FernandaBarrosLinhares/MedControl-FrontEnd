@@ -17,7 +17,8 @@
         <span class="text-primary bold">alergias</span>: {{ paciente.alergias || 'sem alergias' }}
       </div>
       <div class="cuidados">
-        <span class="text-primary bold">cuidados específicos</span>: {{ paciente.cuidadosEspecificos || 'sem cuidados específicos'}}
+        <span class="text-primary bold">cuidados específicos</span>
+        : {{ paciente.cuidadosEspecificos || 'sem cuidado específicos'}}
       </div>
     </div>
   </div>
@@ -87,12 +88,10 @@
           {{ dieta.descricao }}
         </div>
         <div class="status">
-          <div class="status">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="status" disabled [checked]="dieta.status">
-              <label class="form-check-label" for="status">Ativo</label>
-            </div>
-          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" disabled [checked]="dieta.status">
+            <label class="form-check-label" for="status">Ativo</label>
+          </div>  
         </div>
       </div>
 
@@ -132,11 +131,9 @@
           <a [href]="exame.url_documento">resultado</a>
         </div>
         <div class="status">
-          <div class="status">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="status" disabled [checked]="exame.status">
-              <label class="form-check-label" for="status">Ativo</label>
-            </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" disabled [checked]="exame.status">
+            <label class="form-check-label" for="status">Ativo</label>
           </div>
         </div>
       </div>
@@ -174,11 +171,9 @@
           {{ exercicio.quantidadePorSemana }}x por semana
         </div>
         <div class="status">
-          <div class="status">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="status" disabled [checked]="exercicio.status">
-              <label class="form-check-label" for="status">Ativo</label>
-            </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" disabled [checked]="exercicio.status">
+            <label class="form-check-label" for="status">Ativo</label>
           </div>
         </div>
       </div>
@@ -218,11 +213,9 @@
           {{ exibirTipoMedicamento(medicamento.tipo) }}
         </div>
         <div class="status">
-          <div class="status">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="status" disabled [checked]="medicamento.status">
-              <label class="form-check-label" for="status">Ativo</label>
-            </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" disabled [checked]="medicamento.status">
+            <label class="form-check-label" for="status">Ativo</label>
           </div>
         </div>
       </div>

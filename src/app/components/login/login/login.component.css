@@ -5,7 +5,7 @@
 .flex-buttons {
 	display: flex;
 	gap: 1rem;
-	align-items: end;
+	align-items: flex-end;
 }
 
 a {
