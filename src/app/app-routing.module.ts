@@ -17,6 +17,9 @@ import { LoginLayoutComponent } from './layouts/login-layout/login-layout.compon
 import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-layout.component';
 
 import { logadoGuard } from './guards/logado.guard';
+import { LogsComponent } from './components/logs/logs/logs.component';
+import { adminGuard } from './guards/admin.guard';
+import { enfermeiroGuard } from './guards/enfermeiro.guard';
 
 const routes: Routes = [
   {
@@ -36,11 +39,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: EstatisticasComponent,
+        component: EstatisticasComponent
       },
       {
         path: 'cadastro-consulta',
         component: CadastroConsultaComponent,
+        canActivate:[enfermeiroGuard]
       },
       {
         path: 'cadastro-dieta',
@@ -49,6 +53,7 @@ const routes: Routes = [
       {
         path: 'cadastro-exame',
         component: CadastroExameComponent,
+        canActivate:[enfermeiroGuard]
       },
       {
         path: 'cadastro-exercicio',
@@ -65,14 +70,22 @@ const routes: Routes = [
       {
         path: 'cadastro-usuario',
         component: CadastroUsuarioComponent,
+        canActivate:[adminGuard]
       },
       {
         path: 'prontuarios',
         component: ProntuariosComponent,
+        canActivate:[enfermeiroGuard]
       },
       {
         path: 'prontuarios/paciente',
-        component: ProntuarioPacienteComponent
+        component: ProntuarioPacienteComponent,
+        canActivate:[enfermeiroGuard]
+      },
+      {
+        path: 'registros',
+        component: LogsComponent,
+        canActivate:[adminGuard]
       }
     ],
   },
