@@ -90,6 +90,7 @@ export class CadastroExameComponent implements OnInit {
         status: this.exame.status,
         paciente: this.exame.paciente.id,
       });
+      this.formExame.get('paciente').disable();
     } else {
       this.formExame.get('status').disable();
     }

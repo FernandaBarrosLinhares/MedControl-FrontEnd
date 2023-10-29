@@ -79,6 +79,7 @@ export class CadastroDietaComponent implements OnInit {
         status: this.dieta.status,
         paciente: this.dieta.paciente.id
       });
+      this.formDieta.get('paciente').disable();
     } else {
       this.formDieta.get('status').disable();
     }

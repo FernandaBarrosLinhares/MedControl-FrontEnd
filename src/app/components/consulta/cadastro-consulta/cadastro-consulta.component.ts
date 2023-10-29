@@ -95,6 +95,8 @@ export class CadastroConsultaComponent implements OnInit {
         usuario: this.consulta.usuario.id,
         medicamento: this.consulta.medicamento.id,
       });
+      this.formConsulta.get('paciente').disable();
+      this.formConsulta.get('usuario').disable();
     } else {
       this.formConsulta.get('status').disable();
     }

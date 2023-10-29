@@ -62,6 +62,7 @@ export class CadastroUsuarioComponent implements OnInit {
         status: this.usuario.status
       });
       this.formularioCadastro.get('senha').disable();
+      this.formularioCadastro.get('cpf').disable();
     } else {
       this.formularioCadastro.get('status').disable();
     }

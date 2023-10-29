@@ -70,6 +70,8 @@ export class CadastroMedicamentosComponent implements OnInit {
         observacao: this.medicamento.observacao,
         status: this.medicamento.status,
       });
+      this.formMedicamento.get('data').disable();
+      this.formMedicamento.get('horario').disable();
     } else {
       this.formMedicamento.get('status').disable();
     }
