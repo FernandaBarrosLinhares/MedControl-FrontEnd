@@ -20,7 +20,6 @@ export class LoginService {
   async login(email: string, senha: string) {
     try{
       const usuarioLogado = await lastValueFrom(this.httpClient.post('http://localhost:4200/api/usuarios/login', {email, senha}));
-      console.log(usuarioLogado);
       localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
     }catch(e:any){
       if(e.error[0].mensagem){

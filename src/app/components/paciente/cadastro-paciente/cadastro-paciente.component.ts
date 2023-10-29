@@ -75,7 +75,6 @@ export class CadastroPacienteComponent implements OnInit {
     }else{
       this.formPaciente.get('status').disable();
     }
-    console.log(this.paciente);
 
   }
 
