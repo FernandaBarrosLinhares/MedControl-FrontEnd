@@ -1,26 +1,38 @@
-# Med Control
+<center># Med Control
 
 
- <img alt="Logomarca" src="./src/assets/logo_pequena.jpg">
+<center> <img alt="Logomarca" src="./src/assets/logo_teste.png"></center>
 
 
-
-Desenvolvido pela LabMedication, o **MedControl**, é um software de gestão para uso em hospitais, clinicas e similares da área da saúde.
-Com ele, o **administrador**, pode gerenciar quais usuários realizaram o atendimento, através de logs com mensagens e horários que foram realizados.
+<center>Desenvolvido pela LabMedication, o **MedControl**, é um software de gestão para uso em hospitais, clinicas e similares da área da saúde.
+Com ele, o **administrador**, pode gerenciar quais usuários realizaram o atendimento, através de logs com mensagens e horários que foram 
+realizados.
 **Médicos** e **enfermeiros**, podem realizar: **cadastros**, **edições**,**listagem** e **edição** das **Consultas**, **Dietas**, **Exercícios**, **Medicamentos**, **Exames** atrelados aos **Pacientes**.
-O modelo segue padrão **white-label** consiste em um software que pode ser personalizado com as cores, tipografias, logotipos e demais elementos visuais da identidade do cliente, proporcionando um resultado personalizado, podendo ser comercializado em todo o país.
+O modelo segue padrão **white-label** consiste em um software que pode ser personalizado com as cores, tipografias, logotipos e demais elementos visuais da identidade do cliente, proporcionando um resultado personalizado, podendo ser comercializado em todo o país.</center>
+
 
 
 ## Tecnologia ultilizadas
 
- <img alt="Logomarca" src="https://user-images.githubusercontent.com/25181517/183890598-19a0ac2d-e88a-4005-a8df-1ee36782fde1.png" width="50px">
-<img alt="Logomarca" src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" width="50px">
-<img alt="Logomarca" src="https://user-images.githubusercontent.com/25181517/183898054-b3d693d4-dafb-4808-a509-bab54cf5de34.png" width="50px">
-<img alt="Logomarca" src="https://user-images.githubusercontent.com/25181517/183898674-75a4a1b1-f960-4ea9-abcb-637170a00a75.png" width="50px">
-<img alt="Logomarca" src="https://user-images.githubusercontent.com/25181517/189715289-df3ee512-6eca-463f-a0f4-c10d94a06b2f.png" width="50px">
-<img alt="Logomarca" src="https://user-images.githubusercontent.com/25181517/183890595-779a7e64-3f43-4634-bad2-eceef4e80268.png" width="50px">
-<img alt="Logomarca" src="https://user-images.githubusercontent.com/25181517/121401671-49102800-c959-11eb-9f6f-74d49a5e1774.png" width="50px">
-<img alt="Logomarca" src="https://user-images.githubusercontent.com/25181517/192108374-8da61ba1-99ec-41d7-80b8-fb2f7c0a4948.png" width="50px">
+
+
+
+<img alt="Typescript" src="https://user-images.githubusercontent.com/25181517/183890598-19a0ac2d-e88a-4005-a8df-1ee36782fde1.png" width="50px">
+
+<img alt="Javascript" src="https://user-images.githubusercontent.com/25181517/117447155-6a868a00-af3d-11eb-9cfe-245df15c9f3f.png" width="50px">
+
+<img alt="Bootstrap" src="https://user-images.githubusercontent.com/25181517/183898054-b3d693d4-dafb-4808-a509-bab54cf5de34.png" width="50px">
+
+<img alt="CSS" src="https://user-images.githubusercontent.com/25181517/183898674-75a4a1b1-f960-4ea9-abcb-637170a00a75.png" width="50px">
+
+<img alt="Figma" src="https://user-images.githubusercontent.com/25181517/189715289-df3ee512-6eca-463f-a0f4-c10d94a06b2f.png" width="50px">
+
+<img alt="Angular" src="https://user-images.githubusercontent.com/25181517/183890595-779a7e64-3f43-4634-bad2-eceef4e80268.png" width="50px">
+
+<img alt="NPM" src="https://user-images.githubusercontent.com/25181517/121401671-49102800-c959-11eb-9f6f-74d49a5e1774.png" width="50px">
+
+<img alt="Github" src="https://user-images.githubusercontent.com/25181517/192108374-8da61ba1-99ec-41d7-80b8-fb2f7c0a4948.png" width="50px">
+
 
 
  ## 
@@ -31,24 +43,22 @@ O modelo segue padrão **white-label** consiste em um software que pode ser pers
 |[CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)|
 |[Figma](https://www.figma.com/)|
 |[Angular](https://angular.io/cli/generate#guard-command)|
-|[Angular](https://angular.io/cli/generate#guard-command)|
 |[NPM](https://www.npmjs.com/package/ngx-toastr)|
-|[Github]|(https://github.com)
+|[Github](https://github.com)|
 
 ## Telas
 
 <img alt="Login" src="./src/assets/pagina_login.jpg">
 <img alt="Estatisticas" src="./src/assets/estatisticas.jpg">
 <img alt="Estatisticas_adm" src="./src/assets/estatistica_adm.jpg">
-<img alt="Prontuário" src="./src/assets/prontuarioPaciente.jpg">
-<img alt="Listagem" src="./src/assets/listagem.jpg">
+<img alt="Prontuário" src="./src/assets/prontuario.jpg">
 <img alt="Usuario" src="./src/assets/cadastro_usuario.jpg">
 <img alt="Consulta" src="./src/assets/cadastro_consulta.jpg">
-<img alt="Exame" src="./src/assets/cadastro_exame.jpg">
+<img alt="Exame" src="./src/assets/cadastro_exames.jpg">
 <img alt="Medicamentos" src="./src/assets/cadastro_medicamentos.jpg">
 <img alt="Dieta" src="./src/assets/cadastro_dieta.jpg">
 <img alt="Exercicios" src="./src/assets/cadastro_exercicios.jpg">
-<img alt="Paciente" src="./src/assets/cadastro_paciente.jpg">
+<img alt="Paciente" src="./src/assets/cadastro_pacientes.jpg">
 
 
 
