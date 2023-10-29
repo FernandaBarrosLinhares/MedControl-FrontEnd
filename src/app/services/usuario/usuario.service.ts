@@ -15,8 +15,8 @@ export class UsuariosService {
   private readonly API_USUARIOS =  'http://localhost:4200/api/usuarios'
 
   constructor(
-    private httpClient: HttpClient, 
-    private toastr: ToastrService, 
+    private httpClient: HttpClient,
+    private toastr: ToastrService,
     private loginService: LoginService
   ) { }
 
@@ -27,8 +27,13 @@ export class UsuariosService {
       const response = await lastValueFrom (this.httpClient.post(this.API_USUARIOS, usuario, {headers}));
       this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
       return response;
-    } catch (e){
-      throw new Error("Erro ao cadastrar Usuário!")
+    } catch (e:any){
+      if(e.error[0].mensagem){
+        this.toastr.error(e.error[0].mensagem,'Erro ao Cadastrar');
+      }else if(e.error){
+        this.toastr.error(e.error,'Erro ao Cadastrar');
+      }
+      return null;
     }
   }
 
@@ -114,7 +119,7 @@ export class UsuariosService {
       return null;
     }
   }
-  
+
   async deletarUsuario(id: number){
     const headers = this.loginService.obterHeadersUsuarioLogado();
 
