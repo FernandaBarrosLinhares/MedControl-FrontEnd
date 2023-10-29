@@ -9,7 +9,7 @@
 					<div class="badge bg-danger text-wrap" *ngIf="formMedicamento.get('nome').touched">
 						<p class="mb-0" *ngIf="formMedicamento.get('nome')?.errors?.['required']">Campo não pode ser vazio</p>
 						<p class="mb-0" *ngIf="formMedicamento.get('nome')?.errors?.['minlength']">Mínimo 5 caracteres</p>
-						<p class="mb-0" *ngIf="formMedicamento.get('nome')?.errors?.['maxLength']">Máximo de 100 caracteres</p>
+						<p class="mb-0" *ngIf="formMedicamento.get('nome')?.errors?.['maxlength']">Máximo de 100 caracteres</p>
 					</div>
 				</div>
 				<div class="col-sm-12 col-md-4 mt-3">
@@ -70,7 +70,7 @@
 						<p class="mb-0" *ngIf="formMedicamento.get('observacao')?.errors?.['required']">Campo não pode ser vazio
 						</p>
 						<p class="mb-0" *ngIf="formMedicamento.get('observacao')?.errors?.['minlength']">Mínimo 10 caracteres</p>
-						<p class="mb-0" *ngIf="formMedicamento.get('observacao')?.errors?.['maxLength']">Máximo de 1000 caracteres
+						<p class="mb-0" *ngIf="formMedicamento.get('observacao')?.errors?.['maxlength']">Máximo de 1000 caracteres
 						</p>
 					</div>
 				</div>

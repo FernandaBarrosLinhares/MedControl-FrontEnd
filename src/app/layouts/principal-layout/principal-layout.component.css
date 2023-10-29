@@ -1,6 +1,7 @@
 .layout {
 	display: grid;
 	grid-template-rows: 56px 1fr;
+	background-color: var(--cor-fundo);
 }
 
 app-navbar {

@@ -24,7 +24,8 @@ export class UrlService {
     if (url.includes('/labmedication/cadastro-medicamento')) return `${str} medicamento`;
     if (url.includes('/labmedication/cadastro-paciente')) return `${str} paciente`;
     if (url.includes('/labmedication/cadastro-usuario')) return `${str} usuário`;
-    if (url.includes('/labmedication/prontuarios')) return `Prontuários`;
+    if (url.includes('/labmedication/prontuarios')) return 'Prontuários';
+    if (url.includes('/labmedication/registros')) return 'Registro de atividades';
     return 'Página não encontrada';
   }
 }

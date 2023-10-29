@@ -20,7 +20,6 @@ export class ProntuariosComponent implements OnInit {
 
   async ngOnInit() {
     this.pacientes = await this.pacienteService.buscarPacientes();
-    console.log(this.pacientes);
   }
 
   async onSubmit() {

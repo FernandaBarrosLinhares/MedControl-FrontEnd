@@ -1,0 +1,48 @@
+<dialog type="modal" id="modal-config">
+  <div class="container">
+    <h3 class="text-primary">Configurações</h3>
+    <form (ngSubmit)="fecharModal()" class="mt-4" [formGroup]="formConfig">
+      <div class="row">
+        <div class="col">
+          <label for="nomeEmpresa" class="form-label">Nome da empresa</label>
+          <input type="text" name="nomeEmpresa" class="form-control" id="nomeEmpresa" formControlName="nomeEmpresa">
+          <div class="badge bg-danger text-wrap" *ngIf="formConfig.get('nomeEmpresa')?.touched">
+            <p *ngIf="formConfig.get('nomeEmpresa')?.errors?.['required']" class="mb-0">Campo não pode ser vazio</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <label for="logoUrl" class="form-label">URL do Logo</label>
+          <input type="text" name="logoUrl" class="form-control" id="logoUrl" formControlName="logoUrl">
+          <div class="badge bg-danger text-wrap" *ngIf="formConfig.get('logoUrl')?.touched">
+            <p *ngIf="formConfig.get('logoUrl')?.errors?.['required']" class="mb-0">Campo não pode ser vazio</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <label for="corFonte" class="form-label">Cor da fonte</label>
+          <input type="color" name="corFonte" class="form-control" id="corFonte" formControlName="corFonte">
+          <div class="badge bg-danger text-wrap" *ngIf="formConfig.get('corFonte')?.touched">
+            <p *ngIf="formConfig.get('corFonte')?.errors?.['required']" class="mb-0">Campo não pode ser vazio</p>
+          </div>
+        </div>
+        <div class="col">
+          <label for="corPrincipal" class="form-label">Cor principal</label>
+          <input type="color" name="corPrincipal" class="form-control" id="corPrincipal" formControlName="corPrincipal">
+          <div class="badge bg-danger text-wrap" *ngIf="formConfig.get('corPrincipal')?.touched">
+            <p *ngIf="formConfig.get('corPrincipal')?.errors?.['required']" class="mb-0">Campo não pode ser vazio</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-lg-6m-auto text-center">
+          <button type="submit" class="btn btn-primary me-3 w-100">Aplicar configurações</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <button (click)="fecharModal(false)" class="btn btn-danger botao-fechar">&times;</button>
+</dialog>

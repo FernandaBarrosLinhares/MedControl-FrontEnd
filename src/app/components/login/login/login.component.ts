@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit{
   }
 
   async resetarSenha() {
-    console.log(this.formResetSenha);
     const { email, senha } = this.formResetSenha.value;
     const usuarioPorEmail = await this.usuarioService.buscarUsuarioPorEmail(email);
 

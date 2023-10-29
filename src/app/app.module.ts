@@ -15,6 +15,7 @@ import { CadastroExercicioComponent } from './components/exercicio/cadastro-exer
 import { CadastroMedicamentosComponent } from './components/medicamento/cadastro-medicamentos/cadastro-medicamentos.component';
 import { CadastroPacienteComponent } from './components/paciente/cadastro-paciente/cadastro-paciente.component';
 import { CadastroUsuarioComponent } from './components/usuario/cadastro-usuario/cadastro-usuario.component';
+import { ConfigsComponent } from './components/configs/configs/configs.component';
 import { EstatisticasComponent } from './components/estatisticas/estatisticas/estatisticas.component';
 import { LoginComponent } from './components/login/login/login.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
@@ -40,6 +41,12 @@ import { LogsComponent } from './components/logs/logs/logs.component';
     CadastroPacienteComponent,
     CadastroUsuarioComponent,
     EstatisticasComponent,
+		ConfigsComponent,
+		PrincipalLayoutComponent,
+		NavbarComponent,
+  	SidebarComponent,
+  	LoginLayoutComponent,
+	  EstatisticasComponent,
     LoginComponent,
     LoginLayoutComponent,
     LogsComponent,

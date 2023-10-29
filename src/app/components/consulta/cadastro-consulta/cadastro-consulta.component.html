@@ -34,8 +34,8 @@
 				<input type="text" name="descricao" class="form-control" id="descricao" formControlName="descricao">
 				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('descricao').touched">
 					<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['required']">Campo não pode ser vázio</p>
-					<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['minLength']">Mínimo de 16 caracteres</p>
-					<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['maxLength']">Máximo de 1024 caracteres</p>
+					<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['minlength']">Mínimo de 16 caracteres</p>
+					<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['maxlength']">Máximo de 1024 caracteres</p>
 				</div>
 			</div>
 
@@ -46,9 +46,9 @@
 				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('dosagensPrecaucoes').touched">
 					<p class="mb-0" *ngIf="formConsulta.get('dosagensPrecaucoes')?.errors?.['required']">Campo não pode ser vázio
 					</p>
-					<p class="mb-0" *ngIf="formConsulta.get('dosagensPrecaucoes')?.errors?.['minLength']">Mínimo de 16 caracteres
+					<p class="mb-0" *ngIf="formConsulta.get('dosagensPrecaucoes')?.errors?.['minlength']">Mínimo de 16 caracteres
 					</p>
-					<p class="mb-0" *ngIf="formConsulta.get('dosagensPrecaucoes')?.errors?.['maxLength']">Máximo de 256 caracteres
+					<p class="mb-0" *ngIf="formConsulta.get('dosagensPrecaucoes')?.errors?.['maxlength']">Máximo de 256 caracteres
 					</p>
 				</div>
 			</div>
@@ -64,8 +64,8 @@
 				</div>
 			</div>
 			<div class="col-lg-3 mt-3">
-				<label for="paciente">Usuário</label>
-				<select class="form-control" id="paciente" formControlName="usuario">
+				<label for="usuario">Usuário</label>
+				<select class="form-control" id="usuario" formControlName="usuario">
 					<option value="" selected disabled>Selecione</option>
 					<option *ngFor="let usuario of usuarios" [value]="usuario.id">{{usuario.nomeCompleto}}</option>
 				</select>
@@ -74,15 +74,15 @@
 				</div>
 			</div>
 			<div class="col-lg-3 mt-3">
-				<label for="paciente">Medicamento</label>
-				<select class="form-control" id="paciente" formControlName="medicamento">
+				<label for="medicamento">Medicamento</label>
+				<select class="form-control" id="medicamento" formControlName="medicamento">
 					<option value="" selected disabled>Selecione</option>
 					<option *ngFor="let medicamento of medicamentos" [value]="medicamento.id">{{medicamento.nome}}</option>
 				</select>
 				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('medicamento').touched">
 					<p class="mb-0" *ngIf="formConsulta.get('paciente')?.errors?.['required']">Campo não pode ser vázio</p>
 				</div>
-			</div> 	
+			</div>
 			<div class="col-lg-2 d-flex align-items-center mt-3">
 				<div class="form-check">
 					<input type="checkbox" class="form-check-input" id="status" formControlName="status">
