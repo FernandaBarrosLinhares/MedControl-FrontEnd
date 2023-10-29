@@ -28,8 +28,14 @@
         <h6>Prontuário</h6>
         <div class="list-group">
           <a [routerLink]="'/labmedication/prontuarios'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Listagem</a>
+        </div>
       </div>
-    </div>
+      <div class="row mt-2" *ngIf="getTipoUsuarioLogado() === 'ADMINISTRADOR'">
+        <h6>Registros</h6>
+        <div class="list-group">
+          <a [routerLink]="'/labmedication/registros'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Listagem</a>
+        </div>
+      </div>
 
   </div>
 </div>

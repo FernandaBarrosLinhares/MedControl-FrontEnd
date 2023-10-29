@@ -27,6 +27,7 @@ import { PrincipalLayoutComponent } from './layouts/principal-layout/principal-l
 
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LogsComponent } from './components/logs/logs/logs.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     ProntuariosComponent,
     ProntuarioPacienteComponent,
+    LogsComponent,
   ],
   imports: [
     BrowserModule,
