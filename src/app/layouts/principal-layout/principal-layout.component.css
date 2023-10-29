@@ -23,3 +23,16 @@ app-navbar {
 .fundo-maior { 
 	max-width: 90%;
 }
+
+@media (max-width: 749px) {
+	.container-fluid {
+		margin: 4rem 0;
+		padding: 4rem 1rem;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	.fundo-maior {
+		max-width: unset;
+	}
+}
