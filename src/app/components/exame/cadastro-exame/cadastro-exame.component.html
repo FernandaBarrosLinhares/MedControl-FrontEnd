@@ -33,8 +33,8 @@
 				<input type="text" name="tipo" class="form-control" id="tipo" formControlName="tipo">
 				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('tipo').touched">
 					<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['required']">Campo não pode ser vázio</p>
-					<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['minLength']">Mínimo de 4 caracteres</p>
-					<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['maxLength']">Máximo de 32 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['minlength']">Mínimo de 4 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['maxlength']">Máximo de 32 caracteres</p>
 				</div>
 			</div>
 			<div class="col-lg-4 mt-3">
@@ -42,8 +42,8 @@
 				<input type="text" name="laboratorio" class="form-control" id="laboratorio" formControlName="laboratorio">
 				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('laboratorio').touched">
 					<p class="mb-0" *ngIf="formExame.get('laboratorio')?.errors?.['required']">Campo não pode ser vázio</p>
-					<p class="mb-0" *ngIf="formExame.get('laboratorio')?.errors?.['minLength']">Mínimo de 4 caracteres</p>
-					<p class="mb-0" *ngIf="formExame.get('laboratorio')?.errors?.['maxLength']">Máximo de 32 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('laboratorio')?.errors?.['minlength']">Mínimo de 4 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('laboratorio')?.errors?.['maxlength']">Máximo de 32 caracteres</p>
 				</div>
 			</div>
 			<div class="col-lg-4 mt-3">
@@ -56,8 +56,8 @@
 					formControlName="resultado"></textarea>
 				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('resultado').touched">
 					<p class="mb-0" *ngIf="formExame.get('resultado')?.errors?.['required']">Campo não pode ser vázio</p>
-					<p class="mb-0" *ngIf="formExame.get('resultado')?.errors?.['minLength']">Mínimo de 16 caracteres</p>
-					<p class="mb-0" *ngIf="formExame.get('resultado')?.errors?.['maxLength']">Máximo de 1024 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('resultado')?.errors?.['minlength']">Mínimo de 16 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('resultado')?.errors?.['maxlength']">Máximo de 1024 caracteres</p>
 				</div>
 			</div>
 			<div class="col-lg-3 mt-3">

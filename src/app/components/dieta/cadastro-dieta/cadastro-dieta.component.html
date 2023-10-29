@@ -50,8 +50,8 @@
         </select>
         <div class="badge bg-danger text-wrap" *ngIf="formDieta.get('tipoDieta').touched">
           <p class="mb-0" *ngIf="formDieta.get('tipoDieta')?.errors?.['required']">Campo não pode ser vázio</p>
-          <p class="mb-0" *ngIf="formDieta.get('tipoDieta')?.errors?.['minLength']">Mínimo de 3 caracteres</p>
-          <p class="mb-0" *ngIf="formDieta.get('tipoDieta')?.errors?.['maxLength']">Máximo de 12 caracteres</p>
+          <p class="mb-0" *ngIf="formDieta.get('tipoDieta')?.errors?.['minlength']">Mínimo de 3 caracteres</p>
+          <p class="mb-0" *ngIf="formDieta.get('tipoDieta')?.errors?.['maxlength']">Máximo de 12 caracteres</p>
         </div>
       </div>
       <div class="col-sm-12 col-md-4 mt-3">
