@@ -9,13 +9,16 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class SidebarComponent {
   nomeEmpresa: string = '';
+  logoUrl: string = '';
 
   constructor(
     private loginService: LoginService,
     private configService: ConfigService
   ) {
     this.configService.configMudou.subscribe(configs => {
-      this.nomeEmpresa = configs.nomeEmpresa;
+      const { nomeEmpresa,logoUrl } = configs;
+      this.nomeEmpresa = nomeEmpresa;
+      this.logoUrl = logoUrl;
     });
   }
 
