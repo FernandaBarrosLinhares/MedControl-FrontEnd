@@ -50,7 +50,7 @@
       <div class="col-md-6 col-sm-12">
         <label for="telefone">Telefone</label>
         <input type="telefone" name="telefone" class="form-control" id="telefone" placeholder="Telefone"
-          formControlName="telefone" />
+          formControlName="telefone" placeholder="(00) 0 0000-0000" formControlName="telefone" mask="(00) 0 0000-0000"/>
 
         <div class="badge bg-danger text-wrap" *ngIf="formularioCadastro.get('telefone').touched">
           <p *ngIf="formularioCadastro.get('telefone')?.errors?.['minlength']" class="mb-0">
