@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import IExame from 'src/app/interfaces/IExame';
-import { ExameService } from 'src/app/services/exame.service';
+import { ExameService } from 'src/app/services/exame/exame.service';
+import { PacienteService } from 'src/app/services/paciente/paciente.service';
 
 @Component({
   selector: 'app-cadastro-exame',
@@ -13,12 +14,13 @@ import { ExameService } from 'src/app/services/exame.service';
 export class CadastroExameComponent implements OnInit {
   formExame: any = FormGroup;
   pacientes: any = [];
-	exameId: number  = 0;
+  exameId: number = 0;
   exame: any;
 
   constructor(
     private fb: FormBuilder,
     private service: ExameService,
+    private pacienteService: PacienteService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -31,7 +33,7 @@ export class CadastroExameComponent implements OnInit {
           Validators.minLength(8),
         ],
       ],
-      data: ['', [Validators.required]],
+      data: ['', [Validators.required, Validators.maxLength(10)]],
       horario: ['', [Validators.required]],
       tipo: [
         '',
@@ -64,19 +66,19 @@ export class CadastroExameComponent implements OnInit {
   }
 
   async ngOnInit() {
-		this.pacientes = await this.service.buscarTodosPacientes();
-		const params = await firstValueFrom(this.route.queryParams);
+    this.pacientes = await this.pacienteService.buscarPacientes();
+    const params = await firstValueFrom(this.route.queryParams);
 
-    if (params['id']) {
+    if (params['id'] !== undefined) {
       this.exameId = Number(params['id']);
 
       this.exame = await this.service.buscarPorId(this.exameId);
       if (this.exame == null) {
         this.exameId = 0;
-        this.router.navigate(['/cadastro-exame']);
+        this.router.navigate(['/labmedication']);
         return;
-      } 
-      
+      }
+
       this.formExame.setValue({
         nome: this.exame.nome,
         data: this.convertBdDateToInputDate(this.exame.data),
@@ -86,12 +88,12 @@ export class CadastroExameComponent implements OnInit {
         urlDocumento: this.exame.url_documento,
         resultado: this.exame.resultado,
         status: this.exame.status,
-        paciente: this.exame.paciente.id
+        paciente: this.exame.paciente.id,
       });
     } else {
       this.formExame.get('status').disable();
     }
-	}
+  }
 
   async onSubmit() {
     let data = this.formExame.get('data').value;
@@ -112,15 +114,18 @@ export class CadastroExameComponent implements OnInit {
     if (this.exameId) {
       exame.id = this.exameId;
       await this.service.editar(exame);
+      this.router.navigate(['labmedication', 'prontuarios', 'paciente'], {
+        queryParams: { id: exame.paciente.id },
+      });
     } else {
       await this.service.salvar(exame);
+      this.router.navigate(['labmedication']);
     }
-
   }
 
   deletar() {
     this.service.excluir(this.exameId);
-    this.router.navigate(["/"]);
+    this.router.navigate(['/labmedication']);
   }
 
   convertInputDateToBdDate(data: string): string {

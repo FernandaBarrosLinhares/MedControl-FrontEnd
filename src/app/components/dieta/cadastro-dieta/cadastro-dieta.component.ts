@@ -2,23 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { IDieta } from 'src/app/interfaces/IDieta';
+import IDieta from 'src/app/interfaces/IDieta';
 import { DietaService } from 'src/app/services/dieta/dieta.service';
+import { PacienteService } from 'src/app/services/paciente/paciente.service';
 
 @Component({
-  selector: 'app-cadastro-dietas',
-  templateUrl: './cadastro-dietas.component.html',
-  styleUrls: ['./cadastro-dietas.component.css'],
+  selector: 'app-cadastro-dieta',
+  templateUrl: './cadastro-dieta.component.html',
+  styleUrls: ['./cadastro-dieta.component.css'],
 })
 export class CadastroDietaComponent implements OnInit {
   formDieta: any = FormGroup;
   dieta: any;
   dietaId: number = 0;
-  pacientes: any = [{ id: 2, nome: 'Ana Paula' }];
+  pacientes: any = [];
   dietaRetorno: any = {};
 
   constructor(
     private service: DietaService,
+    private pacienteService: PacienteService,
     private router: Router,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute
@@ -32,13 +34,13 @@ export class CadastroDietaComponent implements OnInit {
           Validators.maxLength(100),
         ]),
       ],
-      data: ['', Validators.required],
+      data: ['', [Validators.required, Validators.maxLength(10)]],
       horario: ['', Validators.required],
-      tipo: [
+      tipoDieta: [
         '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(4),
+          Validators.minLength(3),
           Validators.maxLength(32),
         ]),
       ],
@@ -55,18 +57,16 @@ export class CadastroDietaComponent implements OnInit {
     });
   }
   async ngOnInit() {
-    this.dietaRetorno = await this.service.buscarDieta();
-    console.log(this.dietaRetorno);
-    //this.pacientes = await this.service.buscarTodosPacientes();
+    this.pacientes = await this.pacienteService.buscarPacientes();
     const params = await firstValueFrom(this.route.queryParams);
 
-    if (params['id']) {
+    if (params['id'] !== undefined) {
       this.dietaId = Number(params['id']);
 
       this.dieta = await this.service.buscarDietaId(this.dietaId);
       if (this.dieta == null) {
         this.dietaId = 0;
-        this.router.navigate(['/cadastro-dieta']);
+        this.router.navigate(['/labmedication']);
         return;
       }
 
@@ -74,12 +74,10 @@ export class CadastroDietaComponent implements OnInit {
         nome: this.dieta.nome,
         data: this.convertBdDateToInputDate(this.dieta.data),
         horario: this.dieta.horario,
-        tipo: this.dieta.tipo,
-        descricao: this.dieta.laboratorio,
+        tipoDieta: this.dieta.tipoDieta,
+        descricao: this.dieta.descricao,
         status: this.dieta.status,
-        paciente: {
-          id: this.formDieta.get('paciente')?.value,
-        },
+        paciente: this.dieta.paciente.id
       });
     } else {
       this.formDieta.get('status').disable();
@@ -93,25 +91,29 @@ export class CadastroDietaComponent implements OnInit {
       nome: this.formDieta.get('nome')?.value,
       data: this.convertInputDateToBdDate(data),
       horario: this.formDieta.get('horario')?.value,
-      tipo: this.formDieta.get('tipo')?.value,
+      tipoDieta: this.formDieta.get('tipoDieta')?.value,
       descricao: this.formDieta.get('descricao')?.value,
       status: this.formDieta.get('status')?.value,
-      paciente: this.formDieta.get('paciente')?.value,
+      paciente: {
+        id: this.formDieta.get('paciente')?.value
+      }
     };
     if (this.dietaId) {
       dieta.id = this.dietaId;
       this.dietaRetorno = await this.service.editarDieta(dieta, this.dietaId);
-      this.router.navigate(['/']);
+      this.router.navigate(['labmedication', 'prontuarios', 'paciente'], {
+        queryParams: { id: dieta.paciente.id },
+      });
     } else {
-      this. dietaRetorno = await this.service.cadastrarDieta(dieta);
+      this.dietaRetorno = await this.service.cadastrarDieta(dieta);
       this.dieta = this.dietaRetorno;
-      this.router.navigate(['/']);
+      this.router.navigate(['/labmedication']);
     }
   }
 
-  async deletarUsuario() {
+  async deletarDieta() {
     await this.service.deletarDieta(this.dietaId);
-    this.router.navigate(['/']);
+    this.router.navigate(['/labmedication']);
   }
   convertInputDateToBdDate(data: string): string {
     let dataArray = data.split('-');

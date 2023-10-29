@@ -3,21 +3,28 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom, lastValueFrom} from 'rxjs';
 import IPaciente from 'src/app/interfaces/IPaciente';
+import { LoginService } from '../login/login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PacienteService {
 
-  pacientes:IPaciente[]=[];
-  
-  constructor(private http:HttpClient,
-    private toastr: ToastrService) { }
   urlBase = 'http://localhost:4200/api/pacientes';
   urlBaseEndereco = 'http://localhost:4200/api/enderecos'
-  async buscarPaciente(){
+  pacientes:IPaciente[]=[];
+  
+  constructor(
+    private http:HttpClient,
+    private toastr: ToastrService,
+    private loginService: LoginService
+  ) { }
+
+  async buscarPacientes(){
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      this.pacientes = await lastValueFrom(this.http.get<IPaciente[]>(`${this.urlBase}`));
+      this.pacientes = await lastValueFrom(this.http.get<IPaciente[]>(`${this.urlBase}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -28,13 +35,12 @@ export class PacienteService {
     }
     return this.pacientes;
   }
-// TODO mudar a logica do usuario logado quando fizer o login
+
   async cadastrarPaciente(paciente:IPaciente){
-    //let usuarioLogado = localStorage.getItem("USUARIOLOGADO");
-    //console.log(usuarioLogado);
-    let headers = new HttpHeaders().set('idUsuarioLogado','1');
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      const response = await firstValueFrom(this.http.post<any>(`${this.urlBase}`,paciente,{headers:headers}));
+      const response = await firstValueFrom(this.http.post<any>(`${this.urlBase}`, paciente, {headers}));
       this.toastr.success('Cadastro realizado com sucesso','Cadastrado');
       return response;
     }catch(e:any){
@@ -47,11 +53,10 @@ export class PacienteService {
     }
   }
   async atualizarPaciente(paciente:IPaciente,pacienteId:number){
-    //let usuarioLogado = localStorage.getItem("USUARIOLOGADO");
-    //console.log(usuarioLogado);
-    let headers = new HttpHeaders().set('idUsuarioLogado','1');
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      let response = await firstValueFrom(this.http.put<any>(`${this.urlBase}/${pacienteId}`,paciente,{headers:headers}));
+      let response = await firstValueFrom(this.http.put<any>(`${this.urlBase}/${pacienteId}`,paciente,{headers}));
       this.toastr.success('Atualizado com sucesso','Atualizado');
       return response;
     }catch(e:any){
@@ -65,8 +70,10 @@ export class PacienteService {
   }
 
   async buscarPacientePorId(id:number){
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/${id}`));
+      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/${id}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -78,9 +85,10 @@ export class PacienteService {
   }
 
   async deletarPaciente(id:number){
-    let headers = new HttpHeaders().set('idUsuarioLogado','1');
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+    
     try{
-      await firstValueFrom(this.http.delete<any>(`${this.urlBase}/${id}`,{headers:headers}));
+      await firstValueFrom(this.http.delete<any>(`${this.urlBase}/${id}`,{headers}));
       this.toastr.success('Cadastro Deletado com sucesso','Deletado');
       return true;
     }catch(e:any){
@@ -93,9 +101,11 @@ export class PacienteService {
     }
   }
 
-  async buscarPacienteComFiltro(fltro:string){
+  async buscarPacientesComFiltro(fltro:string){
+    const headers = this.loginService.obterHeadersUsuarioLogado();
+
     try{
-      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/listagem/${fltro}`));
+      return await lastValueFrom(this.http.get<any>(`${this.urlBase}/listagem/${fltro}`, {headers}));
     }catch(e:any){
       if(e.error[0].mensagem){
         this.toastr.error(e.error[0].mensagem,'Erro ao Buscar');
@@ -118,12 +128,14 @@ export class PacienteService {
     return idade;
   }
 
+  
+  converterTelefoneToView(telefone: string) {
+    if (telefone === undefined || telefone === null) return telefone;
+    return `(${telefone.substring(0, 2)}) ${telefone.substring(2, 7)} - ${telefone.substring(7)}`
+  }
+  
   converterDataBdToDate(data: string) {
     let dataSub = data.split('/');
     return new Date(`${dataSub[1]}/${dataSub[0]}/${dataSub[2]}`);
-  }
-
-  converterTelefoneToView(telefone: string) {
-    return `(${telefone.substring(0, 2)}) ${telefone.substring(2, 7)} - ${telefone.substring(7)}`
   }
 }

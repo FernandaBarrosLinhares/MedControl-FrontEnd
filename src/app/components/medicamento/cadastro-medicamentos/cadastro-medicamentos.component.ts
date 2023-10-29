@@ -8,43 +8,55 @@ import { MedicamentosService } from 'src/app/services/medicamento/medicamentos.s
 @Component({
   selector: 'app-cadastro-medicamentos',
   templateUrl: './cadastro-medicamentos.component.html',
-  styleUrls: ['./cadastro-medicamentos.component.css']
+  styleUrls: ['./cadastro-medicamentos.component.css'],
 })
 export class CadastroMedicamentosComponent implements OnInit {
-
   formMedicamento: any = FormGroup;
-	medicamentoId: number  = 0;
+  medicamentoId: number = 0;
   medicamento: any;
 
-
-	constructor(
+  constructor(
     private fb: FormBuilder,
     private service: MedicamentosService,
     private route: ActivatedRoute,
     private router: Router
-     ) {
-		this.formMedicamento = this.fb.group({
-			nome: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(5)]],
-			data: ['', [Validators.required]],
-			horario: ['', [Validators.required]],
-			tipo: ['', [Validators.required]],
-		  quantidade: ['',[Validators.required] ],
+  ) {
+    this.formMedicamento = this.fb.group({
+      nome: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(100),
+          Validators.minLength(5),
+        ],
+      ],
+      data: ['', [Validators.required, Validators.maxLength(10)]],
+      horario: ['', [Validators.required]],
+      tipo: ['', [Validators.required]],
+      quantidade: ['', [Validators.required]],
       unidade: ['', [Validators.required]],
-      observacoes: ['', [Validators.required, Validators.maxLength(1000), Validators.minLength(10)]],
-			status: [true, [Validators.required]]
-		});
-	}
+      observacao: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(1000),
+          Validators.minLength(10),
+        ],
+      ],
+      status: [true, [Validators.required]],
+    });
+  }
 
   async ngOnInit() {
-		const params = await firstValueFrom(this.route.queryParams);
+    const params = await firstValueFrom(this.route.queryParams);
 
-    if (params['id']) {
+    if (params['id'] !== undefined) {
       this.medicamentoId = Number(params['id']);
 
       this.medicamento = await this.service.buscarPorId(this.medicamentoId);
       if (this.medicamento == null) {
         this.medicamentoId = 0;
-        this.router.navigate(['/cadastro-medicamentos']);
+        this.router.navigate(['/labmedication']);
         return;
       }
 
@@ -55,55 +67,49 @@ export class CadastroMedicamentosComponent implements OnInit {
         tipo: this.medicamento.tipo,
         quantidade: this.medicamento.quantidade,
         unidade: this.medicamento.unidade,
-        observacoes: this.medicamento.observacoes,
+        observacao: this.medicamento.observacao,
         status: this.medicamento.status,
       });
     } else {
       this.formMedicamento.get('status').disable();
     }
-	}
+  }
 
   async onSubmit() {
     let data = this.formMedicamento.get('data').value;
 
-    let consulta: IMedicamentos = {
-
+    let medicamento: IMedicamentos = {
       nome: this.formMedicamento.get('nome')?.value,
       data: this.convertInputDateToBdDate(data),
       horario: this.formMedicamento.get('horario')?.value,
       tipo: this.formMedicamento.get('tipo')?.value,
       quantidade: this.formMedicamento.get('quantidade')?.value,
-      unidade:this.formMedicamento.get('unidade')?.value,
-      observacoes:this.formMedicamento.get('observacoes')?.value,
+      unidade: this.formMedicamento.get('unidade')?.value,
+      observacao: this.formMedicamento.get('observacao')?.value,
       status: this.formMedicamento.get('status')?.value,
     };
-    console.log(consulta)
+
     if (this.medicamentoId) {
       this.medicamento.id = this.medicamentoId;
-      await this.service.editar(consulta);
+      await this.service.editar(medicamento, this.medicamentoId);
     } else {
-      await this.service.salvar(consulta);
+      await this.service.salvar(medicamento);
     }
-
+  
+    this.router.navigate(['/labmedication']);
   }
 
-  deletar() {
+  async deletar() {
+    await this.service.excluir(this.medicamentoId);
+    this.router.navigate(['/labmedication']);
+  }
+  convertInputDateToBdDate(data: string): string {
+    let dataArray = data.split('-');
+    return `${dataArray[2]}/${dataArray[1]}/${dataArray[0]}`;
+  }
 
-    this.service.excluir(this.medicamentoId);
-    this.router.navigate(["/"]);
-
-}
-convertInputDateToBdDate(data: string): string {
-  let dataArray = data.split('-');
-  return `${dataArray[2]}/${dataArray[1]}/${dataArray[0]}`;
-}
-
-convertBdDateToInputDate(data: string): string {
-  let dataArray = data.split('-');
-  return `${dataArray[2]}-${dataArray[1]}-${dataArray[0]}`;
-}
-mostrarFormulario(){
-  console.log(this.formMedicamento)
-}
-
+  convertBdDateToInputDate(data: string): string {
+    let dataArray = data.split('/');
+    return `${dataArray[2]}-${dataArray[1]}-${dataArray[0]}`;
+  }
 }

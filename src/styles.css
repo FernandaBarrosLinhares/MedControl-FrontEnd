@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+	--cor-primaria: #00408a;
+}
+
+.btn-primary.btn-primary, .bg-primary.bg-primary {
+	background-color: var(--cor-primaria) !important;
+	color: #fff !important;
+}
+
+.text-primary.text-primary {
+	color: var(--cor-primaria) !important;
+}

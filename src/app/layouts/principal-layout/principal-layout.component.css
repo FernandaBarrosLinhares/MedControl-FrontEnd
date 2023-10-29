@@ -2,10 +2,12 @@
 	display: grid;
 	grid-template-rows: 56px 1fr;
 }
-/* 
+
 app-navbar {
-	grid-column: span 2;
-} */
+	position: fixed;
+	inset: 0 0 auto 0;
+	z-index: 10;
+}
 
 .container-fluid {
 	background-color: #eee;
@@ -20,4 +22,17 @@ app-navbar {
 
 .fundo-maior { 
 	max-width: 90%;
+}
+
+@media (max-width: 749px) {
+	.container-fluid {
+		margin: 4rem 0;
+		padding: 4rem 1rem;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	.fundo-maior {
+		max-width: unset;
+	}
 }

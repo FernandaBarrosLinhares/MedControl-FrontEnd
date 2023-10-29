@@ -1,67 +1,76 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormGroup, NgForm, FormBuilder} from '@angular/forms';
-import { Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login/login.service';
+import { UsuariosService } from 'src/app/services/usuario/usuario.service';
+import { ConfirmarSenha } from 'src/app/validators/confirmar-senha.validators';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit{
   usuarios: any = [];
-  mensagemCadastro:string="";
-  usuarioLogado:any={};
-  mensagem: string = '';
-  @ViewChild('loginForm')
-  formLog!: NgForm;
-  @ViewChild('CadastroForm')
-  formCad!: NgForm;
-  formularioLogin:any = FormGroup;
-  formulariocadastro:any = FormGroup;
+  usuarioLogado: any = {};
+  formLogin: any = FormGroup;
+  formResetSenha: any = FormGroup;
 
-  constructor(private loginService: LoginService,private rotas : Router,private fb: FormBuilder) {
+  constructor(
+    private loginService: LoginService,
+    private usuarioService: UsuariosService,
+    private router: Router,
+    private fb: FormBuilder,
+  ) {
+    this.formLogin = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
+    });
 
-  }
-  ngOnInit() {
-    this.checarUsuarioLogado()
-    this.criarFormLogin();
-  }
-  checarUsuarioLogado(){
-    if(this.loginService.logado()){
-      this.rotas.navigate(['/home']);
-    }
-  }
-  criarFormLogin() {
-    this.formularioLogin = this.fb.group({
-      email: ['', [Validators.required,Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(8)]]
+    this.formResetSenha = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
+      repetirSenha: ['', [Validators.required, Validators.minLength(6), ]]
+    },{
+      validators: [ConfirmarSenha.confirmarSenhaValidations]
     });
   }
+  ngOnInit(){
+    if(this.loginService.logado())this.router.navigate(['labmedication']);
+  }
+
   async login() {
-    this.limparMensagem();
-    if(this.formularioLogin.invalid){
-      return
+    const email = this.formLogin.get('email')?.value;
+    const senha = this.formLogin.get('senha')?.value;
+    await this.loginService.login(email, senha);
+    this.router.navigate(['labmedication']);
+  }
+
+  abrirModal(selector: string) {
+    const modal = document.querySelector<HTMLDialogElement>(selector);
+    if (modal == null) return;
+    modal.showModal();
+  }
+
+  fecharModal(selector: string) {
+    const modal = document.querySelector<HTMLDialogElement>(selector);
+    if (modal == null) return;
+    modal.close();
+  }
+
+  async resetarSenha() {
+    console.log(this.formResetSenha);
+    const { email, senha } = this.formResetSenha.value;
+    const usuarioPorEmail = await this.usuarioService.buscarUsuarioPorEmail(email);
+
+    if (usuarioPorEmail == null) {
+      this.fecharModal('#modalResetSenha');
+      return;
     }
-    try{
-      const email = this.formularioLogin.get('email')?.value;
-      const senha = this.formularioLogin.get('senha')?.value;
-      await this.loginService.login(email, senha);
-      this.mensagem = 'Usuário logado!'
-    }
-    catch(e) {
-      this.mensagem = 'Credenciais Inválidas!!!'
+
+    if (usuarioPorEmail.id == undefined) return;
+
+    await this.usuarioService.resetarSenha(usuarioPorEmail.id, email, senha);
+    this.fecharModal('#modalResetSenha');
   }
 }
-limparMensagem() {
-  setTimeout(() => {
-    this.mensagem = "";
-    this.mensagemCadastro = "";
-  }, 3000);
-}
-criarConta(){
-
-}
-}
-

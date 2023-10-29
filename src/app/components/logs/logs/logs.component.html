@@ -1,0 +1,29 @@
+<section class="container">
+  <h2 class="text-primary text-center">Registro de atividades</h2>
+</section>
+<section class="container mt-5">
+  <div class="registros">
+    <div class="registro" *ngFor="let log of logs">
+      <div class="registro-destaque">
+        <div class="horario">
+          Registo #{{ log.id }}
+        </div>
+        <div class="motivo">
+          {{ log.horario }}
+        </div>
+        <div class="data">
+          {{ log.data }}
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="descricao">
+          {{ log.mensagem }}
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div *ngIf="logs.lenght==0">Sem registros</div>
+</section>
+

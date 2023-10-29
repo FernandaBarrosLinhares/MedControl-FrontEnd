@@ -19,13 +19,15 @@ export class ProntuariosComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.pacientes = await this.pacienteService.buscarPaciente();
+    this.pacientes = await this.pacienteService.buscarPacientes();
     console.log(this.pacientes);
   }
 
-  onSubmit() {
-    console.log(this.buscaForm.get('filtro')?.value);
-    
+  async onSubmit() {
+    if (this.buscaForm.get('filtro')?.value == '') return;
+    this.pacientes = await this.pacienteService.buscarPacientesComFiltro(
+      this.buscaForm.get('filtro')?.value
+    );   
   }
 
   calcularIdade(paciente: IPaciente) {

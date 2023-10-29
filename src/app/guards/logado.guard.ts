@@ -1,8 +1,14 @@
 import { inject } from '@angular/core';
-import { CanActivateChildFn } from '@angular/router';
+import { CanActivateChildFn, Router } from '@angular/router';
 import { LoginService } from '../services/login/login.service';
+import { UrlService } from '../services/url/url.service';
 
 export const logadoGuard: CanActivateChildFn = (childRoute, state) => {
-  inject(LoginService).mudouURL(state.url);
-  return true;
+  inject(UrlService).mudouURL(state.url);
+  if (inject(LoginService).logado()) {
+    return true;
+  } else {
+    inject(Router).navigate(['/']);
+    return false;
+  }
 };

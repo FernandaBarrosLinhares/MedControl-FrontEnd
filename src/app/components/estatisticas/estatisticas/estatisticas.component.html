@@ -1,106 +1,119 @@
-<div>
-    <div>
-        <div class="row">
-            <div class="col">
-                <div class="estatistica">
-                    <h4>Pacientes:</h4>
-                    <p>{{ pacientesCadastrados }}</p>
-                    <div class="linha"></div>
+<div class="container">
+    <div class="row">
+        <h2>Estatísticas</h2>
+        <div class="mt-4">
+            <div class="row">
+                <div class="col">
+                    <div class="estatistica">
+                        <h4>Pacientes:</h4>
+                        <p>{{ estatisticas.numPacientes }}</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="estatistica">
+                        <h4>Consultas:</h4>
+                        <p>{{ estatisticas.numConsultas }}</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="estatistica">
+                        <h4>Exames:</h4>
+                        <p>{{ estatisticas.numExames }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="estatistica">
-                    <h4>Consultas:</h4>
-                    <p>{{ consultasRealizadas }}</p>
-                    <div class="linha"></div>
+            <div class="row flex-wrap">
+                <div class="col">
+                    <div class="estatistica">
+                        <h4>Medicações:</h4>
+                        <p>{{ estatisticas.numMedicamentos }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="estatistica">
-                    <h4>Exames:</h4>
-                    <p>{{ exames }}</p>
-                    <div class="linha"></div>
+                <div class="col">
+                    <div class="estatistica">
+                        <h4>Dietas:</h4>
+                        <p>{{ estatisticas.numDietas }}</p>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="estatistica">
-                    <h4>Medicações:</h4>
-                    <p>{{ medicacoes }}</p>
-                    <div class="linha"></div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="estatistica">
-                    <h4>Dietas:</h4>
-                    <p>{{ dietas }}</p>
-                    <div class="linha"></div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="estatistica">
-                    <h4>Exercícios:</h4>
-                    <p>{{ exercicios }}</p>
-                    <div class="linha"></div>
+                <div class="col">
+                    <div class="estatistica">
+                        <h4>Exercícios:</h4>
+                        <p>{{ estatisticas.numExercicios }}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <hr>
-    <div>
-        <div class="row">
-            <div class="col-10">
-                <input type="text" class="form-control" name="filtro" [(ngModel)]="filtro" placeholder="Buscar por paciente">
-            </div>
-            <div class="col">
-                <button class="btn" style="background-color: #00408A; color: white;" type="button" (click)="buscarPacientes()">Pacientes</button>
-            </div>
-        </div>
-        <div style="margin-top: 20px; max-height: 372px; overflow-y: auto; display: flex; justify-content: flex-start; flex-wrap: wrap;">
-            <div class="card" style="width: 21rem; margin-bottom: 20px;" *ngFor="let paciente of pacientes">
-                <div class="card-header d-flex justify-content-between" style="background-color: #00408A; color: white;">
-                    <h6>{{ paciente.nomeCompleto }}</h6>
-                    <a [routerLink]="'/labmedication/cadastro-paciente'" data-bs-dismiss="offcanvas" style="margin-bottom: 0px;" >ver mais</a>
+    <div class="row mt-4" *ngIf="isAdmin">
+        <h3 class="p-0">Usuários</h3>
+        <form (submit)="filtrarUsuarios()" [formGroup]="formUsuario" class="mt-4">
+            <div class="row">
+                <div class="col-lg-10 col-md-9 col-sm-9 col-12 ps-0">
+                    <input type="text" name="form-control" id="filtro" class="col-lg-12"
+                        placeholder="informe o nome, cpf, email ou telefone do usuário para pesquisar"
+                        formControlName="filtro"
+                        (input)="onInputUsuario()">
                 </div>
-                <div class="card-body d-flex">
-                    <img src="./assets/UserIcon.png" alt="Texto alternativo da imagem">
-                    <ul>
-                        <li> {{ paciente.dataNascimento }} </li>
-                        <li> {{ paciente.convenio }} </li>
-                        <li> {{ paciente.telefone }} </li>  
-                    </ul>
+                <div class="col-lg-2 col-md-3 col-sm-3 col-12 pe-0">
+                    <button class="btn btn-primary col-lg-12 w-100"><i class="bi bi-search"></i> Buscar</button>
+                </div>
+            </div>
+        </form>
+        <div class="container mt-3 p-0 grid-container">
+            <div class="card-grid">
+                <div class="card p-0" *ngFor="let usuario of usuarios">
+                    <div class="card-header bg-primary">{{usuario.nomeCompleto}}</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="column"><i class="bi bi-person"></i></div>
+                            <div class="column">
+                                <ul>
+                                    <li>{{ exibirCargo(usuario.tipoUsuario) }}</li>
+                                    <li>{{ usuario.email }}</li>
+                                    <li>{{ exibirTelefone(usuario.telefone) }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a [href]="'/labmedication/cadastro-usuario?id='+usuario.id">ver mais</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div *ngIf="isAdmin">
-        <hr>
-        <div class="row">
-            <div class="col-10">
-              <input type="text" class="form-control" placeholder="Buscar por usuários">
-            </div>
-            <div class="col">
-                <button class="btn" style="background-color: #00408A; color: white;" type="button" (click)="buscarUsuarios()">Usuários</button>
-            </div>
-        </div>
-        <div style="margin-top: 20px; max-height: 372px; overflow-y: auto; display: flex; justify-content: flex-start; flex-wrap: wrap;">
-            <div class="card" style="width: 20rem; margin-bottom: 20px;" *ngFor="let user of usuarios">
-                <div class="card-header d-flex justify-content-between" style="background-color: #00408A; color: white;">
-                    <h6>{{ user.nome }}</h6>
-                    <a [routerLink]="'/labmedication/'" data-bs-dismiss="offcanvas" style="margin-bottom: 0px;" >ver mais</a>
+    <div class="row mt-4">
+        <h3 class="p-0">Pacientes</h3>
+        <form (submit)="filtrarPacientes()" [formGroup]="formPaciente" class="mt-4">
+            <div class="row">
+                <div class="col-lg-10 col-md-9 col-sm-9 col-12 ps-0">
+                    <input type="text" name="form-control" id="filtro" class="col-lg-12"
+                        placeholder="informe o nome, cpf, email ou telefone do paciente para pesquisar"
+                        formControlName="filtro"
+                        (input)="onInputPaciente()">
                 </div>
-                <div class="card-body d-flex">
-                    <img src="./assets/UserIcon.png" alt="Texto alternativo da imagem">
-                    <ul>
-                        <li> {{ user.idade }} </li>
-                        <li> {{ user.convenio }} </li>
-                        <li> {{ user.telefone }} </li>  
-                    </ul>
+                <div class="col-lg-2 col-md-3 col-sm-3 col-12 pe-0">
+                    <button class="btn btn-primary col-lg-12 w-100"><i class="bi bi-search"></i> Buscar</button>
+                </div>
+            </div>
+        </form>
+        <div class="container mt-3 p-0 grid-container">
+            <div class="card-grid">
+                <div class="card p-0" *ngFor="let paciente of pacientes">
+                    <div class="card-header bg-primary">{{paciente.nomeCompleto}}</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="column"><i class="bi bi-person"></i></div>
+                            <div class="column">
+                                <ul>
+                                    <li>{{ obterIdadePaciente(paciente) }} anos</li>
+                                    <li>{{ paciente.convenio || 'sem convênio' }}</li>
+                                    <li>{{ exibirTelefone(paciente.telefone) }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a [href]="'/labmedication/cadastro-paciente?id='+paciente.id">ver mais</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
