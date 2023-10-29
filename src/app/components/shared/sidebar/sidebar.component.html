@@ -12,7 +12,7 @@
       <div class="row mt-3">
         <div class="list-group">
           <a [routerLink]="'/labmedication/'" type="button" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas">Início</a>
-          <a type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action" (click)="abrirConfigModal()">Configurações</a>
+          <a type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action" (click)="abrirConfigModal()" *ngIf="isAdmin()">Configurações</a>
           <a [routerLink]="'/'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action" (click)="deslogar()">Sair</a>
         </div>
       </div>

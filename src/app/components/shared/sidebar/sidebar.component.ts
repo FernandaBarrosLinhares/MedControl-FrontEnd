@@ -40,4 +40,8 @@ export class SidebarComponent {
     if (modal === null) return;
     modal.showModal();
   }
+
+  isAdmin() {
+    return this.loginService.obterTipoUsuarioLogado() === 'ADMINISTRADOR';
+  }
 }
