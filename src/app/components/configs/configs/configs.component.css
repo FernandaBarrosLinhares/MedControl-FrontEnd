@@ -1,0 +1,19 @@
+dialog[type="modal"] {
+	border: 0;
+	border-radius: 5px;
+}
+
+dialog::backdrop {
+	background-color: rgba(0 0 0 / 50%);
+}
+
+dialog {
+	position: relative;
+	min-width: min(100%, 450px);
+}
+
+.botao-fechar { 
+	position: absolute;
+	top: 1.5rem;
+	right: 1.5rem;
+}

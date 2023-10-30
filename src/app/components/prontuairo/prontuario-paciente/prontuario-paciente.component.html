@@ -1,0 +1,229 @@
+<section class="container">
+  <h2 class="text-primary text-center">Prontuário de Paciente</h2>
+  <div class="paciente mt-5">
+    <div class="paciente-destaque d-flex flex-wrap align-items-center gap-3">
+      <div class="nome-completo bg-primary">
+        {{ paciente.nomeCompleto }}
+      </div>
+      <div class="telefone">
+        {{ exibirTelefone(paciente.telefone) }}
+      </div>
+      <div class="convenio">
+        {{ paciente.convenio || 'sem convênio' }}
+      </div>
+    </div>
+    <div class="info">
+      <div class="alergia">
+        <span class="text-primary bold">alergias</span>: {{ paciente.alergias || 'sem alergias' }}
+      </div>
+      <div class="cuidados">
+        <span class="text-primary bold">cuidados específicos</span>
+        : {{ paciente.cuidadosEspecificos || 'sem cuidado específicos'}}
+      </div>
+    </div>
+  </div>
+</section>
+<section class="container mt-5">
+  <h4 class="text-primary">Histórico de consultas</h4>
+  <div class="registros">
+    <div class="registro" *ngFor="let consulta of prontuario.consultas">
+      <div class="registro-destaque">
+        <div class="motivo">
+          {{ consulta.motivo }}
+        </div>
+        <div class="data">
+          {{ consulta.data }}
+        </div>
+        <div class="horario">
+          {{ consulta.horario }}
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="descricao">
+          {{ consulta.descricao }}
+        </div>
+        <div class="medicamento">
+          {{ consulta.medicamento.nome }}
+        </div>
+        <div class="dosagens-precaucoes">
+          {{ consulta.dosagensPrecaucoes }}
+        </div>
+        <div class="status">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" disabled [checked]="consulta.status">
+            <label class="form-check-label" for="status">Ativo</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="editar">
+        <button class="btn btn-primary" (click)="editarConsulta(consulta.id || 0)">editar</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="prontuario.consultas?.length === 0">Sem registros</div>
+</section>
+<section class="container mt-5">
+  <h4 class="text-primary">Histórico de dietas</h4>
+  <div class="registros">
+    <div class="registro" *ngFor="let dieta of prontuario.dietas">
+      <div class="registro-destaque">
+        <div class="tipo-dieta">
+          {{ exibirTipoDieta(dieta.tipoDieta) }}
+        </div>
+        <div class="nome">
+          {{ dieta.nome }}
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="data">
+          {{ dieta.data }}
+        </div>
+        <div class="horario">
+          {{ dieta.horario }}
+        </div>
+        <div class="descricao">
+          {{ dieta.descricao }}
+        </div>
+        <div class="status">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" disabled [checked]="dieta.status">
+            <label class="form-check-label" for="status">Ativo</label>
+          </div>  
+        </div>
+      </div>
+
+      <div class="editar">
+        <button class="btn btn-primary" (click)="editarDieta(dieta.id || 0)">editar</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="prontuario.dietas?.length === 0">Sem registros</div>
+</section>
+<section class="container mt-5">
+  <h4 class="text-primary">Histórico de exame</h4>
+  <div class="registros">
+    <div class="registro" *ngFor="let exame of prontuario.exames">
+      <div class="registro-destaque">
+        <div class="laboratorio">
+          {{ exame.laboratorio }}
+        </div>
+        <div class="data">
+          {{ exame.data }}
+        </div>
+        <div class="horario">
+          {{ exame.horario }}
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="nome">
+          {{ exame.nome }}
+        </div>
+
+        <div class="tipo">
+          {{ exame.tipo }}
+        </div>
+
+        <div class="url-documento">
+          <a [href]="exame.url_documento">resultado</a>
+        </div>
+        <div class="status">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" disabled [checked]="exame.status">
+            <label class="form-check-label" for="status">Ativo</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="editar">
+        <button class="btn btn-primary" (click)="editarExame(exame.id || 0)">editar</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="prontuario.exames?.length === 0">Sem registros</div>
+</section>
+
+<section class="container mt-5">
+  <h4 class="text-primary">Histórico de exercício</h4>
+  <div class="registros">
+    <div class="registro" *ngFor="let exercicio of prontuario.exercicios">
+      <div class="registro-destaque">
+        <div class="nome">
+          {{ exercicio.nome }}
+        </div>
+        <div class="tipo-exercicio">
+          {{ exibirTipoExercicio(exercicio.tipoExercicioEnum) }}
+        </div>
+
+      </div>
+
+      <div class="info">
+        <div class="data">
+          {{ exercicio.data }}
+        </div>
+        <div class="horario">
+          {{ exercicio.horario }}
+        </div>
+        <div class="quantidade-por-semana">
+          {{ exercicio.quantidadePorSemana }}x por semana
+        </div>
+        <div class="status">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" disabled [checked]="exercicio.status">
+            <label class="form-check-label" for="status">Ativo</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="editar">
+        <button class="btn btn-primary" (click)="editarExercicio(exercicio.id || 0)">editar</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="prontuario.exercicios?.length === 0">Sem registros</div>
+</section>
+
+<section class="container mt-5">
+  <h4 class="text-primary">Histórico de medicamento</h4>
+  <div class="registros">
+    <div class="registro" *ngFor="let medicamento of prontuario.medicamentos">
+      <div class="registro-destaque">
+        <div class="especificacao d-flex gap-1">
+          <div class="nome">
+            {{ medicamento.nome }}
+          </div>
+          <div class="quantidade-medida">
+            {{ medicamento.quantidade }}{{ exibirUnidadeMedicamento(medicamento.unidade) }}
+          </div>
+        </div>
+        <div class="data">
+          {{ exibirTipoExercicio(medicamento.data) }}
+        </div>
+        <div class="horario">
+          {{ medicamento.horario }}
+        </div>
+
+      </div>
+
+      <div class="info">
+        <div class="tipo">
+          {{ exibirTipoMedicamento(medicamento.tipo) }}
+        </div>
+        <div class="status">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" disabled [checked]="medicamento.status">
+            <label class="form-check-label" for="status">Ativo</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="editar">
+        <button class="btn btn-primary" (click)="editarMedicamento(medicamento.id || 0)">editar</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="prontuario.medicamentos?.length === 0">Sem registros</div>
+</section>

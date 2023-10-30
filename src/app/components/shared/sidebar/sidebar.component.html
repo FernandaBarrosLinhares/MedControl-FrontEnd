@@ -1,0 +1,45 @@
+<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop"
+  aria-labelledby="staticBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="staticBackdropLabel">{{ nomeEmpresa }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="container">
+      <div class="row d-flex justify-content-center">
+        <img [src]="logoUrl" [alt]="'Logo da ' + nomeEmpresa" class="logo">
+      </div>
+      <div class="row mt-3">
+        <div class="list-group">
+          <a [routerLink]="'/labmedication/'" type="button" class="list-group-item list-group-item-action" data-bs-dismiss="offcanvas">Início</a>
+          <a type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action" (click)="abrirConfigModal()" *ngIf="isAdmin()">Configurações</a>
+          <a [routerLink]="'/'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action" (click)="deslogar()">Sair</a>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <h6>Cadastro</h6>
+        <div class="list-group">
+          <a [routerLink]="'/labmedication/cadastro-consulta'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action" *ngIf="getTipoUsuarioLogado() !== 'ENFERMEIRO'">Consulta</a>
+          <a [routerLink]="'/labmedication/cadastro-dieta'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Dieta</a>
+          <a [routerLink]="'/labmedication/cadastro-exame'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action" *ngIf="getTipoUsuarioLogado() !== 'ENFERMEIRO'">Exame</a>
+          <a [routerLink]="'/labmedication/cadastro-exercicio'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Exercício</a>
+          <a [routerLink]="'/labmedication/cadastro-medicamento'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Medicamento</a>
+          <a [routerLink]="'/labmedication/cadastro-paciente'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Paciente</a>
+          <a [routerLink]="'/labmedication/cadastro-usuario'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action" *ngIf="getTipoUsuarioLogado() === 'ADMINISTRADOR'">Usuário</a>
+      </div>
+    </div>
+      <div class="row mt-3" *ngIf="getTipoUsuarioLogado() !== 'ENFERMEIRO'">
+        <h6>Prontuário</h6>
+        <div class="list-group">
+          <a [routerLink]="'/labmedication/prontuarios'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Listagem</a>
+        </div>
+      </div>
+      <div class="row mt-1" *ngIf="getTipoUsuarioLogado() === 'ADMINISTRADOR'">
+        <h6>Registros</h6>
+        <div class="list-group">
+          <a [routerLink]="'/labmedication/registros'" type="button" data-bs-dismiss="offcanvas" class="list-group-item list-group-item-action">Listagem</a>
+        </div>
+      </div>
+
+  </div>
+</div>

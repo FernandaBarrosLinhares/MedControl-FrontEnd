@@ -1,0 +1,28 @@
+.offcanvas {
+  background-color: var(--cor-primaria);
+  color: var(--cor-fundo);
+}
+
+.btn-close {
+  background-color: var(--cor-fundo);
+}
+
+.list-group {
+	padding-right: 0;
+}
+
+.list-group-item {
+  font-weight: bold;
+  text-align: center;
+}
+
+.logo {
+  height: auto;
+  width: 100%;
+  object-fit: cover;
+}
+
+.offcanvas-title,
+h6 {
+  color: var(--cor-fundo);
+}

@@ -1,0 +1,244 @@
+<div class="container w-75 mt-3 mb-5">
+  <h3 class="text-primary">Preencha os campos para cadastrar</h3>
+  <p>Preencha todos os campos para {{ pacienteId ? 'salvar': 'cadastrar'}}.</p>
+  <form (ngSubmit)="cadastrar()" [formGroup]="formPaciente">
+    <div>
+      <div class="row">
+        <div class="col-sm-6 col-lg-6 col-md-4">
+          <label for="nomeCompleto" class="form-label">Nome Completo</label>
+          <input type="text" name="nomeCompleto" class="form-control" id="nomeCompleto"
+            placeholder="Nome completo do paciente" formControlName="nomeCompleto">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('nomeCompleto')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('nomeCompleto')?.getError('required')">Campo não pode ser vazio</p>
+            <p class="mb-0" *ngIf="formPaciente.get('nomeCompleto')?.getError('minlength')">Mínimo 8 caracteres</p>
+            <p class="mb-0" *ngIf="formPaciente.get('nomeCompleto')?.getError('maxlength')">Maximo 64 caracteres</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3 col-md-4">
+          <label for="genereo" class="form-label">Genero</label>
+          <select name="genero" class="form-select" id="genereo" aria-label="Default select example"
+            formControlName="genero">
+            <option selected value="">Selecione</option>
+            <option value="MASCULINO">Masculino</option>
+            <option value="FEMININO">Feminino</option>
+            <option value="OUTROS">Outros</option>
+          </select>
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('genero')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('genero')?.getError('required')">Campo não pode ser vazio</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3 col-md-4">
+          <label for="dataNascimento" class="form-label">Data nascimento</label>
+          <input type="date" name="dataNascimento" class="form-control" id="dataNascimento"
+            formControlName="dataNascimento">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('dataNascimento')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('dataNascimento').getError('required')">Campo não pode ser vazio</p>
+            <p class="mb-0" *ngIf="formPaciente.get('dataNascimento').getError('invalido')">Data inválida</p>
+            <p class="mb-0" *ngIf="formPaciente.get('dataNascimento').getError('maxlength')">Data inválida</p>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div class="row mt-2">
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="cpf" name="cpf" class="form-label">CPF</label>
+          <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" formControlName="cpf"
+            mask="000.000.000-00">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('cpf')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('cpf')?.errors?.['required']">Campo não pode ser vazio</p>
+            <p class="mb-0" *ngIf="formPaciente.get('cpf')?.errors?.['minlength']">Mínimo 11 caracteres</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="rg" name="rg" class="form-label">RG</label>
+          <input type="text" class="form-control" id="rg" formControlName="rg" placeholder="RG-expedidor">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('rg')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('rg')?.errors?.['required']">Campo não pode ser vazio</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="estadoCivil" class="form-label">Estado Civil</label>
+          <select name="estadoCivil" class="form-select" id="estadoCivil" aria-label="Default select example"
+            formControlName="estadoCivil">
+            <option selected value="">Selecione</option>
+            <option value="SOLTEIRO">Solteiro(a)</option>
+            <option value="CASADO">Casado(a)</option>
+            <option value="SEPARADO">Separado</option>
+            <option value="DIVORCIADO">Divorciado(a)</option>
+            <option value="VIUVO">Viúvo</option>
+            <option value="UNIAO_ESTAVEL">União Estável</option>
+          </select>
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('estadoCivil')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('estadoCivil')?.errors?.['required']">Campo não pode ser vazio</p>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div class="row mt-2">
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="telefone" name="telefone" class="form-label">Telefone</label>
+          <input type="text" class="form-control" id="telefone" placeholder="(00) 0 0000-0000" formControlName="telefone" mask="(00) 0 0000-0000"
+            [validation]="true">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('telefone')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('telefone')?.errors?.['required']">Campo não pode ser vazio</p>
+            <p class="mb-0" *ngIf="formPaciente.get('telefone')?.errors?.['minlength']">Mínimo 11 caracteres</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-5 col-md-4">
+          <label for="email" name="email" class="form-label">E-mail</label>
+          <input type="text" class="form-control" id="email" placeholder="exemplo@email.com" formControlName="email">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('email')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('email')?.errors?.['email']">E-mail inválido</p>
+            <p class="mb-0" *ngIf="formPaciente.get('email')?.errors?.['required']">Campo não pode ser vazio</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3 col-md-4">
+          <label for="naturalidade" name="naturalidade" class="form-label">Naturalidade</label>
+          <input type="text" class="form-control" id="naturalidade" placeholder="brasileiro..." formControlName="naturalidade">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('naturalidade')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('naturalidade')?.errors?.['required']">Campo não pode ser vazio</p>
+            <p class="mb-0" *ngIf="formPaciente.get('naturalidade')?.errors?.['minlength']">Mínimo 8 caracteres</p>
+            <p class="mb-0" *ngIf="formPaciente.get('naturalidade')?.errors?.['maxlength']">Maximo 100 caracteres</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="contatoEmergencia" name="contatoEmergencia" class="form-label">Contato de emergência</label>
+          <input type="text" class="form-control" id="contatoEmergencia" placeholder="(00) 0 0000-0000" formControlName="contatoEmergencia"
+            mask="(00) 0 0000-0000" [validation]="true">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('contatoEmergencia').touched">
+            <p class="mb-0" *ngIf="formPaciente.get('contatoEmergencia')?.errors?.['required']">Campo não pode ser vazio
+            </p>
+            <p class="mb-0" *ngIf="formPaciente.get('contatoEmergencia')?.errors?.['minlength']">Mínimo 11 caracteres
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-2 d-flex align-items-center">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="status" formControlName="status">
+            <label class="form-check-label" for="status">Ativo</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <div class="row mt-2 align-items-end">
+        <!-- Alergias -->
+        <div class="col-sm-12 col-lg-6 col-md-6">
+          <!-- <h5>Alergias</h5> -->
+          <label for="alergias" class="form-label">Alergias</label>
+          <textarea style="resize: none;" id="alergias" class="form-control" type="textarea" formControlName="alergias"
+            name="alergias" rows="3" cols="3">
+          </textarea>
+        </div>
+        <!-- cuidados especificos -->
+        <div class="col-sm-12 col-lg-6 col-md-6">
+          <!-- <h5>Cuidados Específicos</h5> -->
+          <label for="cuidadosEspecificos" name="contEmergencia" class="form-label">Cuidados específicos</label>
+          <textarea style="resize: none;" id="cuidadosEspecificos" class="form-control" type="textarea"
+            formControlName="cuidadosEspecificos" name="cuidadosEspecificos" rows="3" cols="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <!-- convenio -->
+    <div class="mt-4">
+      <h5>Convênio</h5>
+      <div class="row">
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="convenio" class="form-label">Convênio</label>
+          <input type="text" name="convenio" class="form-control" id="convenio" formControlName="convenio">
+        </div>
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="numeroConvenio" class="form-label">Número da carteira</label>
+          <input type="text" name="numeroConvenio" class="form-control" id="numeroConvenio" placeholder="Número da carteira do convênio"
+            formControlName="numeroConvenio">
+        </div>
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="validadeConvenio" class="form-label">Validade</label>
+          <input type="month" name="validadeConvenio" class="form-control" id="validadeConvenio"
+            formControlName="validadeConvenio">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('validadeConvenio')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('validadeConvenio')?.errors?.['maxlength']">Data inválida</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Endereço -->
+    <div class="mt-4">
+      <h5>Endereço</h5>
+      <div class="row">
+        <div class="col-sm-6 col-lg-3 col-md-4">
+          <label for="cep" class="form-label">Cep</label>
+          <input (keyup)="pegarCep()" type="text" name="cep" class="form-control" id="cep" formControlName="cep"
+            mask="00.000-000">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('cep')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('cep')?.errors?.['required']">Campo não pode ser vazio</p>
+            <p class="mb-0" *ngIf="formPaciente.get('cep')?.errors?.['minlength']">Mínimo 11 caracteres</p>
+          </div>
+          <p class="badge bg-danger text-wrap mb-0" *ngIf="erroCep">Cep não existe</p>
+        </div>
+        <div class="col-sm-6 col-lg-6 col-md-4">
+          <label for="cidade" class="form-label">Cidade</label>
+          <input type="text" name="cidade" class="form-control" id="cidade" formControlName="cidade">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('localidade')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('localidade')?.errors?.['required']">Campo não pode ser vazio</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3 col-md-4">
+          <label for="estado" class="form-label">Estado</label>
+          <input type="text" name="estado" class="form-control" id="estado" formControlName="estado">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('uf')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('uf')?.errors?.['required']">Campo não pode ser vazio</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-sm-12 col-lg-8 col-md-9">
+          <label for="logradouro" class="form-label">Logradouro</label>
+          <input type="text" name="logradouro" class="form-control" id="logradouro" placeholder="rua das flores, etc..." formControlName="logradouro">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('logradouro')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('logradouro')?.errors?.['required']">Campo não pode ser vazio</p>
+          </div>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-3">
+          <label for="numero" class="form-label">Número</label>
+          <input type="text" name="numero" class="form-control" id="numero" formControlName="numero">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('numero')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('numero')?.errors?.['required']">Campo não pode ser vazio</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="complemento" class="form-label">Complemento</label>
+          <input type="text" name="complemento" class="form-control" id="complemento" formControlName="complemento">
+        </div>
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="bairro" class="form-label">Bairro</label>
+          <input type="text" name="bairro" class="form-control" id="bairro" formControlName="bairro">
+          <div class="badge bg-danger text-wrap" *ngIf="formPaciente.get('bairro')?.touched">
+            <p class="mb-0" *ngIf="formPaciente.get('bairro')?.errors?.['required']">Campo não pode ser vazio</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4 col-md-4">
+          <label for="referencia" class="form-label">Ponto de referência</label>
+          <input type="text" name="referencia" class="form-control" id="referencia" formControlName="referencia">
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-5 m-auto text-center">
+          <p class="badge bg-danger text-wrap mb-0 text-center" *ngIf="true">{{mensagem}}</p>
+        </div>
+      </div>
+      <!-- botoes -->
+      <div class="row mt-2">
+        <div class="col-sm-9 col-lg-6 col-md-6 m-auto text-center">
+          <button type="submit" class="btn btn-success me-3"
+            [disabled]="formPaciente.invalid">{{pacienteId==0?'Cadastrar':'Salvar'}}</button>
+          <button type="button" [disabled]="pacienteId==0" (click)="deletar()" class="btn btn-danger">Excluir paciente</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

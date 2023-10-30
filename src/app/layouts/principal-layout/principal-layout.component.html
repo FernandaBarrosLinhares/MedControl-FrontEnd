@@ -1,0 +1,8 @@
+<div class="layout">
+	<app-navbar></app-navbar>
+	<app-sidebar></app-sidebar>
+	<div class="container-fluid" [ngClass]="{ 'fundo-maior': formatoMaior }">
+		<router-outlet></router-outlet>
+	</div>
+	<app-configs></app-configs>
+</div>

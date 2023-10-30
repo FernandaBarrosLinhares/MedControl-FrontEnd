@@ -1,0 +1,92 @@
+<div class="container w-75 mt-3 mb-5">
+	<form (ngSubmit)="onSubmit()" [formGroup]="formExercicio">
+		<div>
+			<h3>{{ exercicioId ? 'Edição' : 'Cadastro' }} de Exercicio</h3>
+			<div class="row">
+				<div class="col-sm-6 col-lg-6 col-md-4">
+					<label for="nome" class="form-label">Nome da série de exercícios</label>
+					<input type="text" name="nome" class="form-control" id="nome" formControlName="nome">
+					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('nome').touched">
+						<p class="mb-0" *ngIf="formExercicio.get('nome')?.errors?.['required']">Campo não pode ser vazio</p>
+						<p class="mb-0" *ngIf="formExercicio.get('nome')?.errors?.['minlength']">Mínimo 5 caracteres</p>
+						<p class="mb-0" *ngIf="formExercicio.get('nome')?.errors?.['maxlength']">Mínimo 100 caracteres</p>
+					</div>
+				</div>
+				<div class="col-sm-6 col-lg-3 col-md-4">
+					<label for="data" class="form-label">Data do exercício</label>
+					<input type="date" name="data" class="form-control" id="data" formControlName="data" maxlength="10">
+					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('data').touched">
+						<p class="mb-0" *ngIf="formExercicio.get('data')?.errors?.['required']">Campo não pode ser vazio ou inválido</p>
+						<p class="mb-0" *ngIf="formExercicio.get('data').getError('maxlength')">Data inválida</p>
+					</div>
+				</div>
+				<div class="col-sm-6 col-lg-3 col-md-4">
+					<label for="horario" class="form-label">Horário do exercício</label>
+					<input type="time" name="horario" class="form-control" id="horario" formControlName="horario" step="2">
+					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('horario').touched">
+						<p class="mb-0" *ngIf="formExercicio.get('horario')?.errors?.['required']">Campo não pode ser vazio ou inválido</p>
+					</div>
+				</div>
+			</div>
+			  <div class="row mt-3">
+				  <div class="col-lg-12">
+				  	<label for="descricao">Descrição</label>
+					<textarea name="descricao" id="descricao" class="form-control" id="descricao" formControlName="descricao"></textarea>
+					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('descricao').touched">
+						<p class="mb-0" *ngIf="formExercicio.get('descricao')?.errors?.['required']">Campo não pode ser vazio ou inválido</p>
+						<p class="mb-0" *ngIf="formExercicio.get('descricao')?.errors?.['minlength']">Mínimo 10 caracteres</p>
+						<p class="mb-0" *ngIf="formExercicio.get('descricao')?.errors?.['maxlength']">Mínimo 1000 caracteres</p>
+					</div>
+			  	</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-lg-3">
+					<label for="quantidadePorSemana">Quantidade por semana</label>
+					<input type="number" name="quantidadePorSemana" class="form-control" id="quantidadePorSemana" formControlName="quantidadePorSemana">
+					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('quantidadePorSemana').touched">
+						<p class="mb-0" *ngIf="formExercicio.get('quantidadePorSemana')?.errors?.['required']">Campo não pode ser vazio ou inválido</p>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<label for="tipo">Tipo de exercício</label>
+					<select name="tipo" class="form-control" id="tipo" formControlName="tipoExercicioEnum">
+            <option value="" selected disabled>Selecione</option>
+						<option value="RESISTENCIA_AEROBICA">Resistência Aeróbica</option>
+						<option value="RESISTENCIA_MUSCULAR">Resistência Muscular</option>
+						<option value="FLEXIBILIDADE">Flexibilidade</option>
+						<option value="FORCA">Força</option>
+						<option value="AGILIDADE">Agilidade</option>
+						<option value="OUTRO">Outro</option>
+					</select>
+					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('tipoExercicioEnum').touched">
+						<p class="mb-0" *ngIf="formExercicio.get('tipoExercicioEnum')?.errors?.['required']">Campo não pode ser vázio</p>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<label for="paciente">Paciente</label>
+					<select class="form-control" id="paciente" formControlName="paciente">
+						<option value="" selected disabled>Selecione</option>
+						<option *ngFor="let paciente of pacientes" [value]="paciente.id">{{paciente.nomeCompleto}}</option>
+					</select>
+					<div class="badge bg-danger text-wrap" *ngIf="formExercicio.get('paciente').touched">
+						<p class="mb-0" *ngIf="formExercicio.get('paciente')?.errors?.['required']">Campo não pode ser vázio</p>
+					</div>
+				</div>
+				<div class="col-lg-2 d-flex align-items-center mt-3">
+					<div class="form-check">
+						<input type="checkbox" class="form-check-input" id="status" formControlName="status">
+						<label class="form-check-label" for="status">Ativo</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-lg-6m-auto text-center">
+				<div class="col-sm-9 col-lg-6 col-md-6 m-auto text-center">
+					<button type="submit" class="btn me-3" [ngClass]="{'btn-success': exercicioId == 0, 'btn-primary': exercicioId > 0}" [disabled]="formExercicio.invalid">{{ exercicioId ? 'Salvar' :'Cadastrar'}}</button>
+					<button type="button" class="btn btn-danger me-3" (click)="deletar()" *ngIf="exercicioId">Excluir exercício</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

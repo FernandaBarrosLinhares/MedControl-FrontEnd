@@ -1,0 +1,125 @@
+<section class="container w-75 mt-3 mb-5">
+  <h3 class="text-primary">{{ usuarioId ? "Edição" : "Cadastro" }} de usuarios</h3>
+  <p>Preencha todos os campos para {{ usuarioId ? 'salvar': 'cadastrar'}}.</p>
+  <form (ngSubmit)="cadastroUsuario()" [formGroup]="formularioCadastro" #CadastroForm="ngForm">
+    <div class="row align-items-center mt-3">
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <label for="nome">Nome Completo</label>
+        <input formControlName="nomeCompleto" type="text" class="form-control" id="nome" placeholder="Nome" />
+
+        <div class="badge bg-danger text-wrap" *ngIf="formularioCadastro.get('nomeCompleto').touched">
+          <p *ngIf="formularioCadastro.get('nomeCompleto')?.errors?.['required']" class="mb-0">
+            Campo não pode ser vazio
+          </p>
+          <p *ngIf="formularioCadastro.get('nomeCompleto')?.errors?.['minlength']" class="mb-0">
+            Senha deve conter no mínimo 8 caracteres
+          </p>
+          <p *ngIf="formularioCadastro.get('nomeCompleto')?.errors?.['maxlength']" class="mb-0">
+            Senha deve conter no máximo 64 caracteres
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <label for="genero">Gênero</label>
+        <select formControlName="genero" id="genero" class="form-control">
+          <option value="" selected disabled>Selecione</option>
+          <option value="MASCULINO">Masculino</option>
+          <option value="FEMININO">Feminino</option>
+          <option value="OUTROS">Outros</option>
+        </select>
+        <div class="badge bg-danger text-wrap" *ngIf="formularioCadastro.get('genero').touched">
+          <p *ngIf="formularioCadastro.get('genero')?.errors?.['required']" class="mb-0">
+            Campo não pode ser vazio
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <label for="cpf">CPF</label>
+        <input formControlName="cpf" type="text" class="form-control" id="cpf" placeholder="000.000.000-00"
+          mask="000.000.000-00" />
+
+        <div class="badge bg-danger text-wrap" *ngIf="formularioCadastro.get('cpf').touched">
+          <p *ngIf="formularioCadastro.get('cpf')?.errors?.['minlength']" class="mb-0">
+            Senha deve conter no mínimo 8 caracteres
+          </p>
+          <p *ngIf="formularioCadastro.get('cpf')?.errors?.['required']" class="mb-0">
+            Campo não pode ser vazio
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label for="telefone">Telefone</label>
+        <input type="telefone" name="telefone" class="form-control" id="telefone" placeholder="Telefone"
+          formControlName="telefone" placeholder="(00) 0 0000-0000" formControlName="telefone" mask="(00) 0 0000-0000"/>
+
+        <div class="badge bg-danger text-wrap" *ngIf="formularioCadastro.get('telefone').touched">
+          <p *ngIf="formularioCadastro.get('telefone')?.errors?.['minlength']" class="mb-0">
+            Telefone deve conter 11 caracteres
+          </p>
+          <p *ngIf="formularioCadastro.get('telefone')?.errors?.['required']" class="mb-0">
+            Campo não pode ser vazio
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label for="email">Email</label>
+        <input type="email" name="email" class="form-control" id="email" placeholder="Email" formControlName="email" />
+
+        <div class="badge bg-danger text-wrap" *ngIf="formularioCadastro.get('email').touched">
+          <p *ngIf="formularioCadastro.get('email')?.errors?.['required']" class="mb-0">
+            Campo não pode ser vazio
+          </p>
+          <p *ngIf="formularioCadastro.get('email')?.errors?.['email']" class="mb-0">
+            Email inválido
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12">
+        <label for="senha">Senha</label>
+        <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha"
+          formControlName="senha" />
+
+        <div class="badge bg-danger text-wrap" *ngIf="formularioCadastro.get('senha').touched">
+          <p *ngIf="formularioCadastro.get('senha')?.errors?.['required']" class="mb-0">
+            Campo não pode ser vazio
+          </p>
+          <p *ngIf="formularioCadastro.get('senha')?.errors?.['minlength']" class="mb-0">
+            Senha deve conter no mínimo 6 caracteres
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12">
+        <label for="tipo">Tipo</label>
+        <select formControlName="tipoUsuario" id="tipo" class="form-control">
+          <option value="" selected disabled>Selecione</option>
+          <option value="ADMINISTRADOR">Administrador</option>
+          <option value="ENFERMEIRO">Enfermeiro</option>
+          <option value="MEDICO">Médico</option>
+        </select>
+
+        <div class="badge bg-danger text-wrap" *ngIf="formularioCadastro.get('tipoUsuario').touched">
+          <p *ngIf="formularioCadastro.get('tipoUsuario')?.errors?.['required']" class="mb-0">
+            Campo não pode ser vazio
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="status" formControlName="status">
+          <label class="form-check-label" for="status">Ativo</label>
+        </div>
+      </div>
+      <div class="col-lg-6 m-auto text-center mt-3">
+        <button type="submit" class="btn me-3" [ngClass]="{
+              'btn-success': usuarioId == 0,
+              'btn-primary': usuarioId > 0
+            }" [disabled]="formularioCadastro.invalid">
+          {{ usuarioId ? "Salvar" : "Cadastrar" }}
+        </button>
+        <button type="button" class="btn btn-danger me-3" (click)="deletarUsuario()" *ngIf="usuarioId">
+          Excluir usuário
+        </button>
+      </div>
+    </div>
+  </form>
+</section>

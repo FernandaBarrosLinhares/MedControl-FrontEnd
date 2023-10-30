@@ -1,0 +1,35 @@
+<div class="container">
+	<h2>Prontuários</h2>
+	<form (submit)="onSubmit()" [formGroup]="buscaForm" class="mt-4">
+		<div class="row">
+			<div class="col-lg-10 col-md-9 col-sm-9 col-12 ps-0">
+				<input type="text" name="form-control" id="filtro" class="col-lg-12"
+					placeholder="informe o nome, cpf, email ou telefone do paciente para pesquisar" formControlName="filtro"
+					(input)="onSubmit()">
+			</div>
+			<div class="col-lg-2 col-md-3 col-sm-3 col-12 pe-0">
+				<button class="btn btn-primary col-lg-12 w-100"><i class="bi bi-search"></i> Buscar</button>
+			</div>
+		</div>
+	</form>
+	<div class="container mt-3 p-0 grid-container">
+		<div class="card-grid">
+			<div class="card p-0" *ngFor="let paciente of pacientes">
+				<div class="card-header bg-primary">{{paciente.nomeCompleto}}</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="column"><i class="bi bi-person"></i></div>
+						<div class="column">
+							<ul>
+								<li class="lowercase">{{ calcularIdade(paciente) }} anos</li>
+								<li>{{ paciente.convenio || 'sem convênio' }}</li>
+								<li>{{ exibirTelefone(paciente.telefone) }}</li>
+							</ul>
+						</div>
+					</div>
+					<a [href]="'/labmedication/prontuarios/paciente?id='+paciente.id">ver mais</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

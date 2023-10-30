@@ -1,0 +1,39 @@
+.layout {
+	display: grid;
+	grid-template-rows: 56px 1fr;
+	background-color: var(--cor-fundo);
+}
+
+app-navbar {
+	position: fixed;
+	inset: 0 0 auto 0;
+	z-index: 10;
+}
+
+.container-fluid {
+	background-color: #eee;
+	margin: 4rem auto;
+	padding: 4rem 2rem;
+	max-width: 1300px;
+	min-height: calc(100vh - 8rem - 56px);
+	min-height: calc(100dvh - 8rem - 56px);
+	border-radius: 13px;
+	box-shadow: 0 3px 10px 5px rgba(0, 0, 0, 0.3);
+}
+
+.fundo-maior { 
+	max-width: 90%;
+}
+
+@media (max-width: 749px) {
+	.container-fluid {
+		margin: 4rem 0;
+		padding: 4rem 1rem;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	.fundo-maior {
+		max-width: unset;
+	}
+}

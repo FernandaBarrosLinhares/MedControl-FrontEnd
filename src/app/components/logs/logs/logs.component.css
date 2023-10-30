@@ -1,0 +1,94 @@
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.registros {
+  padding: 0.5rem;
+  max-height: 350px;
+  overflow-y: auto;
+  background-color: rgba(0 0 0 / 10%);
+}
+
+.registros:not(:has(.registro)) {
+  display: none;
+}
+
+.registro {
+  border-top: 2px solid var(--cor-primaria);
+  margin-top: 1rem;
+  box-shadow: 1px 3px 5px rgba(0 0 0 / 5%);
+  background-color: var(--cor-fundo);
+}
+
+.registro-destaque {
+  display: flex;
+  padding: 0.5rem;
+  background-color: var(--cor-primaria);
+  color: var(--cor-fundo);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.registro-destaque > div {
+  color: inherit;
+}
+
+.registro .editar {
+  padding: 1rem 0.5rem 0.5rem;
+}
+
+@media (min-width: 750px) {
+  .registros {
+    padding: 1rem;
+  }
+
+  .registro {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0 1rem;
+    margin-top: 1rem;
+  }
+
+  .registro .info {
+    grid-column: 1;
+    padding: 1rem;
+  }
+
+  .registro .editar {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin-top: 0;
+    padding: 1rem;
+  }
+
+  .registro .registro-destaque {
+    align-self: self-start;
+    padding: 0.5rem 1rem;
+  }
+
+  .registro .registro-destaque > * {
+    position: relative;
+  }
+
+  .registro .registro-destaque > * + *::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--cor-fundo);
+  }
+
+  .registro-destaque {
+    display: flex;
+    width: max-content;
+    flex-wrap: nowrap;
+  }
+}

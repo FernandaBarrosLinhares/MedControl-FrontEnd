@@ -1,0 +1,106 @@
+<div class="container">
+	<h3 class="text-primary">{{ consultaId ? 'Edição' : 'Cadastro' }} de consulta</h3>
+	<p class="mb-0">Preencha todos os campos para {{ consultaId ? 'salvar': 'cadastrar'}}.</p>
+	<form (ngSubmit)="onSubmit()" [formGroup]="formConsulta">
+		<div class="row">
+			<div class="col-sm-6 col-lg-6 col-md-4 mt-3">
+				<label for="nome" class="form-label">Motivo da Consulta</label>
+				<input type="text" name="nome" class="form-control" id="nome" formControlName="motivo">
+				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('motivo').touched">
+					<p class="mb-0" *ngIf="formConsulta.get('motivo')?.errors?.['required']">Campo não pode ser vazio</p>
+					<p class="mb-0" *ngIf="formConsulta.get('motivo')?.errors?.['minlength']">Mínimo 8 caracteres</p>
+				</div>
+			</div>
+			<div class="col-sm-6 col-lg-3 col-md-4 mt-3">
+				<label for="data" class="form-label">Data da consulta</label>
+				<input type="date" name="data" class="form-control" id="data" formControlName="data">
+				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('data').touched">
+					<p class="mb-0" *ngIf="formConsulta.get('data')?.errors?.['required']">Campo não pode ser vazio ou inválido
+					</p>
+					<p class="mb-0" *ngIf="formConsulta.get('data').getError('maxlength')">Data inválida</p>
+				</div>
+			</div>
+			<div class="col-sm-6 col-lg-3 col-md-4 mt-3">
+				<label for="horario" class="form-label">Horário da consulta</label>
+				<input type="time" name="horario" class="form-control" id="horario" formControlName="horario" step="2">
+				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('horario').touched">
+					<p class="mb-0" *ngIf="formConsulta.get('horario')?.errors?.['required']">Campo não pode ser vazio ou
+						inválido
+					</p>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12 mt-3">
+				<label for="descricao">Descrição do problema</label>
+				<input type="text" name="descricao" class="form-control" id="descricao" formControlName="descricao">
+				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('descricao').touched">
+					<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['required']">Campo não pode ser vázio</p>
+					<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['minlength']">Mínimo de 16 caracteres</p>
+					<p class="mb-0" *ngIf="formConsulta.get('descricao')?.errors?.['maxlength']">Máximo de 1024 caracteres</p>
+				</div>
+			</div>
+
+			<div class="col-md-6 col-sm-12 mt-3">
+				<label for="dosagensPrecaucoes">Dosagens e Precauções</label>
+				<input type="text" name="dosagem" class="form-control" id="dosagensPrecaucoes"
+					formControlName="dosagensPrecaucoes">
+				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('dosagensPrecaucoes').touched">
+					<p class="mb-0" *ngIf="formConsulta.get('dosagensPrecaucoes')?.errors?.['required']">Campo não pode ser vázio
+					</p>
+					<p class="mb-0" *ngIf="formConsulta.get('dosagensPrecaucoes')?.errors?.['minlength']">Mínimo de 16 caracteres
+					</p>
+					<p class="mb-0" *ngIf="formConsulta.get('dosagensPrecaucoes')?.errors?.['maxlength']">Máximo de 256 caracteres
+					</p>
+				</div>
+			</div>
+
+			<div class="col-lg-3 mt-3">
+				<label for="paciente">Paciente</label>
+				<select class="form-control" id="paciente" formControlName="paciente">
+					<option value="" selected disabled>Selecione</option>
+					<option *ngFor="let paciente of pacientes" [value]="paciente.id">{{paciente.nomeCompleto}}</option>
+				</select>
+				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('paciente').touched">
+					<p class="mb-0" *ngIf="formConsulta.get('paciente')?.errors?.['required']">Campo não pode ser vázio</p>
+				</div>
+			</div>
+			<div class="col-lg-3 mt-3">
+				<label for="usuario">Usuário</label>
+				<select class="form-control" id="usuario" formControlName="usuario">
+					<option value="" selected disabled>Selecione</option>
+					<option *ngFor="let usuario of usuarios" [value]="usuario.id">{{usuario.nomeCompleto}}</option>
+				</select>
+				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('usuario').touched">
+					<p class="mb-0" *ngIf="formConsulta.get('usuario')?.errors?.['required']">Campo não pode ser vázio</p>
+				</div>
+			</div>
+			<div class="col-lg-3 mt-3">
+				<label for="medicamento">Medicamento</label>
+				<select class="form-control" id="medicamento" formControlName="medicamento">
+					<option value="" selected disabled>Selecione</option>
+					<option *ngFor="let medicamento of medicamentos" [value]="medicamento.id">{{medicamento.nome}}</option>
+				</select>
+				<div class="badge bg-danger text-wrap" *ngIf="formConsulta.get('medicamento').touched">
+					<p class="mb-0" *ngIf="formConsulta.get('paciente')?.errors?.['required']">Campo não pode ser vázio</p>
+				</div>
+			</div>
+			<div class="col-lg-2 d-flex align-items-center mt-3">
+				<div class="form-check">
+					<input type="checkbox" class="form-check-input" id="status" formControlName="status">
+					<label class="form-check-label" for="status">Ativo</label>
+				</div>
+			</div>
+		</div>
+		<div class="mt-4">
+			<div class="row mt-2">
+				<div class="col-sm-9 col-lg-6 col-md-6 m-auto text-center">
+					<button type="submit" class="btn btn-success me-3"
+						[ngClass]="{'btn-success': consultaId == 0, 'btn-primary': consultaId > 0}"
+						[disabled]="formConsulta.invalid">{{
+						consultaId ? 'Salvar' :
+						'Cadastrar'}}</button>
+						<button type="button" class="btn btn-danger me-3" (click)="deletar()" *ngIf="consultaId">Excluir consulta</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

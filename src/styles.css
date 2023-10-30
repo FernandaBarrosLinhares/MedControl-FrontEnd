@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+html {
+  --cor-primaria: #00408a;
+  --cor-fonte: #000000;
+  --cor-fundo: #FFFFFF;
+}
+
+* {
+  color: var(--cor-fonte);
+}
+
+.btn-primary.btn-primary,
+.bg-primary.bg-primary {
+  background-color: var(--cor-primaria) !important;
+  color: var(--cor-fundo) !important;
+}
+
+.text-primary.text-primary {
+  color: var(--cor-primaria) !important;
+}
+
+.toast-title,
+.toast-message {
+  color: var(--cor-fundo);
+}
+
+.bg-danger > p {
+	color: #FFFFFF;
+}
+
+i.bi {
+	mix-blend-mode: difference;
+	color:white;
+}

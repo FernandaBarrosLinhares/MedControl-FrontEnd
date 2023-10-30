@@ -1,0 +1,88 @@
+<div class="container">
+	<h3 class="text-primary">{{ exameId ? 'Edição' : 'Cadastro' }} de exame</h3>
+	<p class="mb-0">Preencha todos os campos para {{ exameId ? 'salvar': 'cadastrar'}}.</p>
+	<form (ngSubmit)="onSubmit()" [formGroup]="formExame">
+		<div class="row">
+			<div class="col-sm-6 col-lg-6 col-md-4 mt-3">
+				<label for="nome" class="form-label">Nome do Exame</label>
+				<input type="text" name="nome" class="form-control" id="nome" formControlName="nome">
+				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('nome').touched">
+					<p class="mb-0" *ngIf="formExame.get('nome')?.errors?.['required']">Campo não pode ser vazio</p>
+					<p class="mb-0" *ngIf="formExame.get('nome')?.errors?.['minlength']">Mínimo 8 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('nome')?.errors?.['maxlength']">Maximo 64 caracteres</p>
+				</div>
+			</div>
+			<div class="col-sm-6 col-lg-3 col-md-4 mt-3">
+				<label for="data" class="form-label">Data do exame</label>
+				<input type="date" name="data" class="form-control" id="data" formControlName="data" maxlength="10">
+				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('data').touched">
+					<p class="mb-0" *ngIf="formExame.get('data')?.errors?.['required']">Campo não pode ser vazio ou inválido</p>
+					<p class="mb-0" *ngIf="formExame.get('data').getError('maxlength')">Data inválida</p>
+				</div>
+			</div>
+			<div class="col-sm-6 col-lg-3 col-md-4 mt-3">
+				<label for="horario" class="form-label">Horário do exame</label>
+				<input type="time" name="horario" class="form-control" id="horario" formControlName="horario" step="2">
+				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('horario').touched">
+					<p class="mb-0" *ngIf="formExame.get('horario')?.errors?.['required']">Campo não pode ser vazio ou inválido
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-4 mt-3">
+				<label for="tipo">Tipo do exame</label>
+				<input type="text" name="tipo" class="form-control" id="tipo" formControlName="tipo">
+				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('tipo').touched">
+					<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['required']">Campo não pode ser vázio</p>
+					<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['minlength']">Mínimo de 4 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('tipo')?.errors?.['maxlength']">Máximo de 32 caracteres</p>
+				</div>
+			</div>
+			<div class="col-lg-4 mt-3">
+				<label for="laboratorio">Laboratório</label>
+				<input type="text" name="laboratorio" class="form-control" id="laboratorio" formControlName="laboratorio">
+				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('laboratorio').touched">
+					<p class="mb-0" *ngIf="formExame.get('laboratorio')?.errors?.['required']">Campo não pode ser vázio</p>
+					<p class="mb-0" *ngIf="formExame.get('laboratorio')?.errors?.['minlength']">Mínimo de 4 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('laboratorio')?.errors?.['maxlength']">Máximo de 32 caracteres</p>
+				</div>
+			</div>
+			<div class="col-lg-4 mt-3">
+				<label for="urlDocumento">URL do documento</label>
+				<input type="text" name="urlDocumento" class="form-control" id="urlDocumento" formControlName="urlDocumento">
+			</div>
+			<div class="col-lg-12 mt-3">
+				<label for="resultado">Resultado do exame</label>
+				<textarea name="resultado" id="resultado" class="form-control" id="resultado"
+					formControlName="resultado"></textarea>
+				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('resultado').touched">
+					<p class="mb-0" *ngIf="formExame.get('resultado')?.errors?.['required']">Campo não pode ser vázio</p>
+					<p class="mb-0" *ngIf="formExame.get('resultado')?.errors?.['minlength']">Mínimo de 16 caracteres</p>
+					<p class="mb-0" *ngIf="formExame.get('resultado')?.errors?.['maxlength']">Máximo de 1024 caracteres</p>
+				</div>
+			</div>
+			<div class="col-lg-3 mt-3">
+				<label for="paciente">Paciente</label>
+				<select class="form-control" id="paciente" formControlName="paciente">
+					<option value="" selected disabled>Selecione</option>
+					<option *ngFor="let paciente of pacientes" [value]="paciente.id">{{paciente.nomeCompleto}}</option>
+				</select>
+				<div class="badge bg-danger text-wrap" *ngIf="formExame.get('paciente').touched">
+					<p class="mb-0" *ngIf="formExame.get('paciente')?.errors?.['required']">Campo não pode ser vázio</p>
+				</div>
+			</div>
+			<div class="col-lg-2 d-flex align-items-center mt-3">
+				<div class="form-check">
+					<input type="checkbox" class="form-check-input" id="status" formControlName="status">
+					<label class="form-check-label" for="status">Ativo</label>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-lg-6m-auto text-center">
+				<button type="submit" class="btn me-3" [ngClass]="{'btn-success': exameId == 0, 'btn-primary': exameId > 0}" [disabled]="formExame.invalid">{{ exameId ? 'Salvar' :
+					'Cadastrar'}}</button>
+				<button type="button" class="btn btn-danger me-3" (click)="deletar()" *ngIf="exameId">Excluir exame</button>
+			</div>
+		</div>
+	</form>
+</div>

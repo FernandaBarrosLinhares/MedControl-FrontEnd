@@ -1,0 +1,98 @@
+<div class="container w-75 mt-3 mb-5">
+	<h3>{{ medicamentoId ? 'Edição' : 'Cadastro' }} de medicamentos</h3>
+	<form (ngSubmit)="onSubmit()" [formGroup]="formMedicamento">
+		<div>
+			<div class="row">
+				<div class="col-sm-12 col-md-4 mt-3">
+					<label for="nome" class="form-label">Nome do medicamento</label>
+					<input type="text" name="nome" class="form-control" id="nome" formControlName="nome">
+					<div class="badge bg-danger text-wrap" *ngIf="formMedicamento.get('nome').touched">
+						<p class="mb-0" *ngIf="formMedicamento.get('nome')?.errors?.['required']">Campo não pode ser vazio</p>
+						<p class="mb-0" *ngIf="formMedicamento.get('nome')?.errors?.['minlength']">Mínimo 5 caracteres</p>
+						<p class="mb-0" *ngIf="formMedicamento.get('nome')?.errors?.['maxlength']">Máximo de 100 caracteres</p>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-4 mt-3">
+					<label for="data" class="form-label">Data da medicação</label>
+					<input type="date" name="data" class="form-control" id="data" formControlName="data">
+					<div class="badge bg-danger text-wrap" *ngIf="formMedicamento.get('data').touched">
+						<p class="mb-0" *ngIf="formMedicamento.get('data')?.errors?.['required']">Campo não pode ser vazio ou
+							inválido</p>
+							<p class="mb-0" *ngIf="formMedicamento.get('data').getError('maxlength')">Data inválida</p>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-4 mt-3">
+					<label for="horario" class="form-label">Horário da medicação</label>
+					<input type="time" name="horario" class="form-control" id="horario" formControlName="horario" step="2">
+					<div class="badge bg-danger text-wrap" *ngIf="formMedicamento.get('horario').touched">
+						<p class="mb-0" *ngIf="formMedicamento.get('horario')?.errors?.['required']">Campo não pode ser vazio ou
+							inválido
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-12 mt-3">
+					<label for="tipo" class="form-label">Tipo de medicação</label>
+					<select name="tipo" class="form-control" id="tipo" formControlName="tipo">
+						<option value="" selected disabled>Selecione</option>
+						<option value="CAPSULA">Cápsula</option>
+						<option value="COMPRIMIDO">Comprimido</option>
+						<option value="LIQUIDO">Liquido</option>
+						<option value="CREME">Creme</option>
+						<option value="GEL">Gel</option>
+						<option value="INALACAO">Inalação</option>
+						<option value="INJECAO">Injeção</option>
+						<option value="SPRAY">Spray</option>
+					</select>
+				</div>
+				<div class="col-md-4 col-sm-12 mt-3">
+					<label for="quantidade" class="form-label">Quantidade</label>
+					<input type="number" step="0.01" min="0" name="quantidade" class="form-control" id="quantidade"
+						formControlName="quantidade">
+					<div class="badge bg-danger text-wrap" *ngIf="formMedicamento.get('quantidade').touched">
+						<p class="mb-0" *ngIf="formMedicamento.get('quantidade')?.errors?.['required']">Campo não pode ser vázio</p>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-12 mt-3">
+					<label for="unidade" class="form-label">Unidade medicação</label>
+					<select name="unidade" class="form-control" id="unidade" formControlName="unidade">
+						<option value="" selected disabled>Selecione</option>
+						<option value="MG">mg</option>
+						<option value="MCG">mcg</option>
+						<option value="G">g</option>
+						<option value="ML">ml</option>
+						<option value="PP">%</option>
+					</select>
+				</div>
+				<div class="col-sm-12 col-md-4 mt-3">
+					<label for="observacao" class="form-label">Observação</label>
+					<input type="text" name="observacao" class="form-control" id="observacao" formControlName="observacao">
+					<div class="badge bg-danger text-wrap" *ngIf="formMedicamento.get('observacao').touched">
+						<p class="mb-0" *ngIf="formMedicamento.get('observacao')?.errors?.['required']">Campo não pode ser vazio
+						</p>
+						<p class="mb-0" *ngIf="formMedicamento.get('observacao')?.errors?.['minlength']">Mínimo 10 caracteres</p>
+						<p class="mb-0" *ngIf="formMedicamento.get('observacao')?.errors?.['maxlength']">Máximo de 1000 caracteres
+						</p>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-12 d-flex align-items-center mt-4">
+					<div class="form-check">
+						<input type="checkbox" class="form-check-input" id="status" formControlName="status">
+						<label class="form-check-label" for="status">Ativo</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mt-4">
+			<div class="row mt-2">
+				<div class="col-sm-9 col-lg-6 col-md-6 m-auto text-center">
+					<button type="submit" class="btn btn-success me-3"
+						[ngClass]="{'btn-success': medicamentoId == 0, 'btn-primary': medicamentoId > 0}"
+						[disabled]="formMedicamento.invalid">{{ medicamentoId ? 'Salvar' :
+						'Cadastrar'}}</button>
+					<button type="button" class="btn btn-danger me-3" (click)="deletar()" *ngIf="medicamentoId">Excluir
+						medicamento</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
