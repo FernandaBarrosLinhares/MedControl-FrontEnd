@@ -93,7 +93,6 @@ export class CadastroPacienteComponent implements OnInit {
             logradouro: "",
             bairro: "",
           };
-          this.habilitarCampos();
         } else {
           this.erroCep = false;
           this.endereco = {
@@ -103,18 +102,15 @@ export class CadastroPacienteComponent implements OnInit {
             logradouro: response.logradouro,
             bairro: response.bairro,
           };
-          this.desabilitarCampos();
         }
         this.formPaciente.patchValue(this.endereco);
       });
     } else {
-      this.habilitarCampos();
       this.erroCep = false;
     }
 
   }
   async cadastrar() {
-    this.habilitarCampos();
     if (this.formPaciente.invalid) {
       return;
     }
@@ -171,19 +167,6 @@ export class CadastroPacienteComponent implements OnInit {
   }
   habilitarCpf(){
     this.formPaciente.get('cpf').enable();
-  }
-  desabilitarCampos() {
-    this.formPaciente.get('cidade').disable();
-    this.formPaciente.get('estado').disable();
-    this.formPaciente.get('logradouro').disable();
-    this.formPaciente.get('bairro').disable();
-  }
-  habilitarCampos() {
-    this.formPaciente.get('cidade').enable();
-    this.formPaciente.get('estado').enable();
-    this.formPaciente.get('logradouro').enable();
-    this.formPaciente.get('bairro').enable();
-    this.formPaciente.get('status').enable();
   }
 
   convertInputDateToBdDate(data: string): any {
