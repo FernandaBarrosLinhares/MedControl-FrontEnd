@@ -21,6 +21,7 @@ export class AppComponent {
       this.corPrincipal = corPrincipal;
       this.corFonte = corFonte;
       this.corFundo = this.invertColor(this.corFonte);
+      document.title = nomeEmpresa;
       this.alterarCSS();
     });
   }
